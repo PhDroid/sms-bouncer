@@ -3,6 +3,7 @@
       package="ezhun.smsb"
       android:versionCode="1"
       android:versionName="1.0">
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <application android:label="sms-bouncer" android:icon="@drawable/icon">
         <activity android:name="BlockedSmsList"
                   android:label="@string/app_name">
@@ -11,5 +12,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <receiver android:name=".SmsReceiver">
+	        <intent-filter>
+		        <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+	        </intent-filter>
+        </receiver>
     </application>
 </manifest>
