@@ -1,3 +1,17 @@
-# Ignoring Intellij Idea files #
+# Ignore Intellij Idea files #
 .idea/workspace.xml
+.idea/.name
+.idea/ant.xml
+.idea/compiler.xml
+.idea/copyright/*
+.idea/encodings.xml
+.idea/misc.xml
+.idea/uiDesigner.xml
+.idea/vcs.xml
+
+# Ignore Eclipse IDE files #
+.settings/*
+
+# Ignore bin #
+bin/*
 
