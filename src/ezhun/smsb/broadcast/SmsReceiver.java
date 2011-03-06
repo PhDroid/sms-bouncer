@@ -1,4 +1,4 @@
-package ezhun.smsb;
+package ezhun.smsb.broadcast;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

@@ -1,7 +1,8 @@
-package ezhun.smsb;
+package ezhun.smsb.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import ezhun.smsb.R;
 
 public class BlockedSmsList extends Activity
 {

@@ -5,17 +5,18 @@
       android:versionName="1.0">
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <application android:label="sms-bouncer" android:icon="@drawable/icon">
-        <activity android:name="BlockedSmsList"
+        <activity android:name=".activity.BlockedSmsList"
                   android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <receiver android:name=".SmsReceiver">
+        <receiver android:name=".broadcast.SmsReceiver">
 	        <intent-filter>
 		        <action android:name="android.provider.Telephony.SMS_RECEIVED" />
 	        </intent-filter>
         </receiver>
+	    <service android:name=".service.AnalysisService"/>
     </application>
 </manifest>
