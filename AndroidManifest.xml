@@ -12,7 +12,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <receiver android:name=".broadcast.SmsReceiver">
+	    <activity android:name=".activity.BlockedSmsDetails"/>
+	    <activity android:name=".activity.BlockedSendersList"/>
+	    <receiver android:name=".broadcast.SmsReceiver">
 	        <intent-filter>
 		        <action android:name="android.provider.Telephony.SMS_RECEIVED" />
 	        </intent-filter>
