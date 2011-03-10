@@ -25,15 +25,16 @@
     </facet>
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="false">
-    <output url="file://$APPLICATION_HOME_DIR$/bin/production/sms-bouncer" />
-    <output-test url="file://$APPLICATION_HOME_DIR$/bin/test/sms-bouncer" />
+    <output url="file://$MODULE_DIR$/bin/production/sms-bouncer" />
+    <output-test url="file://$MODULE_DIR$/bin/test/sms-bouncer" />
     <exclude-output />
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/gen" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/robotest/src" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea" />
+      <excludeFolder url="file://$MODULE_DIR$/.settings" />
       <excludeFolder url="file://$MODULE_DIR$/bin" />
-      <excludeFolder url="file://$MODULE_DIR$/production" />
+      <excludeFolder url="file://$MODULE_DIR$/robotest/bin" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
