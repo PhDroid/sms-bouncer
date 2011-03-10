@@ -1,17 +1,18 @@
 # Ignore Intellij Idea files #
-.idea/workspace.xml
-.idea/.name
-.idea/ant.xml
-.idea/compiler.xml
-.idea/copyright/*
-.idea/encodings.xml
-.idea/misc.xml
-.idea/uiDesigner.xml
-.idea/vcs.xml
+application/.idea/workspace.xml
+application/.idea/.name
+application/.idea/ant.xml
+application/.idea/compiler.xml
+application/.idea/copyright/*
+application/.idea/encodings.xml
+application/.idea/misc.xml
+application/.idea/uiDesigner.xml
+application/.idea/vcs.xml
 
 # Ignore Eclipse IDE files #
-.settings/*
+application/.settings/*
+tests/robotest/.settings/*
 
 # Ignore bin #
-bin/*
-
+application/bin/*
+tests/robotest/bin/*
