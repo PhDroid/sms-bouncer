@@ -25,7 +25,7 @@ public class SmsContentProvider extends ContentProvider {
 	public static final String PROVIDER_NAME = "ezhun.smsb.storage.SmsContentProvider";
 	public static final Uri CONTENT_URI = Uri.parse("content://" + PROVIDER_NAME + "/sms");
 	public static final String _ID = "_id";
-	public static final String FROM = "from";
+	public static final String SENDER = "sender";
 	public static final String MESSAGE = "message";
 	public static final String RECEIVED = "received";
 	public static final String SYSTEM_FLAG_SPAM = "is_spam_system";
@@ -33,13 +33,20 @@ public class SmsContentProvider extends ContentProvider {
 	public static final String USER_FLAG_NOT_SPAM = "not_spam_user"; //did user say this sms is NOT spam
 
 	private SQLiteDatabase smsDb;
-
+	private static DatabaseHelper dbHelper;
+	
+	private synchronized DatabaseHelper getDatabaseHelper(){
+		if(dbHelper == null){
+			Context context = getContext();
+			dbHelper = new DatabaseHelper(context);
+		}
+		return dbHelper;
+	}
+	
 	//override the onCreate() method to open a connection to the database when the content provider is started
 	@Override
 	public boolean onCreate() {
-		Context context = getContext();
-		DatabaseHelper dbHelper = new DatabaseHelper(context);
-		smsDb = dbHelper.getWritableDatabase();
+		smsDb = getDatabaseHelper().getWritableDatabase();
 		return (smsDb != null);
 	}
 
@@ -164,12 +171,12 @@ public class SmsContentProvider extends ContentProvider {
 		public void onCreate(SQLiteDatabase db) {
 			String sql = "CREATE TABLE " + TABLE_NAME + " (" +
 					_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-					FROM + " NVARCHAR(255)," +
+					SENDER + " NVARCHAR(255)," +
 					MESSAGE + " LONGTEXT," +
 					RECEIVED + " INTEGER," +
 					SYSTEM_FLAG_SPAM + " INTEGER," +
 					USER_FLAG_SPAM + " INTEGER," +
-					USER_FLAG_NOT_SPAM + " INTEGER," +
+					USER_FLAG_NOT_SPAM + " INTEGER" +
 					");";
 			db.execSQL(sql);
 		}
