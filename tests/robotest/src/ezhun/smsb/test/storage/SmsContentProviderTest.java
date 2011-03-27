@@ -127,7 +127,48 @@ public class SmsContentProviderTest extends ProviderTestCase2<SmsContentProvider
 		Assert.assertEquals(1, count);
 	}
 
-	public void testUpdate() {
-		fail("Not yet implemented");
+	public void testUpdateBulk() {
+		ContentResolver c = this.getMockContentResolver();
+		ContentValues values = new ContentValues();
+		values.put(SmsContentProvider.USER_FLAG_SPAM, 1);
+		int count = c.update(SmsContentProvider.CONTENT_URI, values, null, null);
+		Assert.assertEquals(SETUP_COUNT, count);
+		
+		String[] selectionArgs = {"1"};
+		Cursor cur = c.query(SmsContentProvider.CONTENT_URI, null, SmsContentProvider.USER_FLAG_SPAM + " = :1", selectionArgs, null);
+		Assert.assertEquals(SETUP_COUNT, cur.getCount());
+	}
+	
+	public void testUpdateById() {
+		String message = "Putin! Bomba! KGB!";
+		
+		ContentResolver c = this.getMockContentResolver();
+		Cursor cur = c.query(SmsContentProvider.CONTENT_URI, null, null, null, null);
+		String id;
+		
+		try {
+			cur.moveToFirst();
+			id = cur.getString(cur.getColumnIndex(SmsContentProvider._ID));
+		} finally {
+			cur.close();
+		}
+		
+		Uri entity = Uri.parse(SmsContentProvider.CONTENT_URI.toString() + "/" + id);
+		ContentValues values = new ContentValues();
+		values.put(SmsContentProvider.MESSAGE, message);
+		values.put(SmsContentProvider.SYSTEM_FLAG_SPAM, 1);
+		int count = c.update(entity, values, null, null);
+		Assert.assertEquals(1, count);
+		
+		String[] selectionArgs = { message };
+		Cursor updcur = c.query(SmsContentProvider.CONTENT_URI, null, SmsContentProvider.MESSAGE + " = :1", selectionArgs, null); 
+		try {
+			updcur.moveToFirst();
+			int value = updcur.getInt(updcur.getColumnIndex(SmsContentProvider.SYSTEM_FLAG_SPAM));
+			Assert.assertEquals(1, updcur.getCount());
+			Assert.assertEquals(1, value);
+		} finally {
+			updcur.close();
+		}
 	}
 }
