@@ -1,12 +1,12 @@
 package ezhun.smsb.broadcast;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
+import android.content.*;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
 import android.util.Log;
 import android.widget.Toast;
+import ezhun.smsb.SmsPojo;
+import ezhun.smsb.storage.SmsContentProvider;
 
 /**
  * SmsReceiver listens to broadcast event and triggers if SMS is received.
@@ -18,35 +18,23 @@ public class SmsReceiver extends BroadcastReceiver {
 
 	public void onReceive(Context context, Intent intent) {
 		if (intent.getAction().equals(ACTION)) {
-			// if(message starts with SMStretcher recognize BYTE)
-			StringBuilder sb = new StringBuilder();
-
 			/* The SMS-Messages are 'hiding' within the extras of the Intent. */
 			Bundle bundle = intent.getExtras();
 			if (bundle != null) {
 				/* Get all messages contained in the Intent*/
 
 				Object[] pdusObj = (Object[]) bundle.get("pdus");
-				SmsMessage[] messages = new SmsMessage[pdusObj.length];
+
+				ContentResolver c = context.getContentResolver();
+				ContentValues[] values = new ContentValues[pdusObj.length];
+
 				for (int i = 0; i < pdusObj.length; i++) {
-					messages[i] = SmsMessage.createFromPdu((byte[])pdusObj[i]);
+					SmsMessage msg = SmsMessage.createFromPdu((byte[])pdusObj[i]);
+					SmsPojo sms = new SmsPojo(msg);
+					values[i] = sms.toContentValues();
 				}
-
-				/* Feed the StringBuilder with all Messages found. */
-				for (SmsMessage currentMessage : messages) {
-					sb.append("Received compressed SMSnFrom: ");
-					/* Sender-Number */
-					sb.append(currentMessage.getDisplayOriginatingAddress());
-					sb.append("n----Message----n");
-					/* Actual Message-Content */
-					sb.append(currentMessage.getDisplayMessageBody());
-				}
+				c.bulkInsert(SmsContentProvider.CONTENT_URI, values);
 			}
-			/* Logger Debug-Output */
-			Log.i(LOG_TAG, "[SMS] onReceiveIntent: " + sb);
-
-			/* Show the Notification containing the Message. */
-			Toast.makeText(context, sb.toString(), Toast.LENGTH_LONG).show();
 		}
 	}
 
