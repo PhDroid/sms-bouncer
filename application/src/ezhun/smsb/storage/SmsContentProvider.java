@@ -19,7 +19,9 @@ public class SmsContentProvider extends ContentProvider {
 	private static final int DATABASE_VERSION = 1;
 	private static final String TABLE_NAME = "sms";
 	private static final int CODE_SMS_LIST = 1;
+	public static final String TYPE_SMS_LIST = "vnd.android.cursor.dir/vnd.smsbouncer.sms ";
 	private static final int CODE_SMS = 2;
+	public static final String TYPE_SMS = "vnd.android.cursor.item/vnd.smsbouncer.sms ";
 
 
 	public static final String PROVIDER_NAME = "ezhun.smsb.storage.SmsContentProvider";
@@ -82,10 +84,10 @@ public class SmsContentProvider extends ContentProvider {
 		switch (uriMatcher.match(uri)) {
 			//---get all sms---
 			case CODE_SMS_LIST:
-				return "vnd.android.cursor.dir/vnd.smsbouncer.sms ";
+				return TYPE_SMS_LIST;
 			//---get a particular sms---
 			case CODE_SMS:
-				return "vnd.android.cursor.item/vnd.smsbouncer.sms ";
+				return TYPE_SMS;
 			default:
 				throw new IllegalArgumentException("Unsupported URI: " + uri);
 		}

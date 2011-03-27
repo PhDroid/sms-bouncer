@@ -9,9 +9,34 @@ import android.test.ProviderTestCase2;
 import ezhun.smsb.storage.SmsContentProvider;
 
 public class SmsContentProviderTest extends ProviderTestCase2<SmsContentProvider> {
-
+	private static final String SENDER = "(069) 129 09 45";
+	private static final int SETUP_COUNT = 7;
+	
 	public SmsContentProviderTest() {
 		super(SmsContentProvider.class, SmsContentProvider.PROVIDER_NAME);
+	}
+	
+	public void setUp() throws Exception{
+		super.setUp();
+		ContentResolver c = this.getMockContentResolver();
+		
+		ContentValues[] values = new ContentValues[SETUP_COUNT];
+		for (int i = 0; i<SETUP_COUNT; i++) {
+			values[i] = new ContentValues();
+			values[i].put(SmsContentProvider.SENDER, SENDER);
+			values[i].put(SmsContentProvider.MESSAGE, "message from setUp #");
+			values[i].put(SmsContentProvider.RECEIVED, (int) (System.currentTimeMillis() / 1000L));
+			values[i].put(SmsContentProvider.SYSTEM_FLAG_SPAM, 0);
+			values[i].put(SmsContentProvider.USER_FLAG_NOT_SPAM, 0);
+			values[i].put(SmsContentProvider.USER_FLAG_SPAM, 0);
+		}
+		c.bulkInsert(SmsContentProvider.CONTENT_URI, values);
+	}
+	
+	public void tearDown() throws Exception {
+		super.tearDown();
+		ContentResolver c = this.getMockContentResolver();
+		c.delete(SmsContentProvider.CONTENT_URI, null, null);
 	}
 
 	public void testOnCreate() {
@@ -23,11 +48,18 @@ public class SmsContentProviderTest extends ProviderTestCase2<SmsContentProvider
 	}
 
 	public void testQuery() {
-		fail("Not yet implemented");
+		ContentResolver c = this.getMockContentResolver();
+		String[] selectionArgs = { SENDER };
+		Cursor cur = c.query(SmsContentProvider.CONTENT_URI, null, SmsContentProvider.SENDER + " like :1", selectionArgs, null);
+		Assert.assertEquals(SETUP_COUNT, cur.getCount());
 	}
 
-	public void testGetTypeUri() {
-		fail("Not yet implemented");
+	public void testGetType() {
+		Uri smsList = Uri.parse("content://" + SmsContentProvider.PROVIDER_NAME + "/sms");
+		Uri sms = Uri.parse("content://" + SmsContentProvider.PROVIDER_NAME + "/sms/13");
+		
+		Assert.assertEquals(SmsContentProvider.TYPE_SMS_LIST, this.getProvider().getType(smsList));
+		Assert.assertEquals(SmsContentProvider.TYPE_SMS, this.getProvider().getType(sms));
 	}
 
 	public void testInsert() {
@@ -56,7 +88,7 @@ public class SmsContentProviderTest extends ProviderTestCase2<SmsContentProvider
                 SmsContentProvider.SYSTEM_FLAG_SPAM,
                 SmsContentProvider.USER_FLAG_NOT_SPAM,
                 SmsContentProvider.USER_FLAG_SPAM};
-		Cursor cur = c.query(SmsContentProvider.CONTENT_URI, projection, null, null, null);
+		Cursor cur = c.query(uri, projection, null, null, null);
 		try {
 			cur.moveToFirst();
 			Assert.assertEquals(cur.getCount(), 1);
@@ -72,8 +104,27 @@ public class SmsContentProviderTest extends ProviderTestCase2<SmsContentProvider
 		}
 	}
 
-	public void testDelete() {
-		fail("Not yet implemented");
+	public void testDeleteBulk() {
+		ContentResolver c = this.getMockContentResolver();
+		String[] selectionArgs = { SENDER };
+		int count = c.delete(SmsContentProvider.CONTENT_URI, SmsContentProvider.SENDER + " like :1", selectionArgs);
+		Assert.assertEquals(SETUP_COUNT, count);
+	}
+	
+	public void testDeleteById() {
+		ContentResolver c = this.getMockContentResolver();
+		
+		ContentValues values = new ContentValues();
+		values.put(SmsContentProvider.SENDER, "Unknown");
+		values.put(SmsContentProvider.MESSAGE, "Bomba! Putin!");
+		values.put(SmsContentProvider.RECEIVED, (int) (System.currentTimeMillis() / 1000L));
+		values.put(SmsContentProvider.SYSTEM_FLAG_SPAM, 0);
+		values.put(SmsContentProvider.USER_FLAG_NOT_SPAM, 0);
+		values.put(SmsContentProvider.USER_FLAG_SPAM, 0);
+
+		Uri uri = c.insert(SmsContentProvider.CONTENT_URI, values);
+		int count = c.delete(uri, null, null);
+		Assert.assertEquals(1, count);
 	}
 
 	public void testUpdate() {
