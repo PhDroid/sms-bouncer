@@ -1,5 +1,7 @@
 package ezhun.smsb.broadcast;
 
+import android.app.NotificationManager;
+import android.app.Service;
 import android.content.*;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
@@ -34,6 +36,7 @@ public class SmsReceiver extends BroadcastReceiver {
 					values[i] = sms.toContentValues();
 				}
 				c.bulkInsert(SmsContentProvider.CONTENT_URI, values);
+				NotificationManager notifier = (NotificationManager)context.getSystemService(Service.NOTIFICATION_SERVICE);
 			}
 		}
 	}
