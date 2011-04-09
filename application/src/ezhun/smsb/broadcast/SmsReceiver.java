@@ -5,8 +5,6 @@ import android.app.Service;
 import android.content.*;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
-import android.util.Log;
-import android.widget.Toast;
 import ezhun.smsb.SmsPojo;
 import ezhun.smsb.storage.SmsContentProvider;
 
