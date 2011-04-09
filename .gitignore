@@ -8,6 +8,7 @@ application/.idea/encodings.xml
 application/.idea/misc.xml
 application/.idea/uiDesigner.xml
 application/.idea/vcs.xml
+application/.idea/dictionaries/*
 
 # Ignore Eclipse IDE files #
 application/.settings/*
