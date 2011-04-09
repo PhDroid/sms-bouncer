@@ -16,3 +16,7 @@ tests/robotest/.settings/*
 # Ignore bin #
 application/bin/*
 tests/robotest/bin/*
+
+# Ignore build files #
+application/classes/production/*
+
