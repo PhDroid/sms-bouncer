@@ -19,7 +19,6 @@
             </intent-filter>
         </receiver>
 
-	    <service android:name=".service.SmsAnalisysService"/>
 	    <service android:name=".service.SmsAnalysisService"/>
     </application>
 </manifest>
