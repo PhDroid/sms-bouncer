@@ -37,6 +37,8 @@ public class SmsReceiver extends BroadcastReceiver {
 				}
 				c.bulkInsert(SmsContentProvider.CONTENT_URI, values);
 				NotificationManager notifier = (NotificationManager)context.getSystemService(Service.NOTIFICATION_SERVICE);
+
+
 			}
 		}
 	}
