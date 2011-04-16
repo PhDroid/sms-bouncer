@@ -20,4 +20,6 @@ tests/robotest/bin/*
 
 # Ignore build files #
 application/classes/production/*
+build/*
+
 
