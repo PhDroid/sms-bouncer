@@ -29,12 +29,12 @@ public class SmsReceiver extends BroadcastReceiver {
 				ContentValues[] values = new ContentValues[pdusObj.length];
 
 				for (int i = 0; i < pdusObj.length; i++) {
-					SmsMessage msg = SmsMessage.createFromPdu((byte[])pdusObj[i]);
+					SmsMessage msg = SmsMessage.createFromPdu((byte[]) pdusObj[i]);
 					SmsPojo sms = new SmsPojo(msg);
 					values[i] = sms.toContentValues();
 				}
 				c.bulkInsert(SmsContentProvider.CONTENT_URI, values);
-				NotificationManager notifier = (NotificationManager)context.getSystemService(Service.NOTIFICATION_SERVICE);
+				NotificationManager notifier = (NotificationManager) context.getSystemService(Service.NOTIFICATION_SERVICE);
 
 
 			}

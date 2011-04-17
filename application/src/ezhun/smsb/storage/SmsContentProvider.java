@@ -36,15 +36,15 @@ public class SmsContentProvider extends ContentProvider {
 
 	private SQLiteDatabase smsDb;
 	private static DatabaseHelper dbHelper;
-	
-	private synchronized DatabaseHelper getDatabaseHelper(){
-		if(dbHelper == null){
+
+	private synchronized DatabaseHelper getDatabaseHelper() {
+		if (dbHelper == null) {
 			Context context = getContext();
 			dbHelper = new DatabaseHelper(context);
 		}
 		return dbHelper;
 	}
-	
+
 	//override the onCreate() method to open a connection to the database when the content provider is started
 	@Override
 	public boolean onCreate() {

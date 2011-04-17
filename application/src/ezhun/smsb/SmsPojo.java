@@ -24,7 +24,7 @@ public class SmsPojo {
 		received = msg.getTimestampMillis();
 	}
 
-	public ContentValues toContentValues(){
+	public ContentValues toContentValues() {
 		ContentValues values = new ContentValues();
 		values.put(SmsContentProvider.SENDER, sender);
 		values.put(SmsContentProvider.MESSAGE, message);
