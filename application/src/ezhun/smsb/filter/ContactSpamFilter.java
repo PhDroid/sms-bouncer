@@ -6,7 +6,6 @@ import android.provider.ContactsContract;
 import ezhun.smsb.SmsPojo;
 import ezhun.smsb.exceptions.ApplicationException;
 import ezhun.smsb.exceptions.ArgumentException;
-import ezhun.smsb.storage.SmsContentProvider;
 
 /**
  * Spam Filter implementation taking into consideration only contacts from address book.
@@ -27,7 +26,7 @@ public class ContactSpamFilter implements ISpamFilter {
 
 	@Override
 	public boolean isSpam(SmsPojo message) {
-		String[] selectionArgs = { message.getSender() };
+		String[] selectionArgs = {message.getSender()};
 		Cursor cur = getContentResolver().query(ContactsContract.PhoneLookup.CONTENT_FILTER_URI,
 				null,
 				ContactsContract.PhoneLookup.NUMBER + " = :1",
