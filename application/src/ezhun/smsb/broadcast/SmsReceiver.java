@@ -22,23 +22,18 @@ public class SmsReceiver extends BroadcastReceiver {
 			Bundle bundle = intent.getExtras();
 			if (bundle != null) {
 				/* Get all messages contained in the Intent*/
-
 				Object[] pdusObj = (Object[]) bundle.get("pdus");
 
 				ContentResolver c = context.getContentResolver();
-				ContentValues[] values = new ContentValues[pdusObj.length];
-
-				for (int i = 0; i < pdusObj.length; i++) {
-					SmsMessage msg = SmsMessage.createFromPdu((byte[]) pdusObj[i]);
-					SmsPojo sms = new SmsPojo(msg);
-					values[i] = sms.toContentValues();
-				}
-				c.bulkInsert(SmsContentProvider.CONTENT_URI, values);
-				NotificationManager notifier = (NotificationManager) context.getSystemService(Service.NOTIFICATION_SERVICE);
-
-
+                SmsPojo[] messages = new SmsPojo[pdusObj.length];
+                for (int i = 0; i < pdusObj.length; i++) {
+                    SmsMessage msg = SmsMessage.createFromPdu((byte[])pdusObj[i]);
+                    SmsPojo sms = new SmsPojo(msg);
+                    messages[i] = sms;
+                }
+                int spamCount = new MessageProcessor().ProcessMessages(messages, c);
+				NotificationManager notifier = (NotificationManager)context.getSystemService(Service.NOTIFICATION_SERVICE);
 			}
 		}
 	}
-
 }
