@@ -2,6 +2,7 @@ package ezhun.smsb.broadcast;
 
 import android.content.ContentResolver;
 import ezhun.smsb.SmsPojo;
+import ezhun.smsb.exceptions.ApplicationException;
 
 /**
  * Created by IntelliJ IDEA.
@@ -17,5 +18,5 @@ public interface IMessageProcessor {
      * @param resolver Content resolver
      * @return The number of messages filtered as spam
      */
-    public int ProcessMessages(SmsPojo[] messages, ContentResolver resolver);
+    public int ProcessMessages(SmsPojo[] messages, ContentResolver resolver) throws ApplicationException;
 }
