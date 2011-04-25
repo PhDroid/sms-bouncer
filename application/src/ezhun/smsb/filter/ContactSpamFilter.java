@@ -27,12 +27,12 @@ public class ContactSpamFilter implements ISpamFilter {
 	@Override
 	public boolean isSpam(SmsPojo message) {
 		String[] selectionArgs = {message.getSender()};
-		Cursor cur = getContentResolver().query(ContactsContract.PhoneLookup.CONTENT_FILTER_URI,
+		Cursor cur = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
 				null,
-				ContactsContract.PhoneLookup.NUMBER + " = :1",
+				ContactsContract.CommonDataKinds.Phone.NUMBER + " = :1",
 				selectionArgs,
 				null);
 
-		return cur.getCount() != 0;
+		return cur.getCount() == 0;
 	}
 }
