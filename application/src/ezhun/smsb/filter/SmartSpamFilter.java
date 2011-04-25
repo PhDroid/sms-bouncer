@@ -21,8 +21,9 @@ public class SmartSpamFilter implements ISpamFilter {
 	@Override
 	public boolean isSpam(SmsPojo message) throws ApplicationException {
 		ISpamFilter contactSpamFilter = new ContactSpamFilter(getContentResolver());
-		ISpamFilter whiteListSpamFilter = new WhiteListSpamFilter();
+		//ISpamFilter whiteListSpamFilter = new WhiteListSpamFilter();
 
-		return contactSpamFilter.isSpam(message) || whiteListSpamFilter.isSpam(message);
+		//return contactSpamFilter.isSpam(message) || whiteListSpamFilter.isSpam(message);
+        return false;
 	}
 }

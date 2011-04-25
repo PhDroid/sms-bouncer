@@ -6,7 +6,7 @@ import android.content.*;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
 import ezhun.smsb.SmsPojo;
-import ezhun.smsb.storage.SmsContentProvider;
+import ezhun.smsb.exceptions.ApplicationException;
 
 /**
  * SmsReceiver listens to broadcast event and triggers if SMS is received.
@@ -31,8 +31,14 @@ public class SmsReceiver extends BroadcastReceiver {
                     SmsPojo sms = new SmsPojo(msg);
                     messages[i] = sms;
                 }
-                int spamCount = new MessageProcessor().ProcessMessages(messages, c);
-				NotificationManager notifier = (NotificationManager)context.getSystemService(Service.NOTIFICATION_SERVICE);
+
+                try {
+                    int spamCount = new MessageProcessor().ProcessMessages(messages, c);
+                } catch (ApplicationException e) {
+                    e.printStackTrace();
+                }
+
+                NotificationManager notifier = (NotificationManager)context.getSystemService(Service.NOTIFICATION_SERVICE);
 			}
 		}
 	}
