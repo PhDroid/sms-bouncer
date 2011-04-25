@@ -1,21 +1,33 @@
 package ezhun.smsb.filter;
 
+import android.content.ContentProvider;
 import android.content.ContentResolver;
+import android.content.UriMatcher;
+import android.net.Uri;
 import android.telephony.SmsManager;
 import android.test.AndroidTestCase;
+import android.test.RenamingDelegatingContext;
+import android.test.mock.MockContext;
+import com.sun.xml.internal.bind.WhiteSpaceProcessor;
 import ezhun.smsb.SmsPojo;
+import ezhun.smsb.base.MockedContextTestCase;
 import ezhun.smsb.exceptions.ApplicationException;
 import ezhun.smsb.storage.SmsContentProvider;
 import junit.framework.Assert;
 
+import java.util.Hashtable;
+
 /**
  * Test class for WhiteListSpamFilter.
  */
-public class WhiteListSpamFilterTest extends AndroidTestCase {
+public class WhiteListSpamFilterTest extends MockedContextTestCase {
 	private static String SENDER = "(097) 112 33 26";
 
-	private ContentResolver getContentResolver() {
-		return this.getContext().getContentResolver();
+	@Override
+	public Hashtable<Uri, ContentProvider> getTestContentProviders() {
+		Hashtable<Uri, ContentProvider> settings = new Hashtable<Uri, ContentProvider>();
+		settings.put(SmsContentProvider.CONTENT_URI, new SmsContentProvider());
+		return settings;
 	}
 
 	@Override
