@@ -32,11 +32,7 @@ public class SmsReceiver extends BroadcastReceiver {
                     messages[i] = sms;
                 }
 
-                try {
-                    int spamCount = new MessageProcessor().ProcessMessages(messages, c);
-                } catch (ApplicationException e) {
-                    e.printStackTrace();
-                }
+                int spamCount = new MessageProcessor().ProcessMessages(messages, c);
 
                 NotificationManager notifier = (NotificationManager)context.getSystemService(Service.NOTIFICATION_SERVICE);
 			}
