@@ -10,12 +10,18 @@ import ezhun.smsb.storage.SmsContentProvider;
 
 public class MessageProcessor implements IMessageProcessor {
     @Override
-    public int ProcessMessages(SmsPojo[] messages, ContentResolver resolver) throws ApplicationException {
+    public int ProcessMessages(SmsPojo[] messages, ContentResolver resolver) {
 	    ISpamFilter spamFiler = new SmartSpamFilter(resolver);
 	    ContentValues[] values = new ContentValues[messages.length];
         for (int i=0; i< messages.length; i++){
             SmsPojo message = messages[i];
-	        if(spamFiler.isSpam(message)) {
+	        boolean isSpam = false;
+	        try {
+		        isSpam = spamFiler.isSpam(message);
+	        } catch (ApplicationException e) {
+		        //todo: implement logging
+	        }
+	        if(isSpam) {
 	            values[i] = message.toContentValues();
 	        }
         }
