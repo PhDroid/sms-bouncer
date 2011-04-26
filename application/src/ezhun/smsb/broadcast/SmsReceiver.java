@@ -16,6 +16,8 @@ public class SmsReceiver extends BroadcastReceiver {
 	/* package */ static final String ACTION =
 			"android.provider.Telephony.SMS_RECEIVED";
 
+    protected int mSpamMessagesCount = 0;
+
 	public void onReceive(Context context, Intent intent) {
 		if (intent.getAction().equals(ACTION)) {
 			/* The SMS-Messages are 'hiding' within the extras of the Intent. */
@@ -32,10 +34,14 @@ public class SmsReceiver extends BroadcastReceiver {
                     messages[i] = sms;
                 }
 
-                int spamCount = new MessageProcessor().ProcessMessages(messages, c);
+                mSpamMessagesCount += getMessageProcessor().ProcessMessages(messages, c);
 
                 NotificationManager notifier = (NotificationManager)context.getSystemService(Service.NOTIFICATION_SERVICE);
 			}
 		}
 	}
+
+    protected IMessageProcessor getMessageProcessor(){
+        return new MessageProcessor();
+    }
 }

@@ -4,13 +4,6 @@ import android.content.ContentResolver;
 import ezhun.smsb.SmsPojo;
 import ezhun.smsb.exceptions.ApplicationException;
 
-/**
- * Created by IntelliJ IDEA.
- * User: unkot
- * Date: 21.04.11
- * Time: 16:57
- * To change this template use File | Settings | File Templates.
- */
 public interface IMessageProcessor {
     /**
      * Processes incoming messages
@@ -18,5 +11,5 @@ public interface IMessageProcessor {
      * @param resolver Content resolver
      * @return The number of messages filtered as spam
      */
-    public int ProcessMessages(SmsPojo[] messages, ContentResolver resolver) throws ApplicationException;
+    public int ProcessMessages(SmsPojo[] messages, ContentResolver resolver);
 }
