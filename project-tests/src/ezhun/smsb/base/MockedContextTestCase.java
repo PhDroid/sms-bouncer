@@ -60,6 +60,7 @@ public abstract class MockedContextTestCase extends AndroidTestCase {
 
 		for (Uri uri : settings.keySet()) {
 			ContentProvider provider = settings.get(uri);
+			provider.attachInfo(context, null);
 			resolver.addProvider(uri.getAuthority(), provider);
 		}
 

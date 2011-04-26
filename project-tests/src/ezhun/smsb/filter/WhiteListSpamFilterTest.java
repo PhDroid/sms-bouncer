@@ -21,27 +21,14 @@ import java.util.Hashtable;
 /**
  * Test class for WhiteListSpamFilter.
  */
-public class WhiteListSpamFilterTest extends ProviderTestCase2<SmsContentProvider> {
+public class WhiteListSpamFilterTest extends MockedContextTestCase {
 	private static String SENDER = "(097) 112 33 26";
 
-	public WhiteListSpamFilterTest() {
-		super(SmsContentProvider.class, SmsContentProvider.CONTENT_URI.getAuthority());
-	}
-
-	/*@Override
+	@Override
 	public Hashtable<Uri, ContentProvider> getTestContentProviders() {
 		Hashtable<Uri, ContentProvider> settings = new Hashtable<Uri, ContentProvider>();
 		settings.put(SmsContentProvider.CONTENT_URI, new SmsContentProvider());
 		return settings;
-	} */
-
-	ContentResolver contentResolver;
-
-	public ContentResolver getContentResolver() {
-		if (contentResolver == null) {
-			contentResolver = this.getMockContentResolver();
-		}
-		return contentResolver;
 	}
 
 	@Override
