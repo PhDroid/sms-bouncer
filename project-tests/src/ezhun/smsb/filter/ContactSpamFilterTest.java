@@ -1,61 +1,41 @@
 package ezhun.smsb.filter;
 
-import android.content.ContentProviderOperation;
-import android.content.ContentResolver;
-import android.provider.ContactsContract;
-import android.provider.ContactsContract.CommonDataKinds.StructuredName;
-import android.provider.ContactsContract.Data;
-import android.provider.ContactsContract.RawContacts;
+import android.content.ContentProvider;
+import android.content.ContentValues;
+import android.net.Uri;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
-import android.test.AndroidTestCase;
+import android.provider.ContactsContract.Data;
 import ezhun.smsb.SmsPojo;
+import ezhun.smsb.base.MockedContextTestCase;
+import ezhun.smsb.filter.doubles.PhoneContentProviderFake;
 import junit.framework.Assert;
 
-import java.util.ArrayList;
+import java.util.Hashtable;
 
 /**
  * Test class for ContactSpamFilter.
  */
-public class ContactSpamFilterTest extends AndroidTestCase {
+public class ContactSpamFilterTest extends MockedContextTestCase {
 	private static String SENDER = "(067) 129-09-45";
 
-	private ContentResolver getContentResolver() {
-		return this.getContext().getContentResolver();
+	@Override
+	public Hashtable<Uri, ContentProvider> getTestContentProviders() {
+		PhoneContentProviderFake phoneContentProvider = new PhoneContentProviderFake();
+
+		Hashtable<Uri, ContentProvider> settings = new Hashtable<Uri, ContentProvider>();
+		settings.put(Data.CONTENT_URI, phoneContentProvider);
+		settings.put(Phone.CONTENT_URI, phoneContentProvider);
+		return settings;
 	}
 
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
 
-		ArrayList<ContentProviderOperation> ops =
-				new ArrayList<ContentProviderOperation>();
-
-		int rawContactInsertIndex = ops.size();
-		ops.add(ContentProviderOperation.newInsert(RawContacts.CONTENT_URI)
-				.withValue(RawContacts.ACCOUNT_TYPE, "com.ezhun.smsb")
-				.withValue(RawContacts.ACCOUNT_NAME, "mike_sullivan")
-				.build());
-
-		ops.add(ContentProviderOperation.newInsert(Data.CONTENT_URI)
-				.withValueBackReference(Data.RAW_CONTACT_ID, rawContactInsertIndex)
-				.withValue(Data.MIMETYPE, Phone.CONTENT_ITEM_TYPE)
-				.withValue(Phone.NUMBER, SENDER)
-				.build());
-		ops.add(ContentProviderOperation.newInsert(Data.CONTENT_URI)
-				.withValueBackReference(Data.RAW_CONTACT_ID, rawContactInsertIndex)
-				.withValue(Data.MIMETYPE,
-						StructuredName.CONTENT_ITEM_TYPE)
-				.withValue(StructuredName.DISPLAY_NAME, "Mike Sullivan")
-				.build());
-
-		getContentResolver().applyBatch(ContactsContract.AUTHORITY, ops);
-	}
-
-	@Override
-	public void tearDown() throws Exception {
-		super.tearDown();
-
-		getContentResolver().delete(ContactsContract.RawContacts.CONTENT_URI, null, null);
+		ContentValues values = new ContentValues();
+		values.put(Data.MIMETYPE, Phone.CONTENT_ITEM_TYPE);
+		values.put(Phone.NUMBER, SENDER);
+		getContentResolver().insert(Data.CONTENT_URI, values);
 	}
 
 	public void testKnownNumber() throws Exception {

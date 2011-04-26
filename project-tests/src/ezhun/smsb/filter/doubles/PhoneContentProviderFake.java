@@ -1,13 +1,14 @@
 package ezhun.smsb.filter.doubles;
 
-import android.content.*;
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.pm.ProviderInfo;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.provider.ContactsContract.Data;
 import android.test.mock.MockContentProvider;
-import junit.framework.Assert;
+
 import java.util.ArrayList;
 import java.util.Map;
 

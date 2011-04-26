@@ -1,25 +1,17 @@
 package ezhun.smsb.filter;
 
 import android.content.ContentProvider;
-import android.content.ContentProviderOperation;
-import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.net.Uri;
-import android.provider.ContactsContract;
-import android.test.AndroidTestCase;
+import android.provider.ContactsContract.CommonDataKinds.Phone;
+import android.provider.ContactsContract.Data;
 import ezhun.smsb.SmsPojo;
 import ezhun.smsb.base.MockedContextTestCase;
 import ezhun.smsb.exceptions.ApplicationException;
 import ezhun.smsb.filter.doubles.PhoneContentProviderFake;
 import ezhun.smsb.storage.SmsContentProvider;
-import android.provider.ContactsContract;
-import android.provider.ContactsContract.CommonDataKinds.StructuredName;
-import android.provider.ContactsContract.Data;
-import android.provider.ContactsContract.RawContacts;
-import android.provider.ContactsContract.CommonDataKinds.Phone;
 import junit.framework.Assert;
 
-import java.util.ArrayList;
 import java.util.Hashtable;
 
 /**
@@ -43,11 +35,13 @@ public class SmartSpamFilterTest extends MockedContextTestCase {
 	public void setUp() throws Exception {
 		super.setUp();
 
+		//prepare for contact spam filter
 		ContentValues values = new ContentValues();
 		values.put(Data.MIMETYPE, Phone.CONTENT_ITEM_TYPE);
 		values.put(Phone.NUMBER, SENDER);
 		getContentResolver().insert(Data.CONTENT_URI, values);
 
+		//prepare for white list filter
 		SmsPojo spam = new SmsPojo();
 		spam.setSender("1346");
 		spam.setMessage("Novaja aktsia ot magazinov Kharkova");

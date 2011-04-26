@@ -1,15 +1,7 @@
 package ezhun.smsb.filter;
 
 import android.content.ContentProvider;
-import android.content.ContentResolver;
-import android.content.UriMatcher;
 import android.net.Uri;
-import android.telephony.SmsManager;
-import android.test.AndroidTestCase;
-import android.test.ProviderTestCase2;
-import android.test.RenamingDelegatingContext;
-import android.test.mock.MockContext;
-import com.sun.xml.internal.bind.WhiteSpaceProcessor;
 import ezhun.smsb.SmsPojo;
 import ezhun.smsb.base.MockedContextTestCase;
 import ezhun.smsb.exceptions.ApplicationException;
