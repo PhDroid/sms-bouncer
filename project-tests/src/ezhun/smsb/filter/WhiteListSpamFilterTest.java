@@ -6,6 +6,7 @@ import android.content.UriMatcher;
 import android.net.Uri;
 import android.telephony.SmsManager;
 import android.test.AndroidTestCase;
+import android.test.ProviderTestCase2;
 import android.test.RenamingDelegatingContext;
 import android.test.mock.MockContext;
 import com.sun.xml.internal.bind.WhiteSpaceProcessor;
@@ -20,14 +21,27 @@ import java.util.Hashtable;
 /**
  * Test class for WhiteListSpamFilter.
  */
-public class WhiteListSpamFilterTest extends MockedContextTestCase {
+public class WhiteListSpamFilterTest extends ProviderTestCase2<SmsContentProvider> {
 	private static String SENDER = "(097) 112 33 26";
 
-	@Override
+	public WhiteListSpamFilterTest() {
+		super(SmsContentProvider.class, SmsContentProvider.CONTENT_URI.getAuthority());
+	}
+
+	/*@Override
 	public Hashtable<Uri, ContentProvider> getTestContentProviders() {
 		Hashtable<Uri, ContentProvider> settings = new Hashtable<Uri, ContentProvider>();
 		settings.put(SmsContentProvider.CONTENT_URI, new SmsContentProvider());
 		return settings;
+	} */
+
+	ContentResolver contentResolver;
+
+	public ContentResolver getContentResolver() {
+		if (contentResolver == null) {
+			contentResolver = this.getMockContentResolver();
+		}
+		return contentResolver;
 	}
 
 	@Override

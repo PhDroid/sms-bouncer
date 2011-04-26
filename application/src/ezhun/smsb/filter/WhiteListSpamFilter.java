@@ -33,6 +33,6 @@ public class WhiteListSpamFilter implements ISpamFilter {
 				selectionArgs,
 				null);
 
-		return cur.getCount() != 0;
+		return cur.getCount() == 0;
 	}
 }
