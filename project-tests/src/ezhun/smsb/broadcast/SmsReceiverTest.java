@@ -2,6 +2,7 @@ package ezhun.smsb.broadcast;
 
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.telephony.SmsMessage;
 import android.test.AndroidTestCase;
 import android.test.mock.MockContext;
 import ezhun.smsb.SmsPojo;
@@ -85,11 +86,22 @@ public class SmsReceiverTest extends AndroidTestCase {
         mContext = new TestContext();
     }
 
-    public void testSmsReceiver_processes_messages() throws Exception {
+    public void testSmsReceiver_doesnt_process_messages_if_none_received() throws Exception {
         Intent intent = new Intent();
         intent.setAction(ACTION);
         mReceiver.onReceive(getContext(), intent);
-        Assert.assertTrue(mReceiver.getProcessor().getProcessMethodWasCalled());
+        Assert.assertFalse(mReceiver.getProcessor().getProcessMethodWasCalled());
+    }
+
+    public void testSmsReceiver_processes_messages() throws Exception {
+        Intent intent = new Intent();
+        intent.setAction(ACTION);
+        Object[] pdus = new Object[1];
+        pdus[0] = SmsMessage.getSubmitPdu("666", "777", "Hey man, how you doin'?", false);
+        intent.putExtra("pdus", pdus);
+
+        mReceiver.onReceive(getContext(), intent);
+        Assert.assertFalse(mReceiver.getProcessor().getProcessMethodWasCalled());
     }
 
     public void testSmsReceiver_dont_pass_spam_messages(){
