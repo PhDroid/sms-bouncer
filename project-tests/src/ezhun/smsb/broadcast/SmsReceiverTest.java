@@ -1,15 +1,19 @@
 package ezhun.smsb.broadcast;
 
+import android.content.ContentResolver;
 import android.content.Intent;
+import android.telephony.SmsMessage;
 import android.test.AndroidTestCase;
 import android.test.mock.MockContext;
+import ezhun.smsb.SmsPojo;
+import junit.framework.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SmsReceiverTest extends AndroidTestCase {
 
-    private SmsReceiver mReceiver;
+    private TestSmsReceiver mReceiver;
     private TestContext mContext;
     static final String ACTION = "android.provider.Telephony.SMS_RECEIVED";
 
@@ -34,24 +38,70 @@ public class SmsReceiverTest extends AndroidTestCase {
         }
     }
 
+    private class TestMessageProcessor implements IMessageProcessor{
+        private int mMessagesCount;
+        private boolean mProcessMethodWasCalled = false;
+
+        public int ProcessMessages(SmsPojo[] messages, ContentResolver resolver) {
+            mProcessMethodWasCalled = true;
+            mMessagesCount = messages.length;
+            int spamCount = 0;
+            for(SmsPojo message : messages){
+                if(message.getSender() == "666"){
+                    spamCount++;
+                }
+            }
+            return spamCount;
+        }
+
+        public int getMessagesCount(){
+            return mMessagesCount;
+        }
+
+        public boolean getProcessMethodWasCalled(){
+            return mProcessMethodWasCalled;
+        }
+    }
+
+    private class TestSmsReceiver extends SmsReceiver{
+        private TestMessageProcessor mProcessor;
+
+        public TestSmsReceiver(){
+            mProcessor = new TestMessageProcessor();
+        }
+
+        @Override
+        protected IMessageProcessor getMessageProcessor(){
+            return mProcessor;
+        }
+
+        public TestMessageProcessor getProcessor(){
+            return mProcessor;
+        }
+    }
+
     @Override
     protected void setUp(){
-        mReceiver = new SmsReceiver();
+        mReceiver = new TestSmsReceiver();
         mContext = new TestContext();
     }
 
-    public void testSmsReceiver_receives_messages() throws Exception {
+    public void testSmsReceiver_doesnt_process_messages_if_none_received() throws Exception {
         Intent intent = new Intent();
         intent.setAction(ACTION);
+        mReceiver.onReceive(getContext(), intent);
+        Assert.assertFalse(mReceiver.getProcessor().getProcessMethodWasCalled());
+    }
+
+    public void testSmsReceiver_processes_messages() throws Exception {
+        Intent intent = new Intent();
+        intent.setAction(ACTION);
+        Object[] pdus = new Object[1];
+        pdus[0] = SmsMessage.getSubmitPdu("666", "777", "Hey man, how you doin'?", false);
+        intent.putExtra("pdus", pdus);
 
         mReceiver.onReceive(getContext(), intent);
-        assertEquals(1, mContext.getReceivedIntents().size());
-        assertNull(mReceiver.getResultData());
-
-        Intent receivedIntent = mContext.getReceivedIntents().get(0);
-        assertNull(receivedIntent.getAction());
-        assertEquals("01234567890", receivedIntent.getStringExtra("phoneNum"));
-        assertTrue((receivedIntent.getFlags() & Intent.FLAG_ACTIVITY_NEW_TASK) != 0);
+        Assert.assertFalse(mReceiver.getProcessor().getProcessMethodWasCalled());
     }
 
     public void testSmsReceiver_dont_pass_spam_messages(){
