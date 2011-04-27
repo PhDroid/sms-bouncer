@@ -33,8 +33,18 @@ public class SmsReceiver extends BroadcastReceiver {
                     SmsPojo sms = new SmsPojo(msg);
                     messages[i] = sms;
                 }
+				int spamMessageCount = getMessageProcessor().ProcessMessages(messages, c);
+                //someone gave 3 apples to Buratino. Buratino ate one.
+				//how many apples does Buratino have?
+				//Answer:Nobody knows.
 
-                mSpamMessagesCount += getMessageProcessor().ProcessMessages(messages, c);
+				mSpamMessagesCount += spamMessageCount;
+
+				//that's why I didn't use mSpamMessageCount. Somebody could change property from the outer world.
+				if (spamMessageCount > 0) {
+					//aborting broadcast. Using it with a priority tag should prevent anyone to receive these spam messages.
+					abortBroadcast();
+				}
 
                 NotificationManager notifier = (NotificationManager)context.getSystemService(Service.NOTIFICATION_SERVICE);
 			}
