@@ -3,7 +3,7 @@ package ezhun.smsb.filter;
 import android.content.ContentProvider;
 import android.net.Uri;
 import ezhun.smsb.SmsPojo;
-import ezhun.smsb.base.MockedContextTestCase;
+import ezhun.smsb.base.ProviderTestBase;
 import ezhun.smsb.exceptions.ApplicationException;
 import ezhun.smsb.storage.SmsContentProvider;
 import junit.framework.Assert;
@@ -13,7 +13,7 @@ import java.util.Hashtable;
 /**
  * Test class for WhiteListSpamFilter.
  */
-public class WhiteListSpamFilterTest extends MockedContextTestCase {
+public class WhiteListSpamFilterTest extends ProviderTestBase {
 	private static String SENDER = "(097) 112 33 26";
 
 	@Override

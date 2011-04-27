@@ -16,7 +16,7 @@ import java.util.Hashtable;
 /**
  * This is a base class for all TestCases with ability to use MockContext instead of real one.
  */
-public abstract class MockedContextTestCase extends AndroidTestCase {
+public abstract class MockedContextTestBase extends AndroidTestCase {
 	private class ResourcefulMockContext extends MockContext {
 		@Override
 		public Resources getResources() {
@@ -47,17 +47,24 @@ public abstract class MockedContextTestCase extends AndroidTestCase {
 	}
 
 	/**
-	 * Prepares list of content providers and corresponding Uri's for context setup.
-	 *
-	 * @return content providers and corresponding Uri's
+	 * Attaches passed content providers to mocked context.
+	 * @param testContentProviders providers to attach
 	 */
-	public abstract Hashtable<Uri, ContentProvider> getTestContentProviders();
+	public void attachContentProviders(Hashtable<Uri, ContentProvider> testContentProviders) {
+	    if (testContentProviders == null) {
+		    return;
+	    }
+
+		for (Uri uri : testContentProviders.keySet()) {
+			ContentProvider provider = testContentProviders.get(uri);
+			provider.attachInfo(context, null);
+			resolver.addProvider(uri.getAuthority(), provider);
+		}
+	}
 
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-
-		Hashtable<Uri, ContentProvider> settings = getTestContentProviders();
 
 		resolver = new MockContentResolver();
 		final String filenamePrefix = "test.ezhun.";
@@ -66,19 +73,8 @@ public abstract class MockedContextTestCase extends AndroidTestCase {
 				getProperContext(), // The context that file methods are delegated to
 				filenamePrefix);
 		context = new IsolatedContext(resolver, targetContextWrapper);
-
-		if (settings == null) {
-			return;
-		}
-
-		for (Uri uri : settings.keySet()) {
-			ContentProvider provider = settings.get(uri);
-			provider.attachInfo(context, null);
-			resolver.addProvider(uri.getAuthority(), provider);
-		}
-
 	}
 
-	protected MockedContextTestCase() {
+	protected MockedContextTestBase() {
 	}
 }

@@ -6,7 +6,7 @@ import android.net.Uri;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.provider.ContactsContract.Data;
 import ezhun.smsb.SmsPojo;
-import ezhun.smsb.base.MockedContextTestCase;
+import ezhun.smsb.base.ProviderTestBase;
 import ezhun.smsb.exceptions.ApplicationException;
 import ezhun.smsb.filter.doubles.PhoneContentProviderFake;
 import ezhun.smsb.storage.SmsContentProvider;
@@ -17,7 +17,7 @@ import java.util.Hashtable;
 /**
  * Test class for SmartSpamFilter.
  */
-public class SmartSpamFilterTest extends MockedContextTestCase {
+public class SmartSpamFilterTest extends ProviderTestBase {
 	private static String SENDER = "(067) 129-09-45";
 
 	@Override
