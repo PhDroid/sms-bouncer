@@ -18,7 +18,6 @@ import java.util.Hashtable;
  */
 public abstract class MockedContextTestCase extends AndroidTestCase {
 	private class ResourcefulMockContext extends MockContext {
-
 		@Override
 		public Resources getResources() {
 			return getProperContext().getResources();
@@ -37,11 +36,21 @@ public abstract class MockedContextTestCase extends AndroidTestCase {
 		return context;
 	}
 
+	@Override
+	public Context getContext() {
+		return this.getMockContext();
+	}
+
 	public ContentResolver getContentResolver() {
 		assertNotNull(resolver);
 		return resolver;
 	}
 
+	/**
+	 * Prepares list of content providers and corresponding Uri's for context setup.
+	 *
+	 * @return content providers and corresponding Uri's
+	 */
 	public abstract Hashtable<Uri, ContentProvider> getTestContentProviders();
 
 	@Override
@@ -57,6 +66,10 @@ public abstract class MockedContextTestCase extends AndroidTestCase {
 				getProperContext(), // The context that file methods are delegated to
 				filenamePrefix);
 		context = new IsolatedContext(resolver, targetContextWrapper);
+
+		if (settings == null) {
+			return;
+		}
 
 		for (Uri uri : settings.keySet()) {
 			ContentProvider provider = settings.get(uri);
