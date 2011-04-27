@@ -15,18 +15,17 @@ public class MessageProcessor implements IMessageProcessor {
     public int ProcessMessages(SmsPojo[] messages, ContentResolver resolver) {
 	    ISpamFilter spamFiler = new SmartSpamFilter(resolver);
 	    ArrayList<ContentValues> values = new ArrayList<ContentValues>();
-        for (int i=0; i< messages.length; i++){
-            SmsPojo message = messages[i];
-	        boolean isSpam = false;
-	        try {
-		        isSpam = spamFiler.isSpam(message);
-	        } catch (ApplicationException e) {
-		        //todo: implement logging
-	        }
-	        if(isSpam) {
-	            values.add(message.toContentValues());
-	        }
-        }
+	    for (SmsPojo message : messages) {
+		    boolean isSpam = false;
+		    try {
+			    isSpam = spamFiler.isSpam(message);
+		    } catch (ApplicationException e) {
+			    //todo: implement logging
+		    }
+		    if (isSpam) {
+			    values.add(message.toContentValues());
+		    }
+	    }
 	    if (values.size() == 0) {
 		    return 0;
 	    } else {
