@@ -16,7 +16,7 @@ import java.util.Hashtable;
 /**
  * This is a base class for all TestCases with ability to use MockContext instead of real one.
  */
-public abstract class MockedContextTestBase extends AndroidTestCase {
+public class MockedContextTestBase extends AndroidTestCase {
 	private class ResourcefulMockContext extends MockContext {
 		@Override
 		public Resources getResources() {
@@ -73,6 +73,11 @@ public abstract class MockedContextTestBase extends AndroidTestCase {
 				getProperContext(), // The context that file methods are delegated to
 				filenamePrefix);
 		context = new IsolatedContext(resolver, targetContextWrapper);
+	}
+
+	@Override
+	protected void tearDown() throws Exception {
+		super.tearDown();
 	}
 
 	protected MockedContextTestBase() {
