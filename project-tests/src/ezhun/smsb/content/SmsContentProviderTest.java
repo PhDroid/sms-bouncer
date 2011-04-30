@@ -1,4 +1,4 @@
-package ezhun.smsb;
+package ezhun.smsb.content;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
