@@ -22,4 +22,7 @@ tests/robotest/bin/*
 application/classes/production/*
 build/*
 
+# Ignore mockups export
+mockups/export/*
+
 
