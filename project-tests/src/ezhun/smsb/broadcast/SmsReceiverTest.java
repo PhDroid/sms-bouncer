@@ -8,6 +8,7 @@ import android.test.mock.MockContext;
 import ezhun.smsb.SmsPojo;
 import junit.framework.Assert;
 
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class SmsReceiverTest extends AndroidTestCase {
            mReceivedIntents.add(xiIntent);
         }
 
-        public List<Intent> getReceivedIntents()
+public List<Intent> getReceivedIntents()
         {
            return mReceivedIntents;
         }
@@ -70,9 +71,30 @@ public class SmsReceiverTest extends AndroidTestCase {
             mProcessor = new TestMessageProcessor();
         }
 
+        public int getSpamMessagesCount(){
+            return super.getSpamMessagesCount();
+        }
+
         @Override
         protected IMessageProcessor getMessageProcessor(){
             return mProcessor;
+        }
+
+        @Override
+        protected SmsPojo[] ConvertMessages(Object[] pdusObj){
+            SmsPojo[] pojos = new SmsPojo[1];
+            SmsPojo message = pojos[0] = new SmsPojo();
+            if (((byte[])pdusObj[0])[0] == 49){
+                // spam
+                message.setMessage("How YOU doin'?");
+                message.setSender("666");
+            }
+            else{
+                // not spam
+                message.setMessage("How YOU doin'?");
+                message.setSender("555");
+            }
+            return pojos;
         }
 
         public TestMessageProcessor getProcessor(){
@@ -97,18 +119,37 @@ public class SmsReceiverTest extends AndroidTestCase {
         Intent intent = new Intent();
         intent.setAction(ACTION);
         Object[] pdus = new Object[1];
-        pdus[0] = SmsMessage.getSubmitPdu("666", "777", "Hey man, how you doin'?", false);
+        //from:666; message:How you doin'?
+        pdus[0] = new byte[] {49, 50};
         intent.putExtra("pdus", pdus);
 
         mReceiver.onReceive(getContext(), intent);
-        Assert.assertFalse(mReceiver.getProcessor().getProcessMethodWasCalled());
+        Assert.assertTrue(mReceiver.getProcessor().getProcessMethodWasCalled());
     }
 
     public void testSmsReceiver_dont_pass_spam_messages(){
+        Intent intent = new Intent();
+        intent.setAction(ACTION);
+        Object[] pdus = new Object[1];
+        //from:666; message:How you doin'?
+        pdus[0] = new byte[] {49, 50};
+        intent.putExtra("pdus", pdus);
 
+        mReceiver.onReceive(getContext(), intent);
+        Assert.assertEquals(1, mReceiver.getSpamMessagesCount()) ;
+        Assert.assertEquals(1, mReceiver.getProcessor().getMessagesCount()) ;
     }
 
     public void testSmsReceiver_passes_non_spam_messages(){
+        Intent intent = new Intent();
+        intent.setAction(ACTION);
+        Object[] pdus = new Object[1];
+        //from:666; message:How you doin'?
+        pdus[0] = new byte[] {50, 51};
+        intent.putExtra("pdus", pdus);
 
+        mReceiver.onReceive(getContext(), intent);
+        Assert.assertEquals(0, mReceiver.getSpamMessagesCount()) ;
+        Assert.assertEquals(1, mReceiver.getProcessor().getMessagesCount()) ;
     }
 }
