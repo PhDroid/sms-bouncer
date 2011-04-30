@@ -1,8 +1,8 @@
 package ezhun.smsb.base;
 
-import android.content.ContentProvider;
-import android.content.ContentResolver;
-import android.content.Context;
+import android.content.*;
+import android.content.pm.PackageManager;
+import android.content.pm.PermissionInfo;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.test.AndroidTestCase;
@@ -21,6 +21,46 @@ public class MockedContextTestBase extends AndroidTestCase {
 		@Override
 		public Resources getResources() {
 			return getProperContext().getResources();
+		}
+	}
+
+	private class BroadcastContext extends IsolatedContext {
+		private static final String ANDROID_PERMISSION_RECEIVE_SMS = "android.permission.RECEIVE_SMS";
+		Context broadcastContext;
+
+		public BroadcastContext(ContentResolver resolver, Context targetContext, Context broadcastContext) {
+			super(resolver, targetContext);
+			this.broadcastContext = broadcastContext;
+		}
+
+		public Context getBroadcastContext() {
+			assertNotNull(broadcastContext);
+			return broadcastContext;
+		}
+
+		@Override
+		public Intent registerReceiver(BroadcastReceiver receiver, IntentFilter filter) {
+			return getBroadcastContext().registerReceiver(receiver, filter);
+		}
+
+		@Override
+		public PackageManager getPackageManager() {
+			return getBroadcastContext().getPackageManager();
+		}
+
+		@Override
+		public void unregisterReceiver(BroadcastReceiver receiver) {
+			getBroadcastContext().unregisterReceiver(receiver);
+		}
+
+		@Override
+		public void sendOrderedBroadcast(Intent intent, String receiverPermission) {
+			getBroadcastContext().sendOrderedBroadcast(intent, receiverPermission);
+		}
+
+		@Override
+		public void sendBroadcast(Intent intent, String receiverPermission) {
+			getBroadcastContext().sendBroadcast(intent, receiverPermission);
 		}
 	}
 
@@ -48,12 +88,13 @@ public class MockedContextTestBase extends AndroidTestCase {
 
 	/**
 	 * Attaches passed content providers to mocked context.
+	 *
 	 * @param testContentProviders providers to attach
 	 */
 	public void attachContentProviders(Hashtable<Uri, ContentProvider> testContentProviders) {
-	    if (testContentProviders == null) {
-		    return;
-	    }
+		if (testContentProviders == null) {
+			return;
+		}
 
 		for (Uri uri : testContentProviders.keySet()) {
 			ContentProvider provider = testContentProviders.get(uri);
@@ -72,7 +113,7 @@ public class MockedContextTestBase extends AndroidTestCase {
 				new ResourcefulMockContext(), // The context that most methods are delegated to
 				getProperContext(), // The context that file methods are delegated to
 				filenamePrefix);
-		context = new IsolatedContext(resolver, targetContextWrapper);
+		context = new BroadcastContext(resolver, targetContextWrapper, getProperContext());
 	}
 
 	@Override
