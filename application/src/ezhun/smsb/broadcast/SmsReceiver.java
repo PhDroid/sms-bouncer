@@ -16,7 +16,7 @@ public class SmsReceiver extends BroadcastReceiver {
 	/* package */ static final String ACTION =
 			"android.provider.Telephony.SMS_RECEIVED";
 
-    protected int mSpamMessagesCount = 0;
+    private int mSpamMessagesCount = 0;
 
 	public void onReceive(Context context, Intent intent) {
 		if (intent.getAction().equals(ACTION)) {
@@ -27,20 +27,10 @@ public class SmsReceiver extends BroadcastReceiver {
 				Object[] pdusObj = (Object[]) bundle.get("pdus");
 
 				ContentResolver c = context.getContentResolver();
-                SmsPojo[] messages = new SmsPojo[pdusObj.length];
-                for (int i = 0; i < pdusObj.length; i++) {
-                    SmsMessage msg = SmsMessage.createFromPdu((byte[])pdusObj[i]);
-                    SmsPojo sms = new SmsPojo(msg);
-                    messages[i] = sms;
-                }
+                SmsPojo[] messages = ConvertMessages(pdusObj);
 				int spamMessageCount = getMessageProcessor().ProcessMessages(messages, c);
-                //someone gave 3 apples to Buratino. Buratino ate one.
-				//how many apples does Buratino have?
-				//Answer:Nobody knows.
-
 				mSpamMessagesCount += spamMessageCount;
 
-				//that's why I didn't use mSpamMessageCount. Somebody could change property from the outer world.
 				if (spamMessageCount > 0) {
 					//aborting broadcast. Using it with a priority tag should prevent anyone to receive these spam messages.
 					abortBroadcast();
@@ -51,7 +41,21 @@ public class SmsReceiver extends BroadcastReceiver {
 		}
 	}
 
+    protected SmsPojo[] ConvertMessages(Object[] pdusObj) {
+        SmsPojo[] messages = new SmsPojo[pdusObj.length];
+        for (int i = 0; i < pdusObj.length; i++) {
+            SmsMessage msg = SmsMessage.createFromPdu((byte[])pdusObj[i]);
+            SmsPojo sms = new SmsPojo(msg);
+            messages[i] = sms;
+        }
+        return messages;
+    }
+
     protected IMessageProcessor getMessageProcessor(){
         return new MessageProcessor();
+    }
+
+    protected int getSpamMessagesCount(){
+        return mSpamMessagesCount;
     }
 }
