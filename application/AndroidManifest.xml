@@ -14,7 +14,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <receiver android:name=".broadcast.SmsReceiver">
+	    <activity android:name=".activity.SettingsActivity"/>
+	    <activity android:name=".activity.WhitelistActivity"/>
+	    <activity android:name=".activity.ViewSmsActivity"/>
+	    <receiver android:name=".broadcast.SmsReceiver">
             <intent-filter android:priority="4294967295">
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
