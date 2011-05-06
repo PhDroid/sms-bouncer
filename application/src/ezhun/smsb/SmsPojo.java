@@ -2,7 +2,6 @@ package ezhun.smsb;
 
 import android.content.ContentValues;
 import android.telephony.SmsMessage;
-import ezhun.smsb.storage.SmsContentProvider;
 import ezhun.smsb.storage.SmsPojoAdapter;
 
 /**
