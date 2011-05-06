@@ -51,7 +51,11 @@ public class SmsContentProviderTest extends ProviderTestCase2<SmsContentProvider
 		ContentResolver c = this.getMockContentResolver();
 		String[] selectionArgs = { SENDER };
 		Cursor cur = c.query(SmsContentProvider.CONTENT_URI, null, SmsContentProvider.SENDER + " like :1", selectionArgs, null);
-		Assert.assertEquals(SETUP_COUNT, cur.getCount());
+		try {
+			Assert.assertEquals(SETUP_COUNT, cur.getCount());
+		} finally {
+			cur.close();
+		}
 	}
 
 	public void testGetType() {
@@ -136,7 +140,11 @@ public class SmsContentProviderTest extends ProviderTestCase2<SmsContentProvider
 		
 		String[] selectionArgs = {"1"};
 		Cursor cur = c.query(SmsContentProvider.CONTENT_URI, null, SmsContentProvider.USER_FLAG_SPAM + " = :1", selectionArgs, null);
-		Assert.assertEquals(SETUP_COUNT, cur.getCount());
+		try {
+			Assert.assertEquals(SETUP_COUNT, cur.getCount());
+		} finally {
+			cur.close();
+		}
 	}
 	
 	public void testUpdateById() {
