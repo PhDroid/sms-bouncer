@@ -3,6 +3,7 @@ package ezhun.smsb;
 import android.content.ContentValues;
 import android.telephony.SmsMessage;
 import ezhun.smsb.storage.SmsContentProvider;
+import ezhun.smsb.storage.SmsPojoAdapter;
 
 /**
  * Plain old java object for Sms message.
@@ -25,14 +26,7 @@ public class SmsPojo {
 	}
 
 	public ContentValues toContentValues() {
-		ContentValues values = new ContentValues();
-		values.put(SmsContentProvider.SENDER, sender);
-		values.put(SmsContentProvider.MESSAGE, message);
-		values.put(SmsContentProvider.RECEIVED, received);
-		values.put(SmsContentProvider.SYSTEM_FLAG_SPAM, markedSpamBySystem);
-		values.put(SmsContentProvider.USER_FLAG_SPAM, markedSpamByUser);
-		values.put(SmsContentProvider.USER_FLAG_NOT_SPAM, markedNotSpamByUser);
-		return values;
+		return SmsPojoAdapter.toContentValues(this);
 	}
 
 	public String getSender() {
