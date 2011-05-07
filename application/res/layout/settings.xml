@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AbsoluteLayout
+		android:id="@+id/widget32"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		>
+	<TextView
+			android:id="@+id/tb_Heading"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:padding="10px"
+			android:text="Settings"
+			android:textSize="24sp"
+			android:textAlign="center"
+			android:layout_x="99px"
+			android:layout_y="10px"
+			>
+	</TextView>
+	<CheckBox
+			android:id="@+id/cbNotification"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Display panel notification"
+			android:layout_x="20px"
+			android:layout_y="62px"
+			>
+	</CheckBox>
+	<Spinner
+			android:id="@+id/widget31"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_x="180px"
+			android:layout_y="102px"
+			>
+	</Spinner>
+	<TextView
+			android:id="@+id/tbClear"
+			android:layout_width="wrap_content"
+			android:layout_height="20px"
+			android:text="Clear messages after"
+			android:layout_x="20px"
+			android:layout_y="112px"
+			>
+	</TextView>
+	<Button
+			android:id="@+id/btnEditWhitelist"
+			android:layout_width="244px"
+			android:layout_height="wrap_content"
+			android:padding="5px"
+			android:text="Edit senders white list"
+			android:layout_x="30px"
+			android:layout_y="212px"
+			>
+	</Button>
+</AbsoluteLayout>
