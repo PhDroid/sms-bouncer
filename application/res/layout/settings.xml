@@ -12,7 +12,6 @@
 			android:padding="10px"
 			android:text="Settings"
 			android:textSize="24sp"
-			android:textAlign="center"
 			android:layout_x="99px"
 			android:layout_y="10px"
 			>
