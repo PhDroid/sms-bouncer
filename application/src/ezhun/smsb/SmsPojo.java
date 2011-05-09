@@ -11,6 +11,7 @@ public class SmsPojo {
 	private String sender;
 	private String message;
 	private long received;
+    private boolean read;
 	private boolean markedSpamBySystem;
 	private boolean markedSpamByUser;
 	private boolean markedNotSpamByUser;
@@ -22,6 +23,7 @@ public class SmsPojo {
 		sender = msg.getOriginatingAddress();
 		message = msg.getMessageBody();
 		received = msg.getTimestampMillis();
+        read = false;
 	}
 
 	public ContentValues toContentValues() {
@@ -35,6 +37,14 @@ public class SmsPojo {
 	public void setSender(String sender) {
 		this.sender = sender;
 	}
+
+    public boolean  getRead(){
+        return read;
+    }
+
+    public void setRead(boolean r){
+        read = r;
+    }
 
 	public String getMessage() {
 		return message;
@@ -75,4 +85,9 @@ public class SmsPojo {
 	public void setMarkedNotSpamByUser(boolean markedNotSpamByUser) {
 		this.markedNotSpamByUser = markedNotSpamByUser;
 	}
+
+    @Override
+    public String toString(){
+        return getMessage();
+    }
 }
