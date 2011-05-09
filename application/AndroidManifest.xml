@@ -14,11 +14,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-	    <activity android:name=".activity.SettingsActivity">
-		    <intent-filter>
-		        <action android:name="android.intent.action.SETTINGS" />
-            </intent-filter>
-	    </activity>
+	    <activity android:name=".activity.SettingsActivity" />
 	    <activity android:name=".activity.WhitelistActivity"/>
 	    <activity android:name=".activity.ViewSmsActivity"/>
 	    <receiver android:name=".broadcast.SmsReceiver">
