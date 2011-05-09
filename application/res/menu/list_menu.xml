@@ -2,8 +2,8 @@
 <menu
   xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:id="@+id/list_menu_group">
-    	 <item android:id="@+id/delete_all_item" android:title="Delete all" android:checkable="false" android:enabled="true" android:visible="true" android:titleCondensed="Delete"></item>
-    	 <item android:id="@+id/select_many_item" android:checkable="false" android:enabled="true" android:title="Select many" android:titleCondensed="Many" android:visible="true"></item>
-    	 <item android:id="@+id/settings_item" android:title="Settings" android:checkable="false" android:enabled="true" android:visible="true"></item>
+    	 <item android:id="@+id/delete_all_item" android:title="Delete all" android:checkable="false" android:enabled="true" android:visible="true" android:icon="@drawable/ic_menu_block"></item>
+    	 <item android:id="@+id/select_many_item" android:checkable="false" android:enabled="true" android:title="Select many" android:visible="true" android:icon="@drawable/ic_menu_mark"></item>
+    	 <item android:id="@+id/settings_item" android:title="Settings" android:checkable="false" android:enabled="true" android:visible="true" android:icon="@drawable/ic_menu_preferences"></item>
     </group>
 </menu>
