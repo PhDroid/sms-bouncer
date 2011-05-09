@@ -1,14 +1,11 @@
 package ezhun.smsb.activity;
 
-import android.app.Activity;
 import android.app.ListActivity;
-import android.database.DataSetObserver;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.*;
+import android.content.Intent;
+import android.view.Menu;
 import ezhun.smsb.R;
 import ezhun.smsb.SmsPojo;
 
@@ -24,7 +21,7 @@ public class BlockedSmsListActivity extends ListActivity {
         ArrayList<SmsPojo> messages = getMessages();
 
         setListAdapter(new SmsPojoArrayAdapter(this, R.layout.main_list_item, messages));
-        ListView lv = getListView();
+        //ListView lv = getListView();
 
         /*lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
           public void onItemClick(AdapterView<?> parent, View view,
@@ -92,10 +89,23 @@ public class BlockedSmsListActivity extends ListActivity {
 		super.onStart();
 	}
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu){
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.list_menu, menu);
-        return true;
-    }
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.list_menu, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle item selection
+		switch (item.getItemId()) {
+			case R.id.settings_item:
+				Intent intent = new Intent(BlockedSmsListActivity.this, SettingsActivity.class);
+				startActivity(intent);
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
+		}
+	}
 }
