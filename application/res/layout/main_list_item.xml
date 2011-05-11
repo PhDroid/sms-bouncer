@@ -3,16 +3,18 @@
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="match_parent"
   android:layout_height="wrap_content"
-  android:background="@color/main_list_message_background">
+  android:background="@color/main_list_message_background"
+  android:paddingBottom="5dp"
+  android:paddingTop="5dp"
+  android:paddingLeft="3dp"
+  android:paddingRight="3dp">
     <TextView android:id="@+id/senderTextView"
     		  android:layout_height="wrap_content" 
     		  android:text="TextView" 
     		  android:layout_width="wrap_content" 
     		  android:layout_alignParentTop="true" 
-    		  android:layout_marginTop="3px"
-    		  android:layout_marginLeft="3px"
-              android:textColor="@color/sender_text"
-    		  android:textSize="15px">
+    		  android:textColor="@color/sender_text"
+    		  android:textSize="16sp">
     </TextView>
     <TextView android:id="@+id/receivedTimeTextView"
     		  android:layout_height="wrap_content" 
@@ -20,18 +22,17 @@
     		  android:layout_width="wrap_content" 
     		  android:layout_alignParentRight="true" 
     		  android:layout_alignParentTop="true"
-    		  android:layout_marginTop="3px"
-    		  android:layout_marginRight="3px">
+    		  android:textSize="12sp"
+              android:textColor="@color/received_text">
     </TextView>
     <TextView android:id="@+id/messageTextView"
     		  android:layout_height="wrap_content"
     		  android:text="TextView" 
     		  android:layout_width="fill_parent"
     		  android:layout_alignParentTop="true"
-    		  android:layout_marginTop="25px"
-    		  android:layout_marginLeft="3px"
+    		  android:layout_marginTop="25dp"
               android:singleLine="true"
               android:textColor="@color/message_text"
-    		  android:textSize="16px">
+    		  android:textSize="16sp">
     </TextView>
 </RelativeLayout>

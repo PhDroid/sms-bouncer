@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_pressed="true" android:color="#FFF"/> <!-- pressed -->
+    <item android:state_pressed="true" android:color="#0F0"/> <!-- pressed -->
     <item android:state_focused="true" android:color="#00510C"/> <!-- focused -->
-    <item android:state_selected="true" android:color="#FFF"/> <!-- selected -->
+    <item android:state_selected="true" android:color="#0F0"/> <!-- selected -->
     <item android:color="#00510C"/> <!-- default -->
 </selector>
