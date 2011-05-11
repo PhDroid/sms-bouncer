@@ -15,7 +15,7 @@
             </intent-filter>
         </activity>
 	    <activity android:name=".activity.SettingsActivity" />
-	    <activity android:name=".activity.WhitelistActivity"/>
+	    <activity android:name=".activity.EditWhitelistActivity"/>
 	    <activity android:name=".activity.ViewSmsActivity"/>
 	    <receiver android:name=".broadcast.SmsReceiver">
             <intent-filter android:priority="4294967295">

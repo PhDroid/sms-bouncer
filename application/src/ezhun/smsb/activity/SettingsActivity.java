@@ -1,6 +1,7 @@
 package ezhun.smsb.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
@@ -27,7 +28,8 @@ public class SettingsActivity extends Activity {
 	private View.OnClickListener editWhitelistListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			// do something when the button is clicked
+			Intent intent = new Intent(SettingsActivity.this, EditWhitelistActivity.class);
+				startActivity(intent);
 		}
 	};
 
