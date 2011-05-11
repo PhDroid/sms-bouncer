@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="main_list_message_background">#FEFEFE</color>
+    <color name="main_list_message_text">#000</color>
+    <color name="main_list_sender_text">#000</color>
+</resources>
