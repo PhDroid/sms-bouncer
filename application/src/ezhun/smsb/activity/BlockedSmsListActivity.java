@@ -8,88 +8,44 @@ import android.content.Intent;
 import android.view.Menu;
 import ezhun.smsb.R;
 import ezhun.smsb.SmsPojo;
+import ezhun.smsb.storage.IMessageProvider;
+import ezhun.smsb.storage.MessageProviderHelper;
+import ezhun.smsb.storage.TestMessageProvider;
 
 import java.util.ArrayList;
 
 public class BlockedSmsListActivity extends ListActivity {
+    IMessageProvider mProvider;
+
 	/**
 	 * Called when the activity is first created.
 	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-        ArrayList<SmsPojo> messages = getMessages();
+        ArrayList<SmsPojo> messages = GetMessageProvider().getMessages();
 
         setListAdapter(new SmsPojoArrayAdapter(this, R.layout.main_list_item, messages));
-        //ListView lv = getListView();
+        ListView lv = getListView();
 
-        /*lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-          public void onItemClick(AdapterView<?> parent, View view,
-              int position, long id) {
-            // When clicked, show a toast with the TextView text
-            Toast.makeText(getApplicationContext(), ((TextView) view).getText(),
-                Toast.LENGTH_SHORT).show();
-          }
-        });*/
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(BlockedSmsListActivity.this, ViewMessageActivity.class);
+                Bundle b = new Bundle();
+                b.putInt("id", position);// TODO: change with message ID
+                intent.putExtras(b);
+				startActivity(intent);
+            }
+        });
 
 	}
 
-    /*
-     * TODO: replace this with real stuff
-     */
-    private ArrayList<SmsPojo> getMessages() {
-        ArrayList<SmsPojo> messages = new ArrayList<SmsPojo>();
-        SmsPojo sms = new SmsPojo();
-        sms.setMessage("Hey you there! How you doin'?");
-        sms.setSender("+380971122333");
-        sms.setReceived(2000);
-        messages.add(sms);
+    protected IMessageProvider GetMessageProvider() {
+         if (mProvider == null){
+             mProvider = MessageProviderHelper.getMessageProvider();
+         }
 
-        sms = new SmsPojo();
-        sms.setMessage("Nova aktsia vid magazinu Target! Kupuy 2 kartopli ta otrymay 1 v podarunok!");
-        sms.setSender("TARGET");
-        sms.setReceived(10000);
-        messages.add(sms);
-
-        sms = new SmsPojo();
-        sms.setMessage("This is my new number. B. Obama.");
-        sms.setSender("+1570333444555");
-        sms.setReceived(15000);
-        messages.add(sms);
-
-        sms = new SmsPojo();
-        sms.setMessage("How about having some beer tonight? Stranger.");
-        sms.setSender("+380509998887");
-        sms.setRead(true);
-        sms.setReceived(20000);
-        messages.add(sms);
-
-        sms = new SmsPojo();
-        sms.setMessage("Vash rakhunok na 9.05.2011 stanovyt 27,35 uah.");
-        sms.setSender("KYIVSTAR");
-        sms.setReceived(100000);
-        messages.add(sms);
-
-        sms = new SmsPojo();
-        sms.setMessage("Skydky v ALDO. Kupuy 1 ked ta otrymuy dryguy v podarunok!");
-        sms.setSender("ALDO");
-        sms.setReceived(2000000);
-        messages.add(sms);
-
-        sms = new SmsPojo();
-        sms.setMessage("Big football tonight v taverne chili!");
-        sms.setSender("+380991001010");
-        sms.setRead(true);
-        sms.setReceived(2100000);
-        messages.add(sms);
-
-        sms = new SmsPojo();
-        sms.setMessage("15:43 ZABLOKOVANO 17,99 UAH, SUPERMARKET PORTAL");
-        sms.setSender("PUMB");
-        sms.setReceived(3000000);
-        messages.add(sms);
-
-        return messages;
+         return mProvider;
     }
 
     @Override

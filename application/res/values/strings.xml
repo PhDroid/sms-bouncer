@@ -2,4 +2,7 @@
 <resources>
     <string name="hello">Hello World, BlockedSmsListActivity!</string>
     <string name="app_name">sms-bouncer</string>
+    <string name="reply">Reply</string>
+    <string name="not_spam">Not spam</string>
+    <string name="delete">Delete</string>
 </resources>
