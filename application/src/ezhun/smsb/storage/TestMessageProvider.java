@@ -61,13 +61,15 @@ public class TestMessageProvider implements IMessageProvider{
         mList.add(sms);
     }
 
-    @Override
     public ArrayList<SmsPojo> getMessages() {
          return mList;
     }
 
-    @Override
     public SmsPojo getMessage(int id) {
         return mList.get(id);
+    }
+
+    public void read(int id){
+        mList.get(id).setRead(true);
     }
 }

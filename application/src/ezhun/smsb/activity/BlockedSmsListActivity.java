@@ -20,6 +20,16 @@ public class BlockedSmsListActivity extends ListActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+    }
+
+    protected IMessageProvider GetMessageProvider() {
+         return MessageProviderHelper.getMessageProvider();
+    }
+
+    @Override
+	protected void onStart() {
+		super.onStart();
+
         ArrayList<SmsPojo> messages = GetMessageProvider().getMessages();
 
         setListAdapter(new SmsPojoArrayAdapter(this, R.layout.main_list_item, messages));
@@ -34,16 +44,6 @@ public class BlockedSmsListActivity extends ListActivity {
 				startActivity(intent);
             }
         });
-
-	}
-
-    protected IMessageProvider GetMessageProvider() {
-         return MessageProviderHelper.getMessageProvider();
-    }
-
-    @Override
-	protected void onStart() {
-		super.onStart();
 	}
 
 	@Override

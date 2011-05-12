@@ -8,4 +8,6 @@ public interface IMessageProvider {
     ArrayList<SmsPojo> getMessages();
 
     SmsPojo getMessage(int id);
+
+    void read(int id);
 }

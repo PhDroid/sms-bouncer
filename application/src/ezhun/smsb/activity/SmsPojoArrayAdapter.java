@@ -2,6 +2,7 @@ package ezhun.smsb.activity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.text.format.Time;
 import android.text.method.DateTimeKeyListener;
 import android.view.LayoutInflater;
@@ -66,6 +67,11 @@ public class SmsPojoArrayAdapter extends ArrayAdapter<SmsPojo> {
         sender.setText(sms.getSender());
         received.setText(String.valueOf(sms.getReceived()));
         message.setText(sms.getMessage());
+
+        if(!sms.wasRead()){
+            sender.setTypeface(sender.getTypeface(), 1);
+            message.setTypeface(message.getTypeface(), 1);
+        }
 
         return (row);
 

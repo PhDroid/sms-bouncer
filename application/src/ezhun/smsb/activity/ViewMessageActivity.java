@@ -29,6 +29,8 @@ public class ViewMessageActivity extends Activity {
             sender.setText(sms.getSender());
             received.setText(String.valueOf(sms.getReceived()));
             message.setText(sms.getMessage());
+
+            GetMessageProvider().read(id);
         }
     }
 

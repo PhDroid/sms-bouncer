@@ -21,27 +21,32 @@ public class SelectManyActivity extends ListActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-        ArrayList<SmsPojo> messages = GetMessageProvider().getMessages();
+	}
 
+    @Override
+	protected void onStart() {
+		super.onStart();
+
+        ArrayList<SmsPojo> messages = GetMessageProvider().getMessages();
         setListAdapter(new SmsPojoArrayAdapter(this, R.layout.select_many_list_item, messages));
-        ListView lv = getListView();
+        /*ListView lv = getListView();
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(!view.isSelected()){
                     view.setSelected(true);
-                    CheckBox cb = (CheckBox)view.findViewById(R.id.selectMessageCheckBox);
-                    cb.setChecked(true);
+                    //CheckBox cb = (CheckBox)view.findViewById(R.id.selectMessageCheckBox);
+                    //cb.setChecked(true);
                 }
                 else{
                     view.setSelected(false);
-                    CheckBox cb = (CheckBox)view.findViewById(R.id.selectMessageCheckBox);
-                    cb.setChecked(false);
+                    //CheckBox cb = (CheckBox)view.findViewById(R.id.selectMessageCheckBox);
+                    //cb.setChecked(false);
                 }
             }
-        });
+        });*/
+    }
 
-	}
 
     protected IMessageProvider GetMessageProvider() {
          return MessageProviderHelper.getMessageProvider();

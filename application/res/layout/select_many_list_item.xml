@@ -39,7 +39,6 @@
     <CheckBox android:id="@+id/selectMessageCheckBox"
               android:layout_height="fill_parent"
     		  android:layout_width="wrap_content"
-              android:layout_alignParentRight="true"
-              >
+              android:layout_alignParentRight="true">
     </CheckBox>
 </RelativeLayout>

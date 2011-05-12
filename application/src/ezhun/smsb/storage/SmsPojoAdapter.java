@@ -3,15 +3,11 @@ package ezhun.smsb.storage;
 import android.content.ContentValues;
 import android.database.Cursor;
 import ezhun.smsb.SmsPojo;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  * Please, write short description of what this file is for.
  */
 public class SmsPojoAdapter {
-	public static SmsPojo fromCursor (Cursor smsCursor) {
-		throw new NotImplementedException();
-	}
 
 	public static ContentValues toContentValues (SmsPojo sms) {
 		ContentValues values = new ContentValues();
