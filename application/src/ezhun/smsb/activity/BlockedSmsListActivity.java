@@ -44,6 +44,12 @@ public class BlockedSmsListActivity extends ListActivity {
 				startActivity(intent);
             }
         });
+
+        setTitle(R.string.app_name);
+        setTitle(String.format(
+                    "%s (%s)",
+                    getTitle().toString(),
+                    Integer.toString(GetMessageProvider().getUnreadCount())));
 	}
 
 	@Override

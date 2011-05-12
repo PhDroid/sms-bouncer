@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 public class TestMessageProvider implements IMessageProvider{
     ArrayList<SmsPojo> mList;
+    int mUnreadCount = 0;
 
     public TestMessageProvider(){
         mList = new ArrayList<SmsPojo>();
@@ -59,6 +60,8 @@ public class TestMessageProvider implements IMessageProvider{
         sms.setSender("PUMB");
         sms.setReceived(3000000);
         mList.add(sms);
+
+        mUnreadCount = 6;
     }
 
     public ArrayList<SmsPojo> getMessages() {
@@ -71,5 +74,10 @@ public class TestMessageProvider implements IMessageProvider{
 
     public void read(int id){
         mList.get(id).setRead(true);
+        mUnreadCount --;
+    }
+
+    public int getUnreadCount(){
+        return mUnreadCount;
     }
 }

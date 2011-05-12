@@ -45,6 +45,12 @@ public class SelectManyActivity extends ListActivity {
                 }
             }
         });*/
+
+        setTitle(R.string.app_name);
+        setTitle(String.format(
+                    "%s (%s)",
+                    getTitle().toString(),
+                    Integer.toString(GetMessageProvider().getUnreadCount())));
     }
 
 

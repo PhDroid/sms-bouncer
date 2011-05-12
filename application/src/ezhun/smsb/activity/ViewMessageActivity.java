@@ -31,6 +31,12 @@ public class ViewMessageActivity extends Activity {
             message.setText(sms.getMessage());
 
             GetMessageProvider().read(id);
+
+            setTitle(R.string.app_name);
+            setTitle(String.format(
+                    "%s (%s)",
+                    getTitle().toString(),
+                    Integer.toString(GetMessageProvider().getUnreadCount())));
         }
     }
 

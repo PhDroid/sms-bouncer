@@ -10,4 +10,6 @@ public interface IMessageProvider {
     SmsPojo getMessage(int id);
 
     void read(int id);
+
+    int getUnreadCount();
 }
