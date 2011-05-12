@@ -73,8 +73,10 @@ public class TestMessageProvider implements IMessageProvider{
     }
 
     public void read(int id){
-        mList.get(id).setRead(true);
-        mUnreadCount --;
+        if (!mList.get(id).wasRead()){
+            mList.get(id).setRead(true);
+             mUnreadCount --;
+        }
     }
 
     public int getUnreadCount(){
