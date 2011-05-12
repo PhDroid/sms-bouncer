@@ -1,7 +1,12 @@
 package ezhun.smsb.storage;
 
 public class MessageProviderHelper {
+    private static IMessageProvider mProvider;
     public static IMessageProvider getMessageProvider(){
-        return new TestMessageProvider();
+        if(mProvider == null){
+            mProvider = new TestMessageProvider();
+        }
+
+        return mProvider;
     }
 }

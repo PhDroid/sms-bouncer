@@ -13,8 +13,6 @@ import ezhun.smsb.storage.MessageProviderHelper;
 
 public class ViewMessageActivity extends Activity {
 
-    IMessageProvider mProvider;
-
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_message);
@@ -36,10 +34,6 @@ public class ViewMessageActivity extends Activity {
 
 
     protected IMessageProvider GetMessageProvider() {
-         if (mProvider == null){
-             mProvider = MessageProviderHelper.getMessageProvider();
-         }
-
-         return mProvider;
+        return MessageProviderHelper.getMessageProvider();
     }
 }

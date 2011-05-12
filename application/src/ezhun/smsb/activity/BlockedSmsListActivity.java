@@ -14,8 +14,6 @@ import ezhun.smsb.storage.MessageProviderHelper;
 import java.util.ArrayList;
 
 public class BlockedSmsListActivity extends ListActivity {
-    IMessageProvider mProvider;
-
 	/**
 	 * Called when the activity is first created.
 	 */
@@ -40,11 +38,7 @@ public class BlockedSmsListActivity extends ListActivity {
 	}
 
     protected IMessageProvider GetMessageProvider() {
-         if (mProvider == null){
-             mProvider = MessageProviderHelper.getMessageProvider();
-         }
-
-         return mProvider;
+         return MessageProviderHelper.getMessageProvider();
     }
 
     @Override

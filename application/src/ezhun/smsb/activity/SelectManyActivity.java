@@ -17,8 +17,8 @@ import java.util.ArrayList;
 
 
 public class SelectManyActivity extends ListActivity {
-    IMessageProvider mProvider;
 
+    @Override
     public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
         ArrayList<SmsPojo> messages = GetMessageProvider().getMessages();
@@ -44,10 +44,6 @@ public class SelectManyActivity extends ListActivity {
 	}
 
     protected IMessageProvider GetMessageProvider() {
-         if (mProvider == null){
-             mProvider = MessageProviderHelper.getMessageProvider();
-         }
-
-         return mProvider;
+         return MessageProviderHelper.getMessageProvider();
     }
 }
