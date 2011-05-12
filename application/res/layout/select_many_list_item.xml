@@ -23,16 +23,23 @@
     		  android:layout_alignParentRight="true" 
     		  android:layout_alignParentTop="true"
     		  android:textSize="12sp"
+              android:layout_marginRight="40dp"
               android:textColor="@color/received_text">
     </TextView>
     <TextView android:id="@+id/messageTextView"
     		  android:layout_height="wrap_content"
     		  android:text="TextView" 
-    		  android:layout_width="fill_parent"
+    		  android:layout_width="275dp"
     		  android:layout_alignParentTop="true"
     		  android:layout_marginTop="25dp"
               android:singleLine="true"
               android:textColor="@color/message_text"
     		  android:textSize="16sp">
     </TextView>
+    <CheckBox android:id="@+id/selectMessageCheckBox"
+              android:layout_height="fill_parent"
+    		  android:layout_width="wrap_content"
+              android:layout_alignParentRight="true"
+              >
+    </CheckBox>
 </RelativeLayout>

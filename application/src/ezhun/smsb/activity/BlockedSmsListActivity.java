@@ -10,7 +10,6 @@ import ezhun.smsb.R;
 import ezhun.smsb.SmsPojo;
 import ezhun.smsb.storage.IMessageProvider;
 import ezhun.smsb.storage.MessageProviderHelper;
-import ezhun.smsb.storage.TestMessageProvider;
 
 import java.util.ArrayList;
 
@@ -68,6 +67,10 @@ public class BlockedSmsListActivity extends ListActivity {
 				Intent intent = new Intent(BlockedSmsListActivity.this, SettingsActivity.class);
 				startActivity(intent);
 				return true;
+            case R.id.select_many_item:
+                Intent smIntent = new Intent(BlockedSmsListActivity.this, SelectManyActivity.class);
+				startActivity(smIntent);
+                return true;
 			default:
 				return super.onOptionsItemSelected(item);
 		}
