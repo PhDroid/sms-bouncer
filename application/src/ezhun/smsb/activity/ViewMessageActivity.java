@@ -1,5 +1,6 @@
 package ezhun.smsb.activity;
 
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -27,7 +28,12 @@ public class ViewMessageActivity extends Activity {
             TextView message = (TextView) findViewById(R.id.messageTextView);
 
             sender.setText(sms.getSender());
-            received.setText(String.valueOf(sms.getReceived()));
+            received.setText(DateUtils.getRelativeDateTimeString(
+                    this,
+                    sms.getReceived(),
+                    DateUtils.MINUTE_IN_MILLIS,
+                    DateUtils.WEEK_IN_MILLIS,
+                    DateUtils.FORMAT_ABBREV_RELATIVE));
             message.setText(sms.getMessage());
 
             GetMessageProvider().read(id);

@@ -5,21 +5,37 @@
       android:layout_height="match_parent"
       android:padding="3dp"
       android:background="@color/main_list_message_background">
+    <Button android:id="@+id/prevButton"
+    		android:layout_alignParentTop="true"
+    		android:layout_alignParentLeft="true"
+    		android:layout_height="wrap_content"
+    		android:layout_width="100dp"
+    		android:text="@string/prev">
+	</Button>
+    <Button android:id="@+id/nextButton"
+    		android:layout_alignParentTop="true"
+    		android:layout_alignParentRight="true"
+    		android:layout_height="wrap_content"
+    		android:layout_width="100dp"
+    		android:text="@string/next">
+	</Button>
     <TextView android:id="@+id/senderTextView"
     		  android:layout_height="wrap_content"
-    		  android:text="TextView"
     		  android:layout_width="wrap_content"
     		  android:layout_alignParentTop="true"
+              android:layout_marginTop="50dp"
     		  android:textColor="@color/sender_text"
-    		  android:textSize="16sp">
+    		  android:textSize="20sp"
+              android:textStyle="bold"
+              >
     </TextView>
     <TextView android:id="@+id/receivedTimeTextView"
     		  android:layout_height="wrap_content"
-    		  android:text="TextView"
     		  android:layout_width="wrap_content"
     		  android:layout_alignParentRight="true"
     		  android:layout_alignParentTop="true"
-    		  android:textSize="12sp"
+              android:layout_marginTop="50dp"
+    		  android:textSize="14sp"
               android:textColor="@color/received_text">
     </TextView>
     <TextView android:id="@+id/messageTextView"
@@ -27,9 +43,9 @@
     		  android:text="TextView"
     		  android:layout_width="fill_parent"
     		  android:layout_alignParentTop="true"
-    		  android:layout_marginTop="25dp"
+    		  android:layout_marginTop="75dp"
               android:textColor="@color/message_text"
-    		  android:textSize="16sp">
+    		  android:textSize="18sp">
     </TextView>
     <Button android:id="@+id/replyButton" 
     		android:layout_alignParentBottom="true"
