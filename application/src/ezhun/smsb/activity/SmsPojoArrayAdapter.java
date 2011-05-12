@@ -3,6 +3,7 @@ package ezhun.smsb.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Typeface;
+import android.text.format.DateUtils;
 import android.text.format.Time;
 import android.text.method.DateTimeKeyListener;
 import android.view.LayoutInflater;
@@ -13,6 +14,8 @@ import android.widget.TextView;
 import ezhun.smsb.R;
 import ezhun.smsb.SmsPojo;
 
+import java.security.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 public class SmsPojoArrayAdapter extends ArrayAdapter<SmsPojo> {
@@ -65,7 +68,12 @@ public class SmsPojoArrayAdapter extends ArrayAdapter<SmsPojo> {
 
         SmsPojo sms = this.getItem(position);
         sender.setText(sms.getSender());
-        received.setText(String.valueOf(sms.getReceived()));
+        received.setText(DateUtils.getRelativeDateTimeString(
+                ctx,
+                sms.getReceived(),
+                DateUtils.MINUTE_IN_MILLIS,
+                DateUtils.WEEK_IN_MILLIS,
+                DateUtils.FORMAT_ABBREV_RELATIVE));
         message.setText(sms.getMessage());
 
         if(!sms.wasRead()){
