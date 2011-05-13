@@ -49,14 +49,14 @@
     </TextView>
     <Button android:id="@+id/replyButton" 
     		android:layout_alignParentBottom="true"
-    		android:layout_height="wrap_content" 
+    		android:layout_height="50dp"
     		android:layout_width="fill_parent"
             android:layout_marginBottom="110dp"
     		android:text="@string/reply">
 	</Button>
     <Button android:id="@+id/notSpanButton"
     		android:layout_alignParentBottom="true"
-    		android:layout_height="wrap_content"
+    		android:layout_height="50dp"
     		android:layout_width="fill_parent"
             android:layout_marginBottom="55dp"
     		android:text="@string/not_spam"
@@ -64,7 +64,7 @@
 	</Button>
     <Button android:id="@+id/deleteButton"
     		android:layout_alignParentBottom="true"
-    		android:layout_height="wrap_content"
+    		android:layout_height="50dp"
     		android:layout_width="fill_parent"
     		android:text="@string/delete"
             android:onClick="deleteMessage">
