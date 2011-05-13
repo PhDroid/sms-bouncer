@@ -3,15 +3,15 @@ package ezhun.smsb.storage;
 import android.telephony.SmsManager;
 import ezhun.smsb.SmsPojo;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.*;
 
 public class TestMessageProvider implements IMessageProvider{
     ArrayList<SmsPojo> mList;
+    Hashtable<SmsPojo, SmsAction> mActions;
     int mUnreadCount = 0;
 
     public TestMessageProvider(){
+        mActions = new Hashtable<SmsPojo, SmsAction>();
         mList = new ArrayList<SmsPojo>();
         Calendar c = Calendar.getInstance();
 
@@ -77,6 +77,24 @@ public class TestMessageProvider implements IMessageProvider{
 
     public ArrayList<SmsPojo> getMessages() {
          return mList;
+    }
+
+    public Hashtable<SmsPojo, SmsAction> getActionMessages(){
+         return mActions;
+    }
+
+    public void delete(int id){
+        mActions.clear();
+        SmsPojo sms = mList.get(id);
+        mActions.put(sms, SmsAction.Deleted);
+        mList.remove(id);
+    }
+
+    public void notSpam(int id){
+        mActions.clear();
+        SmsPojo sms = mList.get(id);
+        mActions.put(sms, SmsAction.MarkedAsNotSpam);
+        mList.remove(id);
     }
 
     public SmsPojo getMessage(int id) {

@@ -13,15 +13,16 @@ import ezhun.smsb.storage.IMessageProvider;
 import ezhun.smsb.storage.MessageProviderHelper;
 
 public class ViewMessageActivity extends Activity {
+    private int mId = -1;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_message);
 
         Bundle b = getIntent().getExtras();
-        int id = b.getInt("id", -1);
-        if(id >= 0){
-            SmsPojo sms =  GetMessageProvider().getMessage(id);
+        mId = b.getInt("id", -1);
+        if(mId >= 0){
+            SmsPojo sms =  GetMessageProvider().getMessage(mId);
 
             TextView sender = (TextView) findViewById(R.id.senderTextView);
             TextView received = (TextView) findViewById(R.id.receivedTimeTextView);
@@ -36,7 +37,7 @@ public class ViewMessageActivity extends Activity {
                     DateUtils.FORMAT_ABBREV_RELATIVE));
             message.setText(sms.getMessage());
 
-            GetMessageProvider().read(id);
+            GetMessageProvider().read(mId);
 
             setTitle(R.string.app_name);
             setTitle(String.format(
@@ -50,4 +51,15 @@ public class ViewMessageActivity extends Activity {
     protected IMessageProvider GetMessageProvider() {
         return MessageProviderHelper.getMessageProvider();
     }
+
+    public void deleteMessage(View view) {
+        GetMessageProvider().delete(mId);
+        finish();
+    }
+
+    public void markMessageAsNotSpam(View view) {
+        GetMessageProvider().notSpam(mId);
+        finish();
+    }
+
 }

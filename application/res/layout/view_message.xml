@@ -59,12 +59,14 @@
     		android:layout_height="wrap_content"
     		android:layout_width="fill_parent"
             android:layout_marginBottom="55dp"
-    		android:text="@string/not_spam">
+    		android:text="@string/not_spam"
+            android:onClick="markMessageAsNotSpam">
 	</Button>
     <Button android:id="@+id/deleteButton"
     		android:layout_alignParentBottom="true"
     		android:layout_height="wrap_content"
     		android:layout_width="fill_parent"
-    		android:text="@string/delete">
+    		android:text="@string/delete"
+            android:onClick="deleteMessage">
 	</Button>
 </RelativeLayout>

@@ -1,5 +1,6 @@
 package ezhun.smsb.activity;
 
+import android.app.Activity;
 import android.app.ListActivity;
 import android.os.Bundle;
 import android.view.*;
@@ -10,16 +11,19 @@ import ezhun.smsb.R;
 import ezhun.smsb.SmsPojo;
 import ezhun.smsb.storage.IMessageProvider;
 import ezhun.smsb.storage.MessageProviderHelper;
+import ezhun.smsb.storage.SmsAction;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 
-public class BlockedSmsListActivity extends ListActivity {
+public class BlockedSmsListActivity extends Activity {
 	/**
 	 * Called when the activity is first created.
 	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+        setContentView(R.layout.main);
     }
 
     protected IMessageProvider GetMessageProvider() {
@@ -30,10 +34,33 @@ public class BlockedSmsListActivity extends ListActivity {
 	protected void onStart() {
 		super.onStart();
 
-        ArrayList<SmsPojo> messages = GetMessageProvider().getMessages();
+        Hashtable<SmsPojo, SmsAction> actions = GetMessageProvider().getActionMessages();
+        if(actions.size() > 0){
+            Button b = (Button)findViewById(R.id.undoButton);
+            String action = "edited";
+            if(!actions.contains(SmsAction.MarkedAsNotSpam)){
+                action = "deleted";
+            }
+            if(!actions.contains(SmsAction.Deleted)){
+                action = "marked as not spam";
+            }
+            b.setText(
+                String.format(
+                        "%s message%s %s. (Undo)",
+                        Integer.toString(actions.size()),
+                        actions.size() > 1 ? "s were" : " was",
+                        action
+                    ));
+            b.setVisibility(View.VISIBLE);
+        }
+        else{
+            Button b = (Button)findViewById(R.id.undoButton);
+            b.setVisibility(View.GONE);
+        }
 
-        setListAdapter(new SmsPojoArrayAdapter(this, R.layout.main_list_item, messages));
-        ListView lv = getListView();
+        ArrayList<SmsPojo> messages = GetMessageProvider().getMessages();
+        ListView lv = (ListView)findViewById(R.id.messagesListView);
+        lv.setAdapter(new SmsPojoArrayAdapter(this, R.layout.main_list_item, messages));
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
