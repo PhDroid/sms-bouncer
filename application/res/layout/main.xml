@@ -9,7 +9,8 @@
     		android:layout_width="fill_parent"
             android:layout_alignParentTop="true"
             android:layout_marginTop="5dp"
-            android:text="Undo">
+            android:text="Undo"
+            android:onClick="undo">
     </Button>
     <ListView android:id="@+id/messagesListView"
             android:layout_width="fill_parent"

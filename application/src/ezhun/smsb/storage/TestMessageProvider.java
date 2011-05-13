@@ -4,6 +4,7 @@ import android.telephony.SmsManager;
 import ezhun.smsb.SmsPojo;
 
 import java.util.*;
+import java.util.zip.Inflater;
 
 public class TestMessageProvider implements IMessageProvider{
     ArrayList<SmsPojo> mList;
@@ -110,5 +111,12 @@ public class TestMessageProvider implements IMessageProvider{
 
     public int getUnreadCount(){
         return mUnreadCount;
+    }
+
+    public void undo(){
+        for(SmsPojo sms : mActions.keySet()){
+            mList.add(0, sms);
+        }
+        mActions.clear();
     }
 }

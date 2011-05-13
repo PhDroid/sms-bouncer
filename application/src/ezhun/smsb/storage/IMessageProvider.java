@@ -20,4 +20,6 @@ public interface IMessageProvider {
     void notSpam(int id);
 
     int getUnreadCount();
+
+    void undo();
 }
