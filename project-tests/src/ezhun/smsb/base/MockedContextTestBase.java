@@ -22,6 +22,11 @@ public class MockedContextTestBase extends AndroidTestCase {
 		public Resources getResources() {
 			return getProperContext().getResources();
 		}
+
+		@Override
+		public SharedPreferences getSharedPreferences(String name, int mode) {
+			return getProperContext().getSharedPreferences(name, mode);
+		}
 	}
 
 	private class BroadcastContext extends IsolatedContext {
