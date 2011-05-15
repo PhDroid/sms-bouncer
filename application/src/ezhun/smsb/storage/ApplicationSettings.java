@@ -18,7 +18,7 @@ public class ApplicationSettings {
 	private boolean displayNotification;
 	private DeleteAfter deleteAfter;
 
-	public Context getContext() {
+	private Context getContext() {
 		return context;
 	}
 
@@ -71,7 +71,7 @@ public class ApplicationSettings {
 	public void setDisplayNotification(boolean value) {
 		synchronized (lock) {
 			setDirty(true);
-			SharedPreferences.Editor e = preferencesProvider.edit();
+			SharedPreferences.Editor e = getPreferencesProvider().edit();
 			e.putBoolean(DISPLAY_NOTIFICATION_VALUE, value);
 			commit(e);
 		}
@@ -79,8 +79,8 @@ public class ApplicationSettings {
 
 	public void setDeleteAfter(DeleteAfter value) {
 		synchronized (lock) {
-		    setDirty(true);
-			SharedPreferences.Editor e = preferencesProvider.edit();
+			setDirty(true);
+			SharedPreferences.Editor e = getPreferencesProvider().edit();
 			e.putString(DELETE_MESSAGES_AFTER_VALUE, value.name());
 			commit(e);
 		}
