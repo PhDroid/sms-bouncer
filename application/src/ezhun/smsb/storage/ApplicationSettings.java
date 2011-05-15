@@ -14,31 +14,22 @@ public class ApplicationSettings {
 	private Context context;
 	private SharedPreferences preferencesProvider;
 	private final Object lock = new Object();
-	private boolean isDirty = true;
-	private boolean displayNotification;
-	private DeleteAfter deleteAfter;
+
+	private Boolean displayNotification = null;
+	private DeleteAfter deleteAfter = null;
 
 	private Context getContext() {
 		return context;
 	}
 
-	private boolean isDirty() {
-		return isDirty;
-	}
-
-	private void setDirty(boolean dirty) {
-		isDirty = dirty;
-	}
-
 	public boolean getDisplayNotification() {
 		synchronized (lock) {
-			if (!isDirty()) {
+			if (displayNotification != null) {
 				return displayNotification;
 			} else {
 				displayNotification = getPreferencesProvider().getBoolean(
 						DISPLAY_NOTIFICATION_VALUE,
 						DefaultApplicationSettings.DISPLAY_NOTIFICATION_VALUE);
-				setDirty(false);
 				return displayNotification;
 			}
 		}
@@ -46,14 +37,13 @@ public class ApplicationSettings {
 
 	public DeleteAfter getDeleteAfter() {
 		synchronized (lock) {
-			if (!isDirty()) {
+			if (deleteAfter != null) {
 				return deleteAfter;
 			} else {
 				String res = getPreferencesProvider().getString(
 						DELETE_MESSAGES_AFTER_VALUE,
 						DefaultApplicationSettings.DELETE_MESSAGES_AFTER_VALUE.name());
 				deleteAfter = Enum.valueOf(DeleteAfter.class, res);
-				setDirty(false);
 				return deleteAfter;
 			}
 		}
@@ -70,7 +60,7 @@ public class ApplicationSettings {
 
 	public void setDisplayNotification(boolean value) {
 		synchronized (lock) {
-			setDirty(true);
+			displayNotification = null;
 			SharedPreferences.Editor e = getPreferencesProvider().edit();
 			e.putBoolean(DISPLAY_NOTIFICATION_VALUE, value);
 			commit(e);
@@ -79,7 +69,7 @@ public class ApplicationSettings {
 
 	public void setDeleteAfter(DeleteAfter value) {
 		synchronized (lock) {
-			setDirty(true);
+			deleteAfter = null;
 			SharedPreferences.Editor e = getPreferencesProvider().edit();
 			e.putString(DELETE_MESSAGES_AFTER_VALUE, value.name());
 			commit(e);
