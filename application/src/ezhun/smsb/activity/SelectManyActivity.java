@@ -16,11 +16,12 @@ import ezhun.smsb.storage.MessageProviderHelper;
 import java.util.ArrayList;
 
 
-public class SelectManyActivity extends ListActivity {
+public class SelectManyActivity extends Activity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+        setContentView(R.layout.select_many);
 	}
 
     @Override
@@ -28,29 +29,22 @@ public class SelectManyActivity extends ListActivity {
 		super.onStart();
 
         ArrayList<SmsPojo> messages = GetMessageProvider().getMessages();
-        setListAdapter(new SmsPojoArrayAdapter(this, R.layout.select_many_list_item, messages));
-        /*ListView lv = getListView();
-
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(!view.isSelected()){
-                    view.setSelected(true);
-                    //CheckBox cb = (CheckBox)view.findViewById(R.id.selectMessageCheckBox);
-                    //cb.setChecked(true);
-                }
-                else{
-                    view.setSelected(false);
-                    //CheckBox cb = (CheckBox)view.findViewById(R.id.selectMessageCheckBox);
-                    //cb.setChecked(false);
-                }
-            }
-        });*/
+        ListView lv = (ListView)findViewById(R.id.messagesListView);
+        lv.setAdapter(new SmsPojoArrayAdapter(this, R.layout.select_many_list_item, messages));
+        lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
         setTitle(R.string.app_name);
         setTitle(String.format(
                     "%s (%s)",
                     getTitle().toString(),
                     Integer.toString(GetMessageProvider().getUnreadCount())));
+    }
+
+    //@Override
+    public void onListItemClick(ListView lv, View view, int position, long id){
+        view.setSelected(!view.isSelected());
+        //CheckBox cb = (CheckBox)view.findViewById(R.id.selectMessageCheckBox);
+        //cb.setChecked(!cb.isChecked());
     }
 
 
