@@ -31,7 +31,6 @@ public class SelectManyActivity extends Activity {
         ArrayList<SmsPojo> messages = GetMessageProvider().getMessages();
         ListView lv = (ListView)findViewById(R.id.messagesListView);
         lv.setAdapter(new SmsPojoArrayAdapter(this, R.layout.select_many_list_item, messages));
-        lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
         setTitle(R.string.app_name);
         setTitle(String.format(

@@ -1,0 +1,8 @@
+<resources>
+    <style name="non_read_message">
+         <item name="android:textStyle">bold</item>
+    </style>
+    <style name="read_message">
+         <item name="android:textStyle">normal</item>
+    </style>
+</resources>

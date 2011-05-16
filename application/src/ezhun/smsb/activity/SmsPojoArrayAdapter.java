@@ -8,11 +8,13 @@ import android.text.format.DateUtils;
 import android.text.format.Time;
 import android.text.method.DateTimeKeyListener;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.ListView;
 import android.widget.TextView;
 import ezhun.smsb.R;
 import ezhun.smsb.SmsPojo;
@@ -93,10 +95,10 @@ public class SmsPojoArrayAdapter extends ArrayAdapter<SmsPojo> {
                 DateUtils.FORMAT_ABBREV_RELATIVE));
         holder.message.setText(sms.getMessage());
 
-        holder.sender.setTypeface(holder.sender.getTypeface(), sms.wasRead() ? 0 : 1);
-        holder.message.setTypeface(holder.message.getTypeface(), sms.wasRead() ? 0 : 1);
+        int style = sms.wasRead() ? R.style.read_message : R.style.non_read_message;
+        holder.sender.setTextAppearance(ctx, style);
+        holder.message.setTextAppearance(ctx, style);
 
         return (convertView);
-
     }
 }

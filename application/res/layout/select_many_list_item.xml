@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<ezhun.smsb.widget.CheckableRelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
@@ -9,39 +9,44 @@
 	android:paddingLeft="6dp"
 	android:paddingRight="6dp"
 	android:checkable="true"
-	android:focusable="false">
+    android:focusable="false"
+    android:selectable="false">
 	<TextView android:id="@+id/senderTextView"
 			android:layout_height="wrap_content"
 			android:text="TextView"
 			android:layout_width="wrap_content"
 			android:layout_alignParentTop="true"
 			android:textColor="@color/sender_text"
-			android:textSize="18sp">
+			android:textSize="18sp"
+            android:focusable="false">
 	</TextView>
 	<TextView android:id="@+id/receivedTimeTextView"
-			  android:layout_height="wrap_content"
-			  android:text="TextView"
-			  android:layout_width="wrap_content"
-			  android:layout_alignParentRight="true"
-			  android:layout_alignParentTop="true"
-			  android:textSize="12sp"
-			  android:layout_marginRight="40dp"
-			  android:textColor="@color/received_text">
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:layout_width="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:textSize="12sp"
+            android:layout_marginRight="40dp"
+            android:textColor="@color/received_text"
+            android:focusable="false"
+            android:visibility="gone">
 	</TextView>
 	<TextView android:id="@+id/messageTextView"
-			  android:layout_height="wrap_content"
-			  android:text="TextView"
-			  android:layout_width="270dp"
-			  android:layout_alignParentTop="true"
-			  android:layout_marginTop="25dp"
-			  android:singleLine="true"
-			  android:textColor="@color/message_text"
-			  android:textSize="16sp">
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:layout_width="270dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="25dp"
+            android:singleLine="true"
+            android:textColor="@color/message_text"
+            android:textSize="16sp"
+            android:focusable="false">
 	</TextView>
-	<CheckBox android:id="@+id/selectMessageCheckBox"
+	<ezhun.smsb.widget.QuirkyCheckbox android:id="@+id/selectMessageCheckBox"
 			  android:layout_height="fill_parent"
 			  android:layout_width="wrap_content"
 			  android:layout_alignParentRight="true"
 			  android:focusable="false">
-	</CheckBox>
-</RelativeLayout>
+	</ezhun.smsb.widget.QuirkyCheckbox>
+</ezhun.smsb.widget.CheckableRelativeLayout>

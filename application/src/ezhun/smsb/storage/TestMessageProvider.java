@@ -73,7 +73,15 @@ public class TestMessageProvider implements IMessageProvider{
         sms.setReceived(c.getTime().getTime());
         mList.add(sms);
 
-        mUnreadCount = 6;
+        sms = new SmsPojo();
+        sms.setMessage("Vash rakhunok na 8.05.2011 stanovyt 24 uah.");
+        sms.setSender("KYIVSTAR");
+        sms.setRead(true);
+        c.add(Calendar.MINUTE, -20);
+        sms.setReceived(c.getTime().getTime());
+        mList.add(sms);
+
+        mUnreadCount = 7;
     }
 
     public ArrayList<SmsPojo> getMessages() {
