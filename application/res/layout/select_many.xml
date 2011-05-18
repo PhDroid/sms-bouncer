@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical"
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
@@ -7,8 +7,34 @@
 	<ListView android:id="@+id/messagesListView"
 			android:layout_width="fill_parent"
 			android:layout_height="fill_parent"
-            android:choiceMode="multipleChoice"
-            android:focusable="false"
+			android:choiceMode="multipleChoice"
+			android:focusable="false"
 			>
 	</ListView>
-</LinearLayout>
+	<RelativeLayout android:id="@+id/listFooter"
+				android:layout_width="fill_parent"
+				android:layout_height="100dp"
+				android:layout_alignParentBottom="true"
+				android:visibility="gone"
+
+				android:paddingBottom="5dp"
+				android:paddingTop="5dp"
+				android:paddingLeft="6dp"
+				android:paddingRight="6dp"
+			>
+		<Button android:id="@+id/notSpamButton"
+				android:layout_width="110dp"
+				android:layout_height="80dp"
+				android:layout_alignParentLeft="true"
+				android:layout_alignParentTop="true"
+				android:text="Not spam">
+		</Button>
+		<Button android:id="@+id/deleteButton"
+				android:layout_width="110dp"
+				android:layout_height="80dp"
+				android:layout_alignParentRight="true"
+				android:layout_alignParentTop="true"
+				android:text="Delete">
+		</Button>
+	</RelativeLayout>
+</RelativeLayout>

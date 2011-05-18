@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ezhun.smsb.widget.CheckableRelativeLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="match_parent"
-	android:layout_height="wrap_content"
-	android:background="@drawable/message_background"
-	android:paddingBottom="5dp"
-	android:paddingTop="5dp"
-	android:paddingLeft="6dp"
-	android:paddingRight="6dp"
-	android:checkable="true"
-    android:focusable="false"
-    android:selectable="false">
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/message_background"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:paddingLeft="6dp"
+        android:paddingRight="6dp"
+        android:checkable="true"
+        android:focusable="false"
+        android:selectable="false">
 	<TextView android:id="@+id/senderTextView"
 			android:layout_height="wrap_content"
 			android:text="TextView"

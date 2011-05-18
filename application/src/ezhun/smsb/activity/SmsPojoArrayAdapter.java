@@ -3,6 +3,8 @@ package ezhun.smsb.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Debug;
 import android.text.format.DateUtils;
 import android.text.format.Time;
@@ -18,15 +20,17 @@ import android.widget.ListView;
 import android.widget.TextView;
 import ezhun.smsb.R;
 import ezhun.smsb.SmsPojo;
+import ezhun.smsb.filter.ISpamFilter;
+import ezhun.smsb.widget.CheckableRelativeLayout;
 
 import java.security.Timestamp;
 import java.util.Date;
 import java.util.List;
 
 public class SmsPojoArrayAdapter extends ArrayAdapter<SmsPojo> {
-    Activity ctx;
-    int mViewId;
-    LayoutInflater mInflater;
+    protected Activity ctx;
+    protected int mViewId;
+    protected LayoutInflater mInflater;
 
     public SmsPojoArrayAdapter(Activity context, int textViewResourceId) {
         super(context, textViewResourceId);

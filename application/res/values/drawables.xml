@@ -1,0 +1,4 @@
+<resources>
+    <drawable name="selected_list_item_background">@drawable/list_selector_background_selected</drawable>
+    <drawable name="list_item_background">@drawable/list_selector_background_default</drawable>
+</resources>
