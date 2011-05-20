@@ -54,7 +54,7 @@
             android:layout_marginBottom="110dp"
     		android:text="@string/reply">
 	</Button>
-    <Button android:id="@+id/notSpanButton"
+    <Button android:id="@+id/notSpamButton"
     		android:layout_alignParentBottom="true"
     		android:layout_height="50dp"
     		android:layout_width="fill_parent"

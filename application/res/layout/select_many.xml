@@ -13,8 +13,11 @@
 	</ListView>
 	<RelativeLayout android:id="@+id/listFooter"
 				android:layout_width="fill_parent"
-				android:layout_height="100dp"
+				android:layout_height="65dp"
 				android:layout_alignParentBottom="true"
+				android:layout_weight="2"
+
+				android:background="@drawable/buttons_background"
 				android:visibility="gone"
 
 				android:paddingBottom="5dp"
@@ -23,17 +26,19 @@
 				android:paddingRight="6dp"
 			>
 		<Button android:id="@+id/notSpamButton"
-				android:layout_width="110dp"
-				android:layout_height="80dp"
+				android:layout_width="150dp"
+				android:layout_height="60dp"
 				android:layout_alignParentLeft="true"
 				android:layout_alignParentTop="true"
+				android:onClick="markMessagesAsNotSpam"
 				android:text="Not spam">
 		</Button>
 		<Button android:id="@+id/deleteButton"
-				android:layout_width="110dp"
-				android:layout_height="80dp"
+				android:layout_width="150dp"
+				android:layout_height="60dp"
 				android:layout_alignParentRight="true"
 				android:layout_alignParentTop="true"
+				android:onClick="deleteMessages"
 				android:text="Delete">
 		</Button>
 	</RelativeLayout>

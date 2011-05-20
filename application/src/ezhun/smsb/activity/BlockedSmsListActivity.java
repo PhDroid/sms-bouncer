@@ -54,11 +54,12 @@ public class BlockedSmsListActivity extends Activity {
                         actions.size() > 1 ? "s were" : " was",
                         action
                     ));
-            b.setVisibility(View.VISIBLE);
+            LinearLayout l = (LinearLayout)findViewById(R.id.buttonLayout);
+            l.setVisibility(View.VISIBLE);
         }
         else{
-            Button b = (Button)findViewById(R.id.undoButton);
-            b.setVisibility(View.GONE);
+            LinearLayout l = (LinearLayout)findViewById(R.id.buttonLayout);
+            l.setVisibility(View.GONE);
         }
 
         ArrayList<SmsPojo> messages = GetMessageProvider().getMessages();
@@ -76,14 +77,18 @@ public class BlockedSmsListActivity extends Activity {
             }
         });
 
+        updateTitle();
+	}
+
+    private void updateTitle() {
         setTitle(R.string.app_name);
         setTitle(String.format(
                     "%s (%s)",
                     getTitle().toString(),
                     Integer.toString(GetMessageProvider().getUnreadCount())));
-	}
+    }
 
-	@Override
+    @Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.list_menu, menu);
@@ -109,8 +114,9 @@ public class BlockedSmsListActivity extends Activity {
 
     public void undo(View view) {
         GetMessageProvider().undo();
-        Button b = (Button)findViewById(R.id.undoButton);
-        b.setVisibility(View.GONE);
+        LinearLayout l = (LinearLayout)findViewById(R.id.buttonLayout);
+        l.setVisibility(View.GONE);
         smsPojoArrayAdapter.notifyDataSetChanged();
+        updateTitle();
     }
 }

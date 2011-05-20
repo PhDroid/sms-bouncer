@@ -11,13 +11,17 @@ public interface IMessageProvider {
 
     Hashtable<SmsPojo, SmsAction> getActionMessages();
 
-    SmsPojo getMessage(int id);
+    SmsPojo getMessage(long id);
 
-    void read(int id);
+    void read(long id);
 
-    void delete(int id);
+    void delete(long id);
 
-    void notSpam(int id);
+    void delete(long[] ids);
+
+    void notSpam(long id);
+
+    void notSpam(long[] ids);
 
     int getUnreadCount();
 

@@ -3,12 +3,11 @@ package ezhun.smsb.activity;
 import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.util.SparseBooleanArray;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.CheckBox;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
+import android.widget.*;
 import ezhun.smsb.R;
 import ezhun.smsb.SmsPojo;
 import ezhun.smsb.storage.IMessageProvider;
@@ -25,6 +24,11 @@ public class SelectManyActivity extends Activity {
 		super.onCreate(savedInstanceState);
         setContentView(R.layout.select_many);
         listFooter = findViewById(R.id.listFooter);
+        Button button = (Button)findViewById(R.id.deleteButton);
+        button.getBackground().setColorFilter(0xFFFF9999, PorterDuff.Mode.MULTIPLY);
+        button = (Button)findViewById(R.id.notSpamButton);
+        button.getBackground().setColorFilter(0xFF99FF99, PorterDuff.Mode.MULTIPLY);
+
 	}
 
     @Override
@@ -36,7 +40,14 @@ public class SelectManyActivity extends Activity {
         lv.setAdapter(new SmsPojoArrayAdapter(this, R.layout.select_many_list_item, messages));
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(lv.getCheckedItemPositions().size() > 0){
+                int size = 0;
+                for(int i =0; i < lv.getChildCount() ; i++){
+                    if (lv.isItemChecked(i)){
+                        size++;
+                    }
+                }
+
+                if(size > 0){
                     listFooter.setVisibility(View.VISIBLE);
                 } else {
                     listFooter.setVisibility(View.GONE);
@@ -51,15 +62,29 @@ public class SelectManyActivity extends Activity {
                     Integer.toString(GetMessageProvider().getUnreadCount())));
     }
 
-    //@Override
-    public void onListItemClick(ListView lv, View view, int position, long id){
-        view.setSelected(!view.isSelected());
-        //CheckBox cb = (CheckBox)view.findViewById(R.id.selectMessageCheckBox);
-        //cb.setChecked(!cb.isChecked());
-    }
-
-
     protected IMessageProvider GetMessageProvider() {
          return MessageProviderHelper.getMessageProvider();
+    }
+
+    public void deleteMessages(View view) {
+        ListView lv = (ListView)findViewById(R.id.messagesListView);
+        SparseBooleanArray positions = lv.getCheckedItemPositions();
+        long[] ids = new long[positions.size()];
+        for(int i=0; i<positions.size(); i++){
+            ids[i] = positions.keyAt(i);
+        }
+        GetMessageProvider().delete(ids);
+        finish();
+    }
+
+    public void markMessagesAsNotSpam(View view) {
+        ListView lv = (ListView)findViewById(R.id.messagesListView);
+        SparseBooleanArray positions = lv.getCheckedItemPositions();
+        long[] ids = new long[positions.size()];
+        for(int i=0; i<positions.size(); i++){
+            ids[i] = positions.keyAt(i);
+        }
+        GetMessageProvider().notSpam(ids);
+        finish();
     }
 }
