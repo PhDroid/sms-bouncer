@@ -15,11 +15,11 @@ import java.util.ArrayList;
 /**
  * Please, write short description of what this file is for.
  */
-public class SettingsSpinnerAdapter extends BaseAdapter implements SpinnerAdapter {
+public class ClearAfterSpinnerAdapter extends BaseAdapter implements SpinnerAdapter {
 	ArrayList<String> items;
 	Context context;
 
-	public SettingsSpinnerAdapter(Context context) {
+	public ClearAfterSpinnerAdapter(Context context) {
 		this.context = context;
 		this.items = new ArrayList<String>();
 		this.items.add(DeleteAfter.SevenDays.toString());
