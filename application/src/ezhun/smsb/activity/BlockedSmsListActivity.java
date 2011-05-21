@@ -1,7 +1,6 @@
 package ezhun.smsb.activity;
 
 import android.app.Activity;
-import android.app.ListActivity;
 import android.os.Bundle;
 import android.view.*;
 import android.widget.*;
@@ -9,6 +8,7 @@ import android.content.Intent;
 import android.view.Menu;
 import ezhun.smsb.R;
 import ezhun.smsb.SmsPojo;
+import ezhun.smsb.activity.notify.TrayNotifier;
 import ezhun.smsb.storage.IMessageProvider;
 import ezhun.smsb.storage.MessageProviderHelper;
 import ezhun.smsb.storage.SmsAction;
