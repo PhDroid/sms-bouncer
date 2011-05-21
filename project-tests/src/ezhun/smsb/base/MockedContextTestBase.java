@@ -10,22 +10,34 @@ import android.test.IsolatedContext;
 import android.test.RenamingDelegatingContext;
 import android.test.mock.MockContentResolver;
 import android.test.mock.MockContext;
+import ezhun.smsb.base.util.InMemoryPreferences;
 
+import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.Map;
 
 /**
  * This is a base class for all TestCases with ability to use MockContext instead of real one.
  */
 public class MockedContextTestBase extends AndroidTestCase {
 	private class ResourcefulMockContext extends MockContext {
+		Map<String, SharedPreferences> inMemoryPreferences;
+
+		public ResourcefulMockContext() {
+			inMemoryPreferences = new HashMap<String, SharedPreferences>();
+		}
+
 		@Override
 		public Resources getResources() {
 			return getProperContext().getResources();
 		}
 
 		@Override
-		public SharedPreferences getSharedPreferences(String name, int mode) {
-			return getProperContext().getSharedPreferences(name, mode);
+		public synchronized SharedPreferences getSharedPreferences(String name, int mode) {
+			if (!inMemoryPreferences.containsKey(name)) {
+				inMemoryPreferences.put(name, new InMemoryPreferences());
+			}
+			return inMemoryPreferences.get(name);
 		}
 	}
 

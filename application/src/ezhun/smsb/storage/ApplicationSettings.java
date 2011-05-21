@@ -49,7 +49,7 @@ public class ApplicationSettings {
 		}
 	}
 
-	private SharedPreferences getPreferencesProvider() {
+	protected SharedPreferences getPreferencesProvider() {
 		return preferencesProvider;
 	}
 
