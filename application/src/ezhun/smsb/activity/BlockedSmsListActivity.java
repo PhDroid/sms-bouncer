@@ -36,6 +36,7 @@ public class BlockedSmsListActivity extends Activity {
     @Override
 	protected void onStart() {
 		super.onStart();
+	    new TrayNotifier().Notify(getApplicationContext());
 
         Hashtable<SmsPojo, SmsAction> actions = GetMessageProvider().getActionMessages();
         if(actions.size() > 0){
