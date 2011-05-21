@@ -12,27 +12,42 @@ import ezhun.smsb.activity.BlockedSmsListActivity;
  * Handles tray notification.
  */
 public class TrayNotifier {
-	public void Notify(Context context) {
-		// Get a reference to the NotificationManager:
-		String ns = Context.NOTIFICATION_SERVICE;
-		NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(ns);
-		//Instantiate the Notification:
-		int icon = R.drawable.icon;
-		CharSequence tickerText = "Hello";
-		long when = System.currentTimeMillis();
+	private Context context;
+	private int icon;
 
-		Notification notification = new Notification(icon, tickerText, when);
+	public TrayNotifier(Context context) {
+		this.context = context;
+		this.icon = R.drawable.icon;
+	}
+
+	private Context getContext() {
+		return context;
+	}
+
+	private int getIcon() {
+		return icon;
+	}
+
+	public void Notify(TrayNotification notificationItem) {
+		// Get a reference to the NotificationManager:
+		NotificationManager mNotificationManager = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+		//Instantiate the Notification:
+		Notification notification = new Notification(getIcon(),
+				notificationItem.getTickerText(),
+				notificationItem.getWhen());
+
 		//Define the Notification's expanded message and Intent:
-		CharSequence contentTitle = "My notification";
-		CharSequence contentText = "Hello World!";
-		Intent notificationIntent = new Intent(context, BlockedSmsListActivity.class);
+		Intent notificationIntent = new Intent(getContext(), BlockedSmsListActivity.class);
 		PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
 
-		notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
-		//Pass the Notification to the NotificationManager:
-		final int HELLO_ID = 1;
+		notification.setLatestEventInfo(
+				getContext(),
+				notificationItem.getTitle(),
+				notificationItem.getMessage(),
+				contentIntent);
 
-		mNotificationManager.notify(HELLO_ID, notification);
+		//Pass the Notification to the NotificationManager:
+		mNotificationManager.notify(notificationItem.getId(), notification);
 		//That's it. Your user has now been notified.
 	}
 }
