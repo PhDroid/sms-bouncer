@@ -18,10 +18,15 @@ public class SettingsActivity extends Activity {
 		}
 	};
 
-	private AdapterView.OnItemClickListener clearAfterListener = new AdapterView.OnItemClickListener() {
+	private AdapterView.OnItemSelectedListener clearAfterListener = new AdapterView.OnItemSelectedListener() {
 		@Override
-		public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-			// do something when the button is clicked
+		public void onItemSelected(AdapterView adapterView, View view, int i, long l) {
+			Toast.makeText(getApplicationContext(),"You've got an event",Toast.LENGTH_SHORT).show();
+		}
+
+		@Override
+		public void onNothingSelected(AdapterView<?> adapterView) {
+			//throw new NotImplementedException();
 		}
 	};
 
@@ -43,7 +48,7 @@ public class SettingsActivity extends Activity {
 
 		Spinner ddlClearWhitelist = (Spinner) findViewById(R.id.ddlDisplayNotification);
 		ddlClearWhitelist.setAdapter(new ClearAfterSpinnerAdapter(getApplicationContext()));
-		//ddlClearWhitelist.setOnItemClickListener(clearAfterListener);
+		ddlClearWhitelist.setOnItemSelectedListener(clearAfterListener);
 
 		CheckBox cbDisplayNotification = (CheckBox) findViewById(R.id.cbNotification);
 		cbDisplayNotification.setOnCheckedChangeListener(displayNotificationListener);
