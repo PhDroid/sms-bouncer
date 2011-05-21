@@ -31,7 +31,7 @@ public class MessageProcessor implements IMessageProcessor {
 	    } else {
 			ContentValues[] valuesArray = new ContentValues[values.size()];
             resolver.bulkInsert(SmsContentProvider.CONTENT_URI, values.toArray(valuesArray));
-            return messages.length;
+		    return messages.length;
 	    }
     }
 }

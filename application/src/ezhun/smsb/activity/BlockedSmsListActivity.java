@@ -37,11 +37,6 @@ public class BlockedSmsListActivity extends Activity {
 	protected void onStart() {
 		super.onStart();
 
-	    TrayNotificationManager t = new TrayNotificationManager(getApplicationContext());
-		t.Notify("Sms-Bouncer",
-			    "Hello",
-			    "We will keep you posted on incoming blocked SMS messages");
-
         Hashtable<SmsPojo, SmsAction> actions = GetMessageProvider().getActionMessages();
         if(actions.size() > 0){
             Button b = (Button)findViewById(R.id.undoButton);
