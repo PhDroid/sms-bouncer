@@ -42,7 +42,8 @@ public class SettingsActivity extends Activity {
 		btnEditWhitelist.setOnClickListener(editWhitelistListener);
 
 		Spinner ddlClearWhitelist = (Spinner) findViewById(R.id.ddlDisplayNotification);
-//		ddlClearWhitelist.setOnItemClickListener(clearAfterListener);
+		ddlClearWhitelist.setAdapter(new SettingsSpinnerAdapter(getApplicationContext()));
+		//ddlClearWhitelist.setOnItemClickListener(clearAfterListener);
 
 		CheckBox cbDisplayNotification = (CheckBox) findViewById(R.id.cbNotification);
 		cbDisplayNotification.setOnCheckedChangeListener(displayNotificationListener);
