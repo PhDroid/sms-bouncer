@@ -43,16 +43,17 @@ public List<Intent> getReceivedIntents()
         private int mMessagesCount;
         private boolean mProcessMethodWasCalled = false;
 
-        public int ProcessMessages(SmsPojo[] messages, ContentResolver resolver) {
+        public SmsPojo[] ProcessMessages(SmsPojo[] messages, ContentResolver resolver) {
             mProcessMethodWasCalled = true;
             mMessagesCount = messages.length;
-            int spamCount = 0;
-            for(SmsPojo message : messages){
-                if(message.getSender() == "666"){
-                    spamCount++;
+            ArrayList<SmsPojo> res = new ArrayList<SmsPojo>();
+	        for(SmsPojo message : messages){
+                if(message.getSender().equals("666")){
+                    res.add(message);
                 }
             }
-            return spamCount;
+	        SmsPojo[] resArray = new SmsPojo[res.size()];
+            return res.toArray(resArray);
         }
 
         public int getMessagesCount(){

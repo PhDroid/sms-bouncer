@@ -30,7 +30,8 @@ public class SmsReceiver extends BroadcastReceiver {
 
 				ContentResolver c = context.getContentResolver();
 				SmsPojo[] messages = ConvertMessages(pdusObj);
-				int spamMessageCount = getMessageProcessor().ProcessMessages(messages, c);
+				SmsPojo[] spamMessages = getMessageProcessor().ProcessMessages(messages, c);
+				int spamMessageCount = spamMessages.length;
 				mSpamMessagesCount += spamMessageCount;
 
 				if (spamMessageCount > 0) {
@@ -39,10 +40,32 @@ public class SmsReceiver extends BroadcastReceiver {
 					ApplicationSettings settings = new ApplicationSettings(context);
 
 					if (settings.showDisplayNotification()) {
+						String title;
+						String message;
+
+						switch (spamMessageCount) {
+							case 1:
+								//265 Anton prosil zapomnit' chislo
+								title = String.format("Blocked message from %s", spamMessages[0].getSender());
+								message = spamMessages[0].getMessage();
+								break;
+							case 2:
+								title = "Blocked messages (2)";
+								message = String.format("Blocked messages from %s and %s",
+										spamMessages[0].getSender(),
+										spamMessages[1].getSender());
+								break;
+							default:
+								title = String.format("Blocked messages (%d)", spamMessageCount);
+								message = String.format("Blocked messages from %s, %s and others",
+										spamMessages[0].getSender(),
+										spamMessages[1].getSender());
+
+						}
 						TrayNotificationManager t = new TrayNotificationManager(context);
 						t.Notify("Sms-Bouncer",
-								String.format("Blocked %s messages", spamMessageCount),
-								"Blocked messages from:");
+								title,
+								message);
 					}
 				}
 			}

@@ -9,7 +9,7 @@ public interface IMessageProcessor {
      * Processes incoming messages
      * @param messages Incoming messages
      * @param resolver Content resolver
-     * @return The number of messages filtered as spam
+     * @return Array of messages filtered as spam
      */
-    public int ProcessMessages(SmsPojo[] messages, ContentResolver resolver);
+    public SmsPojo[] ProcessMessages(SmsPojo[] messages, ContentResolver resolver);
 }
