@@ -8,9 +8,7 @@ import android.content.Intent;
 import android.view.Menu;
 import ezhun.smsb.R;
 import ezhun.smsb.SmsPojo;
-import ezhun.smsb.activity.notify.NotificationContainer;
-import ezhun.smsb.activity.notify.TrayNotification;
-import ezhun.smsb.activity.notify.TrayNotifier;
+import ezhun.smsb.activity.notify.TrayNotificationManager;
 import ezhun.smsb.storage.IMessageProvider;
 import ezhun.smsb.storage.MessageProviderHelper;
 import ezhun.smsb.storage.SmsAction;
@@ -38,12 +36,11 @@ public class BlockedSmsListActivity extends Activity {
     @Override
 	protected void onStart() {
 		super.onStart();
-	    TrayNotification notification = NotificationContainer.getInstance().addNotification(
-			    "Sms-Bouncer",
+
+	    TrayNotificationManager t = new TrayNotificationManager(getApplicationContext());
+		t.Notify("Sms-Bouncer",
 			    "Hello",
 			    "We will keep you posted on incoming blocked SMS messages");
-	    TrayNotifier t = new TrayNotifier(getApplicationContext());
-		t.Notify(notification);
 
         Hashtable<SmsPojo, SmsAction> actions = GetMessageProvider().getActionMessages();
         if(actions.size() > 0){

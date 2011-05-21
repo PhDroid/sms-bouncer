@@ -11,11 +11,11 @@ import ezhun.smsb.activity.BlockedSmsListActivity;
 /**
  * Handles tray notification.
  */
-public class TrayNotifier {
+public class TrayNotificationManager {
 	private Context context;
 	private int icon;
 
-	public TrayNotifier(Context context) {
+	public TrayNotificationManager(Context context) {
 		this.context = context;
 		this.icon = R.drawable.icon;
 	}
@@ -26,6 +26,14 @@ public class TrayNotifier {
 
 	private int getIcon() {
 		return icon;
+	}
+
+	public void Notify(String tickerText, String title, String message) {
+		TrayNotification notification = NotificationContainer.getInstance().addNotification(
+			    tickerText,
+				title,
+				message);
+		Notify(notification);
 	}
 
 	public void Notify(TrayNotification notificationItem) {
