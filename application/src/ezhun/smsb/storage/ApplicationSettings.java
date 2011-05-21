@@ -22,7 +22,7 @@ public class ApplicationSettings {
 		return context;
 	}
 
-	public boolean getDisplayNotification() {
+	public boolean showDisplayNotification() {
 		synchronized (lock) {
 			if (displayNotification != null) {
 				return displayNotification;

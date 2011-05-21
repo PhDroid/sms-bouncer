@@ -38,7 +38,7 @@ public class SmsReceiver extends BroadcastReceiver {
 					abortBroadcast();
 					ApplicationSettings settings = new ApplicationSettings(context);
 
-					if (settings.getDisplayNotification()) {
+					if (settings.showDisplayNotification()) {
 						TrayNotificationManager t = new TrayNotificationManager(context);
 						t.Notify("Sms-Bouncer",
 								String.format("Blocked %s messages", spamMessageCount),

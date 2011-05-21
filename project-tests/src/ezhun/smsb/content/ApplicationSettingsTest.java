@@ -24,13 +24,13 @@ public class ApplicationSettingsTest extends MockedContextTestBase {
 
 	public void test_ApplicationSettings_create_settings_file_with_default_values() {
 		Assert.assertEquals(DefaultApplicationSettings.DELETE_MESSAGES_AFTER_VALUE, getSettings().getDeleteAfter());
-		Assert.assertEquals(DefaultApplicationSettings.DISPLAY_NOTIFICATION_VALUE, getSettings().getDisplayNotification());
+		Assert.assertEquals(DefaultApplicationSettings.DISPLAY_NOTIFICATION_VALUE, getSettings().showDisplayNotification());
 	}
 
 	public void test_ApplicationSettings_update_settings_file() {
 		getSettings().setDeleteAfter(DeleteAfter.ThirtyDays);
 		getSettings().setDisplayNotification(false);
 		Assert.assertEquals(DeleteAfter.ThirtyDays, getSettings().getDeleteAfter());
-		Assert.assertEquals(false, getSettings().getDisplayNotification());
+		Assert.assertEquals(false, getSettings().showDisplayNotification());
 	}
 }
