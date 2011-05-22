@@ -36,7 +36,7 @@ public class BlockNotificationTest extends MockedContextTestBase {
 		}
 
 		IntentFilter priorityFilter = new IntentFilter(ANDROID_PROVIDER_TELEPHONY_SMS_RECEIVED);
-		priorityFilter.setPriority(Integer.MAX_VALUE - 3);
+		priorityFilter.setPriority(100);
 		getContext().registerReceiver(first, priorityFilter);
 
 		IntentFilter intentFilter = new IntentFilter(ANDROID_PROVIDER_TELEPHONY_SMS_RECEIVED);

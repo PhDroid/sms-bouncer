@@ -20,7 +20,7 @@
         <activity android:name=".activity.ViewMessageActivity"/>
         <activity android:name=".activity.SelectManyActivity"/>
         <receiver android:name=".broadcast.SmsReceiver">
-            <intent-filter android:priority="4294967295">
+            <intent-filter android:priority="32137">
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>

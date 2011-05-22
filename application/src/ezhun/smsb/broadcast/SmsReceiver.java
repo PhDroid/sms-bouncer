@@ -35,8 +35,13 @@ public class SmsReceiver extends BroadcastReceiver {
 				mSpamMessagesCount += spamMessageCount;
 
 				if (spamMessageCount > 0) {
-					//aborting broadcast. Using it with a priority tag should prevent anyone to receive these spam messages.
-					abortBroadcast();
+					if (this.isOrderedBroadcast())
+					{
+						//aborting broadcast. Using it with a priority tag should prevent anyone to receive these spam messages.
+						this.abortBroadcast();
+					} else {
+						//todo: log this bullshit, send to our website and pray
+					}
 					ApplicationSettings settings = new ApplicationSettings(context);
 
 					if (settings.showDisplayNotification()) {
