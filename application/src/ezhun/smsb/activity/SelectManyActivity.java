@@ -26,7 +26,7 @@ public class SelectManyActivity extends Activity {
 		super.onCreate(savedInstanceState);
         setContentView(R.layout.select_many);
         listFooter = findViewById(R.id.listFooter);
-        ColorDrawable c = new ColorDrawable(R.color.red_button_color_shift);
+        //ColorDrawable c = new ColorDrawable(R.color.red_button_color_shift);
         Button button = (Button)findViewById(R.id.deleteButton);
         button.getBackground().setColorFilter(0xFFFF9999, PorterDuff.Mode.MULTIPLY);
         button = (Button)findViewById(R.id.notSpamButton);
