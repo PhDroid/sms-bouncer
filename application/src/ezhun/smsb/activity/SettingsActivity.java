@@ -6,15 +6,25 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
 import ezhun.smsb.R;
+import ezhun.smsb.storage.ApplicationSettings;
 
 /**
  * Settings of the SMS bouncer application.
  */
 public class SettingsActivity extends Activity {
+	private ApplicationSettings settings;
+
+	public ApplicationSettings getApplicationSettings() {
+		if (settings == null) {
+			settings = new ApplicationSettings(getApplicationContext());
+		}
+		return settings;
+	}
+
 	private CompoundButton.OnCheckedChangeListener displayNotificationListener = new CompoundButton.OnCheckedChangeListener() {
 		@Override
 		public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-			// do something when the button is clicked
+			getApplicationSettings().setDisplayNotification(b);
 		}
 	};
 
@@ -51,6 +61,8 @@ public class SettingsActivity extends Activity {
 		ddlClearWhitelist.setOnItemSelectedListener(clearAfterListener);
 
 		CheckBox cbDisplayNotification = (CheckBox) findViewById(R.id.cbNotification);
+		cbDisplayNotification.setChecked(getApplicationSettings().showDisplayNotification());
 		cbDisplayNotification.setOnCheckedChangeListener(displayNotificationListener);
+
 	}
 }

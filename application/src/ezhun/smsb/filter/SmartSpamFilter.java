@@ -23,7 +23,6 @@ public class SmartSpamFilter implements ISpamFilter {
 		ISpamFilter contactSpamFilter = new ContactSpamFilter(getContentResolver());
 		ISpamFilter whiteListSpamFilter = new WhiteListSpamFilter(getContentResolver());
 
-		//return contactSpamFilter.isSpam(message) || whiteListSpamFilter.isSpam(message);
-		return false;
+		return contactSpamFilter.isSpam(message) || whiteListSpamFilter.isSpam(message);
 	}
 }
