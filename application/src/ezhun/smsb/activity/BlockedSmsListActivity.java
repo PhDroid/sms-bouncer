@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.view.Menu;
 import ezhun.smsb.R;
 import ezhun.smsb.SmsPojo;
-import ezhun.smsb.activity.notify.TrayNotificationManager;
 import ezhun.smsb.storage.IMessageProvider;
 import ezhun.smsb.storage.MessageProviderHelper;
 import ezhun.smsb.storage.SmsAction;
@@ -37,6 +36,27 @@ public class BlockedSmsListActivity extends Activity {
 	protected void onStart() {
 		super.onStart();
 
+        processUndoButton();
+
+        ArrayList<SmsPojo> messages = GetMessageProvider().getMessages();
+        ListView lv = (ListView)findViewById(R.id.messagesListView);
+        smsPojoArrayAdapter = new SmsPojoArrayAdapter(this, R.layout.main_list_item, messages);
+        lv.setAdapter(smsPojoArrayAdapter);
+
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(BlockedSmsListActivity.this, ViewMessageActivity.class);
+                Bundle b = new Bundle();
+                b.putInt("id", position);// TODO: change with message ID
+                intent.putExtras(b);
+				startActivity(intent);
+            }
+        });
+
+        updateTitle();
+	}
+
+    private void processUndoButton() {
         Hashtable<SmsPojo, SmsAction> actions = GetMessageProvider().getActionMessages();
         if(actions.size() > 0){
             Button b = (Button)findViewById(R.id.undoButton);
@@ -61,24 +81,7 @@ public class BlockedSmsListActivity extends Activity {
             LinearLayout l = (LinearLayout)findViewById(R.id.buttonLayout);
             l.setVisibility(View.GONE);
         }
-
-        ArrayList<SmsPojo> messages = GetMessageProvider().getMessages();
-        ListView lv = (ListView)findViewById(R.id.messagesListView);
-        smsPojoArrayAdapter = new SmsPojoArrayAdapter(this, R.layout.main_list_item, messages);
-        lv.setAdapter(smsPojoArrayAdapter);
-
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(BlockedSmsListActivity.this, ViewMessageActivity.class);
-                Bundle b = new Bundle();
-                b.putInt("id", position);// TODO: change with message ID
-                intent.putExtras(b);
-				startActivity(intent);
-            }
-        });
-
-        updateTitle();
-	}
+    }
 
     private void updateTitle() {
         setTitle(R.string.app_name);
@@ -106,6 +109,11 @@ public class BlockedSmsListActivity extends Activity {
             case R.id.select_many_item:
                 Intent smIntent = new Intent(BlockedSmsListActivity.this, SelectManyActivity.class);
 				startActivity(smIntent);
+                return true;
+            case R.id.delete_all_item:
+                GetMessageProvider().deleteAll();
+                smsPojoArrayAdapter.notifyDataSetChanged();
+                processUndoButton();
                 return true;
 			default:
 				return super.onOptionsItemSelected(item);

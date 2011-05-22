@@ -108,6 +108,14 @@ public class TestMessageProvider implements IMessageProvider{
         }
     }
 
+    @Override
+    public void deleteAll() {
+        for(SmsPojo sms : mList){
+            mActions.put(sms, SmsAction.Deleted);
+        }
+        mList.clear();
+    }
+
     public void notSpam(long id){
         mActions.clear();
         SmsPojo sms = get(id);

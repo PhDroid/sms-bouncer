@@ -19,6 +19,8 @@ public interface IMessageProvider {
 
     void delete(long[] ids);
 
+    void deleteAll();
+
     void notSpam(long id);
 
     void notSpam(long[] ids);

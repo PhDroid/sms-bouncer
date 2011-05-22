@@ -1,8 +1,10 @@
 package ezhun.smsb.activity;
 
+import android.graphics.PorterDuff;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import ezhun.smsb.R;
 import android.app.Activity;
@@ -18,6 +20,13 @@ public class ViewMessageActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_message);
+
+        Button button = (Button)findViewById(R.id.deleteButton);
+        button.getBackground().setColorFilter(0xFFFF9999, PorterDuff.Mode.MULTIPLY);
+        button = (Button)findViewById(R.id.notSpamButton);
+        button.getBackground().setColorFilter(0xFF99FF99, PorterDuff.Mode.MULTIPLY);
+        button = (Button)findViewById(R.id.replyButton);
+        button.getBackground().setColorFilter(0xFF99FF99, PorterDuff.Mode.MULTIPLY);
 
         Bundle b = getIntent().getExtras();
         mId = b.getInt("id", -1);

@@ -3,7 +3,9 @@ package ezhun.smsb.activity;
 import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.SparseBooleanArray;
 import android.view.View;
@@ -24,6 +26,7 @@ public class SelectManyActivity extends Activity {
 		super.onCreate(savedInstanceState);
         setContentView(R.layout.select_many);
         listFooter = findViewById(R.id.listFooter);
+        ColorDrawable c = new ColorDrawable(R.color.red_button_color_shift);
         Button button = (Button)findViewById(R.id.deleteButton);
         button.getBackground().setColorFilter(0xFFFF9999, PorterDuff.Mode.MULTIPLY);
         button = (Button)findViewById(R.id.notSpamButton);

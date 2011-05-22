@@ -5,20 +5,27 @@
       android:layout_height="match_parent"
       android:padding="3dp"
       android:background="@color/main_list_message_background">
-    <Button android:id="@+id/prevButton"
-    		android:layout_alignParentTop="true"
-    		android:layout_alignParentLeft="true"
-    		android:layout_height="wrap_content"
-    		android:layout_width="100dp"
-    		android:text="@string/prev">
-	</Button>
-    <Button android:id="@+id/nextButton"
-    		android:layout_alignParentTop="true"
-    		android:layout_alignParentRight="true"
-    		android:layout_height="wrap_content"
-    		android:layout_width="100dp"
-    		android:text="@string/next">
-	</Button>
+	<RelativeLayout
+      xmlns:android="http://schemas.android.com/apk/res/android"
+      android:layout_width="fill_parent"
+      android:layout_height="50dp"
+      android:padding="3dp"
+      android:background="@drawable/buttons_background">
+		<Button android:id="@+id/prevButton"
+				android:layout_alignParentTop="true"
+				android:layout_alignParentLeft="true"
+				android:layout_height="wrap_content"
+				android:layout_width="100dp"
+				android:text="@string/prev">
+		</Button>
+		<Button android:id="@+id/nextButton"
+				android:layout_alignParentTop="true"
+				android:layout_alignParentRight="true"
+				android:layout_height="wrap_content"
+				android:layout_width="100dp"
+				android:text="@string/next">
+		</Button>
+	</RelativeLayout>
     <TextView android:id="@+id/senderTextView"
     		  android:layout_height="wrap_content"
     		  android:layout_width="wrap_content"
@@ -47,26 +54,34 @@
               android:textColor="@color/message_text"
     		  android:textSize="18sp">
     </TextView>
-    <Button android:id="@+id/replyButton" 
-    		android:layout_alignParentBottom="true"
-    		android:layout_height="50dp"
-    		android:layout_width="fill_parent"
-            android:layout_marginBottom="110dp"
-    		android:text="@string/reply">
-	</Button>
-    <Button android:id="@+id/notSpamButton"
-    		android:layout_alignParentBottom="true"
-    		android:layout_height="50dp"
-    		android:layout_width="fill_parent"
-            android:layout_marginBottom="55dp"
-    		android:text="@string/not_spam"
-            android:onClick="markMessageAsNotSpam">
-	</Button>
-    <Button android:id="@+id/deleteButton"
-    		android:layout_alignParentBottom="true"
-    		android:layout_height="50dp"
-    		android:layout_width="fill_parent"
-    		android:text="@string/delete"
-            android:onClick="deleteMessage">
-	</Button>
+	<RelativeLayout
+      xmlns:android="http://schemas.android.com/apk/res/android"
+      android:layout_width="match_parent"
+      android:layout_height="175dp"
+	  android:layout_alignParentBottom="true"
+      android:padding="3dp"
+      android:background="@drawable/buttons_background">
+		<Button android:id="@+id/replyButton"
+				android:layout_alignParentBottom="true"
+				android:layout_height="50dp"
+				android:layout_width="fill_parent"
+				android:layout_marginBottom="110dp"
+				android:text="@string/reply">
+		</Button>
+		<Button android:id="@+id/notSpamButton"
+				android:layout_alignParentBottom="true"
+				android:layout_height="50dp"
+				android:layout_width="fill_parent"
+				android:layout_marginBottom="55dp"
+				android:text="@string/not_spam"
+				android:onClick="markMessageAsNotSpam">
+		</Button>
+		<Button android:id="@+id/deleteButton"
+				android:layout_alignParentBottom="true"
+				android:layout_height="50dp"
+				android:layout_width="fill_parent"
+				android:text="@string/delete"
+				android:onClick="deleteMessage">
+		</Button>
+	</RelativeLayout>
 </RelativeLayout>
