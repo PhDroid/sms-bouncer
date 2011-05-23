@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.text.AndroidCharacter;
 import android.util.Log;
 import ezhun.smsb.broadcast.SmsReceiver;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  * Mocking sms broadcast receiver class.

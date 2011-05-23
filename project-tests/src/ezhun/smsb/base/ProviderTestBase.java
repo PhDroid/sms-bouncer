@@ -6,7 +6,6 @@ import android.content.Context;
 import android.net.Uri;
 import android.test.AndroidTestCase;
 
-import javax.naming.OperationNotSupportedException;
 import java.util.Hashtable;
 
 /**
