@@ -16,18 +16,18 @@ import java.util.ArrayList;
  * Please, write short description of what this file is for.
  */
 public class ClearAfterSpinnerAdapter extends BaseAdapter implements SpinnerAdapter {
-	ArrayList<String> items;
+	ArrayList<DeleteAfter> items;
 	Context context;
 
 	public ClearAfterSpinnerAdapter(Context context) {
 		this.context = context;
-		this.items = new ArrayList<String>();
-		this.items.add(DeleteAfter.SevenDays.toString());
-		this.items.add(DeleteAfter.FourteenDays.toString());
-		this.items.add(DeleteAfter.ThirtyDays.toString());
+		this.items = new ArrayList<DeleteAfter>();
+		this.items.add(DeleteAfter.SevenDays);
+		this.items.add(DeleteAfter.FourteenDays);
+		this.items.add(DeleteAfter.ThirtyDays);
 	}
 
-	private ArrayList<String> getItems() {
+	private ArrayList<DeleteAfter> getItems() {
 		return items;
 	}
 
@@ -47,13 +47,13 @@ public class ClearAfterSpinnerAdapter extends BaseAdapter implements SpinnerAdap
 
 	@Override
 	public long getItemId(int i) {
-		return i;
+		return ((DeleteAfter)getItem(i)).index();
 	}
 
 	@Override
 	public View getView(int i, View view, ViewGroup viewGroup) {
 		TextView text = new TextView(getContext());
-        text.setText((String)getItem(i));
+        text.setText(getItem(i).toString());
         return text;
 	}
 }
