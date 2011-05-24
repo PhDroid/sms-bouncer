@@ -45,8 +45,15 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" scope="PROVIDED" name="Android 2.2 Platform(1)" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="Android 2.2 Platform" level="application" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/libs/Robotium-Solo2.2/robotium-solo-2.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>
 
