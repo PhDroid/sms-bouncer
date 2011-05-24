@@ -5,7 +5,6 @@ import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import com.jayway.android.robotium.solo.Solo;
 import ezhun.smsb.R;
-import ezhun.smsb.content.ApplicationSettingsFake;
 import ezhun.smsb.storage.ApplicationSettings;
 import ezhun.smsb.storage.DeleteAfter;
 import junit.framework.Assert;
@@ -21,7 +20,7 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<Setti
 
 	public ApplicationSettings getApplicationSettings() {
 		if (settings == null) {
-			settings = new ApplicationSettingsFake(getInstrumentation().getContext());
+			settings = new ApplicationSettings(getInstrumentation().getContext());
 		}
 		return settings;
 	}
