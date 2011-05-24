@@ -6,10 +6,8 @@ import android.content.Context;
 import android.net.Uri;
 import android.test.AndroidTestCase;
 import android.test.IsolatedContext;
-import android.test.RenamingDelegatingContext;
 import android.test.mock.MockContentResolver;
-import ezhun.smsb.base.util.IsolatedBroadcastContext;
-import ezhun.smsb.base.util.ResourcefulMockContext;
+import ezhun.smsb.base.util.ContextBuilder;
 
 import java.util.Hashtable;
 
@@ -17,13 +15,14 @@ import java.util.Hashtable;
  * This is a base class for all TestCases with ability to use MockContext instead of real one.
  */
 public class MockedContextTestBase extends AndroidTestCase {
+	public static final String FILENAME_PREFIX = "test.ezhun.";
+	IsolatedContext context;
+	MockContentResolver resolver;
+
 
 	private Context getProperContext() {
 		return super.getContext();
 	}
-
-	IsolatedContext context;
-	MockContentResolver resolver;
 
 	public Context getMockContext() {
 		assertNotNull(context);
@@ -62,12 +61,8 @@ public class MockedContextTestBase extends AndroidTestCase {
 		super.setUp();
 
 		resolver = new MockContentResolver();
-		final String filenamePrefix = "test.ezhun.";
-		RenamingDelegatingContext targetContextWrapper = new RenamingDelegatingContext(
-				new ResourcefulMockContext(getProperContext()), // The context that most methods are delegated to
-				getProperContext(), // The context that file methods are delegated to
-				filenamePrefix);
-		context = new IsolatedBroadcastContext(resolver, targetContextWrapper, getProperContext());
+
+		context = ContextBuilder.createIsolatedContext(getProperContext(), resolver, FILENAME_PREFIX);
 	}
 
 	@Override
