@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * MockContext descendant with resource capabilities.
  */
-public class ResourcefulMockContext extends MockContext {
+public class ResourceInjectedContext extends MockContext {
 	private Map<String, SharedPreferences> inMemoryPreferences;
 	private Context properContext;
 
@@ -19,7 +19,7 @@ public class ResourcefulMockContext extends MockContext {
 		return properContext;
 	}
 
-	public ResourcefulMockContext(Context properContext) {
+	public ResourceInjectedContext(Context properContext) {
 		inMemoryPreferences = new HashMap<String, SharedPreferences>();
 		this.properContext = properContext;
 	}
