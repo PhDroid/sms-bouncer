@@ -5,7 +5,6 @@ import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import com.jayway.android.robotium.solo.Solo;
 import ezhun.smsb.R;
-import ezhun.smsb.content.ApplicationSettingsFake;
 import ezhun.smsb.storage.ApplicationSettings;
 import ezhun.smsb.storage.DeleteAfter;
 import junit.framework.Assert;
@@ -21,7 +20,7 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<Setti
 
 	public ApplicationSettings getApplicationSettings() {
 		if (settings == null) {
-			settings = new ApplicationSettingsFake(getInstrumentation().getContext());
+			settings = new ApplicationSettings(getInstrumentation().getContext());
 		}
 		return settings;
 	}
@@ -48,16 +47,20 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<Setti
 		super.tearDown();
 	}
 
-	public void testSettings_DisplayButton_initial_state() {
-		boolean isChecked = solo.isCheckBoxChecked(R.id.cbNotification);
+	public void testSettings_currentActivity () {
+		solo.assertCurrentActivity("Expected activity: Settings", SettingsActivity.class);
+	}
+
+	public void testSettings_DisplayCheckbox_initial_state() {
+		boolean isChecked = solo.isCheckBoxChecked(0);
 		boolean shouldBeChecked = getApplicationSettings().showDisplayNotification();
 		Assert.assertEquals(shouldBeChecked, isChecked);
 	}
 
-	public void testSettings_DisplayButton_change() {
-		boolean isCheckedInitial = solo.isCheckBoxChecked(R.id.cbNotification);
-		solo.clickOnCheckBox(R.id.cbNotification);
-		boolean isCheckedChanged = solo.isCheckBoxChecked(R.id.cbNotification);
+	public void testSettings_DisplayCheckbox_change() {
+		boolean isCheckedInitial = solo.isCheckBoxChecked(0);
+		solo.clickOnCheckBox(0);
+		boolean isCheckedChanged = solo.isCheckBoxChecked(0);
 		Assert.assertTrue(isCheckedInitial != isCheckedChanged);
 		Assert.assertEquals(isCheckedChanged, getApplicationSettings().showDisplayNotification());
 	}
@@ -104,7 +107,7 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<Setti
 
 	public void testSettings_EditWhitelistButton_click() {
 		solo.assertCurrentActivity("Expected activity: Settings", SettingsActivity.class);
-		solo.clickOnButton(R.id.btnEditWhitelist);
+		solo.clickOnButton("Edit senders white list");
 		solo.waitForActivity(EditWhitelistActivity.class.getSimpleName(), 1000);
 		solo.assertCurrentActivity("Expected activity: EditWhiteList", EditWhitelistActivity.class);
 	}

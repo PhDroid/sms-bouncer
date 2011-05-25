@@ -1,92 +1,28 @@
 package ezhun.smsb.base;
 
-import android.content.*;
-import android.content.pm.PackageManager;
-import android.content.pm.PermissionInfo;
-import android.content.res.Resources;
+import android.content.ContentProvider;
+import android.content.ContentResolver;
+import android.content.Context;
 import android.net.Uri;
 import android.test.AndroidTestCase;
 import android.test.IsolatedContext;
-import android.test.RenamingDelegatingContext;
 import android.test.mock.MockContentResolver;
-import android.test.mock.MockContext;
-import ezhun.smsb.base.util.InMemoryPreferences;
+import ezhun.smsb.base.util.ContextBuilder;
 
-import java.util.HashMap;
 import java.util.Hashtable;
-import java.util.Map;
 
 /**
  * This is a base class for all TestCases with ability to use MockContext instead of real one.
  */
 public class MockedContextTestBase extends AndroidTestCase {
-	private class ResourcefulMockContext extends MockContext {
-		Map<String, SharedPreferences> inMemoryPreferences;
+	public static final String FILENAME_PREFIX = "test.ezhun.";
+	IsolatedContext context;
+	MockContentResolver resolver;
 
-		public ResourcefulMockContext() {
-			inMemoryPreferences = new HashMap<String, SharedPreferences>();
-		}
-
-		@Override
-		public Resources getResources() {
-			return getProperContext().getResources();
-		}
-
-		@Override
-		public synchronized SharedPreferences getSharedPreferences(String name, int mode) {
-			if (!inMemoryPreferences.containsKey(name)) {
-				inMemoryPreferences.put(name, new InMemoryPreferences());
-			}
-			return inMemoryPreferences.get(name);
-		}
-	}
-
-	private class BroadcastContext extends IsolatedContext {
-		private static final String ANDROID_PERMISSION_RECEIVE_SMS = "android.permission.RECEIVE_SMS";
-		Context broadcastContext;
-
-		public BroadcastContext(ContentResolver resolver, Context targetContext, Context broadcastContext) {
-			super(resolver, targetContext);
-			this.broadcastContext = broadcastContext;
-		}
-
-		public Context getBroadcastContext() {
-			assertNotNull(broadcastContext);
-			return broadcastContext;
-		}
-
-		@Override
-		public Intent registerReceiver(BroadcastReceiver receiver, IntentFilter filter) {
-			return getBroadcastContext().registerReceiver(receiver, filter);
-		}
-
-		@Override
-		public PackageManager getPackageManager() {
-			return getBroadcastContext().getPackageManager();
-		}
-
-		@Override
-		public void unregisterReceiver(BroadcastReceiver receiver) {
-			getBroadcastContext().unregisterReceiver(receiver);
-		}
-
-		@Override
-		public void sendOrderedBroadcast(Intent intent, String receiverPermission) {
-			getBroadcastContext().sendOrderedBroadcast(intent, receiverPermission);
-		}
-
-		@Override
-		public void sendBroadcast(Intent intent, String receiverPermission) {
-			getBroadcastContext().sendBroadcast(intent, receiverPermission);
-		}
-	}
 
 	private Context getProperContext() {
 		return super.getContext();
 	}
-
-	IsolatedContext context;
-	MockContentResolver resolver;
 
 	public Context getMockContext() {
 		assertNotNull(context);
@@ -125,12 +61,8 @@ public class MockedContextTestBase extends AndroidTestCase {
 		super.setUp();
 
 		resolver = new MockContentResolver();
-		final String filenamePrefix = "test.ezhun.";
-		RenamingDelegatingContext targetContextWrapper = new RenamingDelegatingContext(
-				new ResourcefulMockContext(), // The context that most methods are delegated to
-				getProperContext(), // The context that file methods are delegated to
-				filenamePrefix);
-		context = new BroadcastContext(resolver, targetContextWrapper, getProperContext());
+
+		context = ContextBuilder.createIsolatedContext(getProperContext(), resolver, FILENAME_PREFIX);
 	}
 
 	@Override
