@@ -1,10 +1,13 @@
 package ezhun.smsb.activity;
 
+import android.app.Instrumentation;
 import android.test.ActivityInstrumentationTestCase2;
+import android.test.ActivityUnitTestCase;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import com.jayway.android.robotium.solo.Solo;
 import ezhun.smsb.R;
+import ezhun.smsb.base.util.MockedContextInstrumentation;
 import ezhun.smsb.storage.ApplicationSettings;
 import ezhun.smsb.storage.DeleteAfter;
 import junit.framework.Assert;
@@ -14,7 +17,7 @@ import java.util.ArrayList;
 /**
  * A test for settings activity..
  */
-public class SettingsActivityTest extends ActivityInstrumentationTestCase2<SettingsActivity> {
+public class SettingsActivityTest extends ActivityUnitTestCase<SettingsActivity> {
 	private Solo solo;
 	private ApplicationSettings settings;
 
@@ -29,9 +32,22 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<Setti
 		super(SettingsActivity.class);
 	}
 
+	private Instrumentation instrumentation;
+
+	@Override
+	public void injectInstrumentation(Instrumentation instrumentation) {
+		this.instrumentation = new MockedContextInstrumentation(instrumentation);
+	}
+
+	@Override
+	public Instrumentation getInstrumentation() {
+		return instrumentation;
+	}
+
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
+		setActivityContext(getInstrumentation().getContext());
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
@@ -47,7 +63,7 @@ public class SettingsActivityTest extends ActivityInstrumentationTestCase2<Setti
 		super.tearDown();
 	}
 
-	public void testSettings_currentActivity () {
+	public void testSettings_currentActivity() {
 		solo.assertCurrentActivity("Expected activity: Settings", SettingsActivity.class);
 	}
 
