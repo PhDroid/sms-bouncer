@@ -31,7 +31,7 @@ public class MockedContextInstrumentation extends Instrumentation {
 	@Override
 	public Context getContext() {
 		if (context == null) {
-			context = new ResourceInjectedContext(context);
+			context = new ResourceInjectedContext(getProperContext());
 		}
 		return context;
 	}

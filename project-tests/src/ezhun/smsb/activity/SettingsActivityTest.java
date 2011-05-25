@@ -1,7 +1,7 @@
 package ezhun.smsb.activity;
 
 import android.app.Instrumentation;
-import android.test.ActivityInstrumentationTestCase2;
+import android.content.Intent;
 import android.test.ActivityUnitTestCase;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
@@ -47,19 +47,27 @@ public class SettingsActivityTest extends ActivityUnitTestCase<SettingsActivity>
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		setActivityContext(getInstrumentation().getContext());
+
+		//setActivityContext(getInstrumentation().getContext());
 		solo = new Solo(getInstrumentation(), getActivity());
+		if (this instanceof ActivityUnitTestCase) {
+			Intent start = new Intent(getInstrumentation().getTargetContext(), SettingsActivity.class);
+			startActivity(start, null, null);
+		}
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		try {
-			solo.finalize();
-		} catch (Throwable e) {
+		if (!(this instanceof ActivityUnitTestCase)) {
+			try {
+				solo.finalize();
+			} catch (Throwable e) {
 
-			e.printStackTrace();
+				e.printStackTrace();
+			}
+			getActivity().finish();
+
 		}
-		getActivity().finish();
 		super.tearDown();
 	}
 
