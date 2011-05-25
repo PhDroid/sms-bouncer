@@ -1,6 +1,7 @@
 package ezhun.smsb.activity;
 
 import android.test.ActivityInstrumentationTestCase2;
+import android.view.View;
 import android.widget.ListView;
 import ezhun.smsb.R;
 
@@ -33,5 +34,10 @@ public class BlockedSmsListActivityTest extends ActivityInstrumentationTestCase2
 	public void testPreConditions() {
 		assertTrue(mAdapter != null);
 		assertEquals(mAdapter.getCount(),ADAPTER_COUNT);
+	}
+
+	public void testUndoButtonIsInvisibleAtStartup(){
+		View v = mActivity.findViewById(R.id.buttonLayout);
+		assertEquals(v.getVisibility(), View.GONE);
 	}
 }

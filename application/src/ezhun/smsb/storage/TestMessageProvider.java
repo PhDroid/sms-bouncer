@@ -108,7 +108,6 @@ public class TestMessageProvider implements IMessageProvider{
         }
     }
 
-    @Override
     public void deleteAll() {
         for(SmsPojo sms : mList){
             mActions.put(sms, SmsAction.Deleted);
@@ -161,6 +160,10 @@ public class TestMessageProvider implements IMessageProvider{
                 mUnreadCount++;
             }
         }
+    }
+
+    public void performActions() {
+        //To change body of implemented methods use File | Settings | File Templates.
     }
 
     private SmsPojo get(long id){

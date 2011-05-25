@@ -28,4 +28,6 @@ public interface IMessageProvider {
     int getUnreadCount();
 
     void undo();
+
+    void performActions();
 }
