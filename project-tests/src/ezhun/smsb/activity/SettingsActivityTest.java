@@ -130,7 +130,16 @@ public class SettingsActivityTest extends ActivityUnitTestCase<SettingsActivity>
 		solo.assertCurrentActivity("Expected activity: Settings", SettingsActivity.class);
 		solo.clickOnButton(R.id.btnEditWhitelist);
 		solo.waitForActivity(EditWhitelistActivity.class.getSimpleName(), 1000);
-		solo.assertCurrentActivity("Expected activity: EditWhiteList", EditWhitelistActivity.class);
-	}
+		String expected = EditWhitelistActivity.class.getCanonicalName();
+		String actual = getStartedActivityIntent().getComponent().getClassName();
 
+		if ((this instanceof ActivityUnitTestCase)) {
+			Assert.assertEquals(
+					EditWhitelistActivity.class.getCanonicalName(),
+					getStartedActivityIntent().getComponent().getClassName()
+			);
+		} else {
+			solo.assertCurrentActivity("Expected activity: EditWhiteList", EditWhitelistActivity.class);
+		}
+	}
 }
