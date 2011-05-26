@@ -2,9 +2,11 @@ package ezhun.smsb.storage;
 
 import ezhun.smsb.SmsPojo;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Hashtable;
 
- class TestMessageProvider implements IMessageProvider{
+public class TestMessageProvider implements IMessageProvider{
     ArrayList<SmsPojo> mList;
     Hashtable<SmsPojo, SmsAction> mActions;
     int mUnreadCount = 0;
@@ -74,6 +76,14 @@ import java.util.*;
         sms = new SmsPojo();
         sms.setMessage("Vash rakhunok na 8.05.2011 stanovyt 24 uah.");
         sms.setSender("KYIVSTAR");
+        sms.setRead(true);
+        c.add(Calendar.MINUTE, -20);
+        sms.setReceived(c.getTime().getTime());
+        mList.add(sms);
+
+		sms = new SmsPojo();
+        sms.setMessage("SCHET 12345 popolnenie na 123 uha 11.05.2011 12:45");
+        sms.setSender("PUMB");
         sms.setRead(true);
         c.add(Calendar.MINUTE, -20);
         sms.setReceived(c.getTime().getTime());
