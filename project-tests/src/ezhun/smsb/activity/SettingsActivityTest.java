@@ -103,7 +103,7 @@ public class SettingsActivityTest extends ActivityUnitTestCase<SettingsActivity>
 
 	public void testSettings_DeleteAfterSpinner_change() throws ViewNotFoundException {
 		Spinner deleteAfterSpinner = solo.getSpinner(R.id.ddlDisplayNotification);
-		DeleteAfter item = (DeleteAfter) deleteAfterSpinner.getSelectedItem();
+		DeleteAfter initialSelectedItem = (DeleteAfter) deleteAfterSpinner.getSelectedItem();
 
 		SpinnerAdapter adapter = deleteAfterSpinner.getAdapter();
 		solo.clickOnSpinner(R.id.ddlDisplayNotification);
@@ -111,27 +111,25 @@ public class SettingsActivityTest extends ActivityUnitTestCase<SettingsActivity>
 		DeleteAfter shouldBeSelected = null;
 		for (int i = 0; i < adapter.getCount(); i++) {
 			DeleteAfter adapterItem = (DeleteAfter) adapter.getItem(i);
-			if (item.index() != adapterItem.index()) {
+			if (initialSelectedItem.index() != adapterItem.index()) {
 				shouldBeSelected = adapterItem;
-				solo.selectSpinnerItem(R.id.ddlDisplayNotification, item);
+				solo.selectSpinnerItem(R.id.ddlDisplayNotification, adapterItem);
 				break;
 			}
 		}
 
 		Assert.assertNotNull(shouldBeSelected);
-		Assert.assertTrue(shouldBeSelected.index() != item.index());
+		Assert.assertTrue(shouldBeSelected.index() != initialSelectedItem.index());
 
-		DeleteAfter reallySelected = (DeleteAfter) deleteAfterSpinner.getSelectedItem();
-		Assert.assertTrue(reallySelected.index() == shouldBeSelected.index());
-		Assert.assertEquals(reallySelected.index(), getApplicationSettings().getDeleteAfter().index());
+		DeleteAfter newSelectedItem = (DeleteAfter) deleteAfterSpinner.getSelectedItem();
+		Assert.assertTrue(newSelectedItem.index() == shouldBeSelected.index());
+		Assert.assertEquals(newSelectedItem.index(), getApplicationSettings().getDeleteAfter().index());
 	}
 
 	public void testSettings_EditWhitelistButton_click() throws ViewNotFoundException {
 		solo.assertCurrentActivity("Expected activity: Settings", SettingsActivity.class);
 		solo.clickOnButton(R.id.btnEditWhitelist);
 		solo.waitForActivity(EditWhitelistActivity.class.getSimpleName(), 1000);
-		String expected = EditWhitelistActivity.class.getCanonicalName();
-		String actual = getStartedActivityIntent().getComponent().getClassName();
 
 		if ((this instanceof ActivityUnitTestCase)) {
 			Assert.assertEquals(

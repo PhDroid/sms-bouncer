@@ -69,21 +69,37 @@ public class Solo {
 	}
 
 	public void clickOnSpinner(int id) throws ViewNotFoundException {
-		Spinner s = getSpinner(id);
-		s.performClick();
+		final Spinner s = getSpinner(id);
+		getCurrentActivity().runOnUiThread(
+            new Runnable() {
+                public void run() {
+					s.requestFocus();
+	                //s.performClick();
+                }
+            }
+		);
 	}
 
-	public void selectSpinnerItem(int id, int position) throws ViewNotFoundException {
-		Spinner s = getSpinner(id);
-		s.setSelection(position);
+	public void selectSpinnerItem(int id, final int position) throws ViewNotFoundException {
+		final Spinner s = getSpinner(id);
+		getCurrentActivity().runOnUiThread(new Runnable() {
+			public void run() {
+				s.setSelection(position);
+			}
+		});
 	}
 
 	public void selectSpinnerItem(int id, Object item) throws ViewNotFoundException {
-		Spinner s = getSpinner(id);
+		final Spinner s = getSpinner(id);
 		SpinnerAdapter adapter = s.getAdapter();
 		for (int i = 0; i < adapter.getCount(); i++) {
 			if (adapter.getItem(i).equals(item)) {
-				s.setSelection(i);
+				final int index = i;
+				getCurrentActivity().runOnUiThread(new Runnable() {
+                    public void run() {
+						s.setSelection(index);
+                    }
+                });
 				break;
 			}
 		}
