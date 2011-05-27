@@ -18,20 +18,25 @@ import android.view.MotionEvent;
  */
 public class MockedContextInstrumentation extends Instrumentation {
 	private Context context;
+	private Context targetContext;
 	private Instrumentation innerInstrumentation;
 
 	public MockedContextInstrumentation(Instrumentation innerInstrumentation) {
 		this.innerInstrumentation = innerInstrumentation;
 	}
 
-	public Context getProperContext() {
-		return innerInstrumentation.getTargetContext();
+	@Override
+	public Context getTargetContext() {
+		if (targetContext == null) {
+			targetContext = new ResourceInjectedContext(this.innerInstrumentation.getTargetContext());
+		}
+		return targetContext;
 	}
 
 	@Override
 	public Context getContext() {
 		if (context == null) {
-			context = new ResourceInjectedContext(getProperContext());
+			context = new ResourceInjectedContext(this.innerInstrumentation.getContext());
 		}
 		return context;
 	}
@@ -89,11 +94,6 @@ public class MockedContextInstrumentation extends Instrumentation {
 	@Override
 	public ComponentName getComponentName() {
 		return innerInstrumentation.getComponentName();
-	}
-
-	@Override
-	public Context getTargetContext() {
-		return innerInstrumentation.getTargetContext();
 	}
 
 	@Override
