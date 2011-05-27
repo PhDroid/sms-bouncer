@@ -42,7 +42,7 @@ public class BlockedSmsListActivityTest extends ActivityInstrumentationTestCase2
 		assertEquals(ADAPTER_COUNT, mAdapter.getCount());
 	}
 
-	public void testUndoButtonIsInvisibleAtStartup(){
+	public void test_undo_button_is_invisible_at_startup(){
 		View v = mActivity.findViewById(R.id.buttonLayout);
 		assertEquals(View.GONE, v.getVisibility());
 	}
@@ -69,6 +69,18 @@ public class BlockedSmsListActivityTest extends ActivityInstrumentationTestCase2
 		pressDeleteAllMenuItem();
 		pressUndoButton();
 		assertEquals(originalCount, mAdapter.getCount());
+	}
+
+	public void test_delete_all_menu_item_is_disabled_after_deleting_all_data(){
+		pressDeleteAllMenuItem();
+		View v = mActivity.findViewById(R.id.delete_all_item);
+		assertEquals(false, v.isEnabled());
+	}
+
+	public void test_select_many_menu_item_is_disabled_after_deleting_all_data(){
+		pressDeleteAllMenuItem();
+		View v = mActivity.findViewById(R.id.select_many_item);
+		assertEquals(false, v.isEnabled());
 	}
 
 	private void pressUndoButton() {
