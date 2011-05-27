@@ -17,7 +17,7 @@ public class SettingsActivity extends Activity {
 
 	public ApplicationSettings getApplicationSettings() {
 		if (settings == null) {
-			settings = new ApplicationSettings(getApplicationContext());
+			settings = new ApplicationSettings(this);
 		}
 		return settings;
 	}

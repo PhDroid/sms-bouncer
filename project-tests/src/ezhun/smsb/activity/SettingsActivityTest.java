@@ -1,6 +1,5 @@
 package ezhun.smsb.activity;
 
-import android.app.Instrumentation;
 import android.content.Context;
 import android.content.Intent;
 import android.test.ActivityUnitTestCase;
@@ -9,7 +8,7 @@ import android.widget.SpinnerAdapter;
 import ezhun.android.test.blackjack.Solo;
 import ezhun.android.test.blackjack.exceptions.ViewNotFoundException;
 import ezhun.smsb.R;
-import ezhun.smsb.base.util.MockedContextInstrumentation;
+import ezhun.smsb.base.util.ResourceInjectedContext;
 import ezhun.smsb.storage.ApplicationSettings;
 import ezhun.smsb.storage.DeleteAfter;
 import junit.framework.Assert;
@@ -20,6 +19,7 @@ import junit.framework.Assert;
 public class SettingsActivityTest extends ActivityUnitTestCase<SettingsActivity> {
 	private Solo solo;
 	private ApplicationSettings settings;
+	private Context context;
 
 	public ApplicationSettings getApplicationSettings() {
 		if (settings == null) {
@@ -32,20 +32,12 @@ public class SettingsActivityTest extends ActivityUnitTestCase<SettingsActivity>
 		super(SettingsActivity.class);
 	}
 
-	private Instrumentation instrumentation;
-
 	private Context getContext() {
-		return getInstrumentation().getTargetContext();
-	}
+		if (context == null) {
+			context = new ResourceInjectedContext(getInstrumentation().getTargetContext());
+		}
 
-	@Override
-	public void injectInstrumentation(Instrumentation instrumentation) {
-		this.instrumentation = new MockedContextInstrumentation(instrumentation);
-	}
-
-	@Override
-	public Instrumentation getInstrumentation() {
-		return instrumentation;
+		return context;
 	}
 
 	@Override
@@ -54,6 +46,8 @@ public class SettingsActivityTest extends ActivityUnitTestCase<SettingsActivity>
 
 		solo = new Solo(getInstrumentation(), getActivity());
 		if (this instanceof ActivityUnitTestCase) {
+			setActivityContext(getContext());
+			//setApplication(new MockContextApplication(getContext()));
 			Intent start = new Intent(getContext(), SettingsActivity.class);
 			startActivity(start, null, null);
 		}
@@ -71,10 +65,13 @@ public class SettingsActivityTest extends ActivityUnitTestCase<SettingsActivity>
 			getActivity().finish();
 
 		}
+		context = null;
+		solo = null;
+		settings = null;
 		super.tearDown();
 	}
 
-	public void testSettings_currentActivity() {
+	public void testPreConditions() {
 		solo.assertCurrentActivity("Expected activity: Settings", SettingsActivity.class);
 	}
 
@@ -123,7 +120,8 @@ public class SettingsActivityTest extends ActivityUnitTestCase<SettingsActivity>
 
 		DeleteAfter newSelectedItem = (DeleteAfter) deleteAfterSpinner.getSelectedItem();
 		Assert.assertTrue(newSelectedItem.index() == shouldBeSelected.index());
-		//todo: check that context inside activity and everywhere else is switched
+		// looks like Spinner doesn't send proper events in ActivityUnitTestCase
+		// Assert.assertTrue(newSelectedItem.index() == getApplicationSettings().getDeleteAfter().index());
 	}
 
 	public void testSettings_EditWhitelistButton_click() throws ViewNotFoundException {
