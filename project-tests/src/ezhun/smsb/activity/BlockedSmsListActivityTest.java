@@ -72,8 +72,13 @@ public class BlockedSmsListActivityTest extends ActivityInstrumentationTestCase2
 	}
 
 	private void pressUndoButton() {
-		Button b = (Button)mActivity.findViewById(R.id.undoButton);
-		b.performClick();
+		final Button b = (Button)mActivity.findViewById(R.id.undoButton);
+		mActivity.runOnUiThread(new Runnable() {
+			public void run() {
+				b.performClick();
+			}
+		});
+		getInstrumentation().waitForIdleSync();
 	}
 
 	private void pressDeleteAllMenuItem() {
