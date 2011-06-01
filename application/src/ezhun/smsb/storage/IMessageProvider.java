@@ -30,4 +30,8 @@ public interface IMessageProvider {
     void undo();
 
     void performActions();
+
+	SmsPojo getPreviousMessage(SmsPojo message);
+
+	SmsPojo getNextMessage(SmsPojo message);
 }
