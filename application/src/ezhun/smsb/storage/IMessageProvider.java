@@ -34,4 +34,6 @@ public interface IMessageProvider {
 	SmsPojo getPreviousMessage(SmsPojo message);
 
 	SmsPojo getNextMessage(SmsPojo message);
+
+	int getIndex(SmsPojo message);
 }

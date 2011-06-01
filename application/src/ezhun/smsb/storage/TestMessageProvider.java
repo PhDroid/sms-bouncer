@@ -136,6 +136,11 @@ public class TestMessageProvider implements IMessageProvider {
 	}
 
 	@Override
+	public int getIndex(SmsPojo message) {
+		return mList.indexOf(message);
+	}
+
+	@Override
 	public SmsPojo getPreviousMessage(SmsPojo message) {
 		int index = mList.indexOf(message);
 		if (index <= 0) {

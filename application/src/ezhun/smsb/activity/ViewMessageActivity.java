@@ -108,14 +108,40 @@ public class ViewMessageActivity extends Activity {
 	public class GoToPreviousListener implements View.OnClickListener {
 		@Override
 		public void onClick(View view) {
-			//todo: implement Previous button logic
+			IMessageProvider p = GetMessageProvider();
+			SmsPojo current = p.getMessage(mId);
+			SmsPojo target = p.getPreviousMessage(current);
+			if (target == null) {
+				return;
+			}
+
+			Intent intent = new Intent(ViewMessageActivity.this, ViewMessageActivity.class);
+            Bundle b = new Bundle();
+            b.putInt("id", p.getIndex(target));
+                intent.putExtras(b);
+				startActivity(intent);
+
+			finish();
 		}
 	}
 
 	public class GoToNextListener implements View.OnClickListener {
 		@Override
 		public void onClick(View view) {
-			//todo: implement Next button logic
+			IMessageProvider p = GetMessageProvider();
+			SmsPojo current = p.getMessage(mId);
+			SmsPojo target = p.getNextMessage(current);
+			if (target == null) {
+				return;
+			}
+
+			Intent intent = new Intent(ViewMessageActivity.this, ViewMessageActivity.class);
+            Bundle b = new Bundle();
+            b.putInt("id", p.getIndex(target));
+                intent.putExtras(b);
+				startActivity(intent);
+
+			finish();
 		}
 	}
 }
