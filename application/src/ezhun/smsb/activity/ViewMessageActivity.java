@@ -14,6 +14,9 @@ import ezhun.smsb.exceptions.ArgumentException;
 import ezhun.smsb.storage.IMessageProvider;
 import ezhun.smsb.storage.MessageProviderHelper;
 
+/**
+ * Show detailed sms message with several control functions.
+ */
 public class ViewMessageActivity extends Activity {
     private int mId = -1;
 
