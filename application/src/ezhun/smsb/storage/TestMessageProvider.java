@@ -141,6 +141,16 @@ public class TestMessageProvider implements IMessageProvider {
 	}
 
 	@Override
+	public boolean isFirstMessage(SmsPojo message) {
+		return mList.indexOf(message) == 0;
+	}
+
+	@Override
+	public boolean isLastMessage(SmsPojo message) {
+		return mList.indexOf(message) == mList.size()-1;
+	}
+
+	@Override
 	public SmsPojo getPreviousMessage(SmsPojo message) {
 		int index = mList.indexOf(message);
 		if (index <= 0) {

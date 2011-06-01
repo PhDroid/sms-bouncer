@@ -23,25 +23,11 @@ public class ViewMessageActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.view_message);
 
-		Button btnDelete = (Button) findViewById(R.id.deleteButton);
-		btnDelete.getBackground().setColorFilter(ActivityConstants.COLOR_RED, PorterDuff.Mode.MULTIPLY);
-		btnDelete.setOnClickListener(new DeleteListener());
-		Button btnNotSpam = (Button) findViewById(R.id.notSpamButton);
-		btnNotSpam.getBackground().setColorFilter(ActivityConstants.COLOR_GREEN, PorterDuff.Mode.MULTIPLY);
-		btnNotSpam.setOnClickListener(new NotSpamListener());
-		Button btnReply = (Button) findViewById(R.id.replyButton);
-		btnReply.getBackground().setColorFilter(ActivityConstants.COLOR_GREEN, PorterDuff.Mode.MULTIPLY);
-		btnReply.setOnClickListener(new ReplyListener());
-		Button btnPrev = (Button) findViewById(R.id.prevButton);
-		btnPrev.setOnClickListener(new GoToPreviousListener());
-		Button btnNext = (Button) findViewById(R.id.nextButton);
-		btnNext.setOnClickListener(new GoToNextListener());
-
-
 		Bundle b = getIntent().getExtras();
+		SmsPojo sms = null;
 		mId = b.getInt("id", -1);
 		if (mId >= 0) {
-			SmsPojo sms = GetMessageProvider().getMessage(mId);
+			sms = GetMessageProvider().getMessage(mId);
 
 			TextView sender = (TextView) findViewById(R.id.senderTextView);
 			TextView received = (TextView) findViewById(R.id.receivedTimeTextView);
@@ -65,7 +51,25 @@ public class ViewMessageActivity extends Activity {
 					Integer.toString(GetMessageProvider().getUnreadCount())));
 		} else {
 			//todo: throw something and log actions
+			return;
 		}
+
+
+		Button btnDelete = (Button) findViewById(R.id.deleteButton);
+		btnDelete.getBackground().setColorFilter(ActivityConstants.COLOR_RED, PorterDuff.Mode.MULTIPLY);
+		btnDelete.setOnClickListener(new DeleteListener());
+		Button btnNotSpam = (Button) findViewById(R.id.notSpamButton);
+		btnNotSpam.getBackground().setColorFilter(ActivityConstants.COLOR_GREEN, PorterDuff.Mode.MULTIPLY);
+		btnNotSpam.setOnClickListener(new NotSpamListener());
+		Button btnReply = (Button) findViewById(R.id.replyButton);
+		btnReply.getBackground().setColorFilter(ActivityConstants.COLOR_GREEN, PorterDuff.Mode.MULTIPLY);
+		btnReply.setOnClickListener(new ReplyListener());
+		Button btnPrev = (Button) findViewById(R.id.prevButton);
+		btnPrev.setEnabled(!GetMessageProvider().isFirstMessage(sms));
+		btnPrev.setOnClickListener(new GoToPreviousListener());
+		Button btnNext = (Button) findViewById(R.id.nextButton);
+		btnNext.setEnabled(!GetMessageProvider().isLastMessage(sms));
+		btnNext.setOnClickListener(new GoToNextListener());
 	}
 
 
