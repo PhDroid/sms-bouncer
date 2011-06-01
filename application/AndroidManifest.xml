@@ -24,7 +24,6 @@
             </intent-filter>
         </receiver>
 
-	    <service android:name=".service.SmsAnalysisService"/>
 	    <provider android:name="ezhun.smsb.storage.SmsContentProvider"
 			android:authorities="ezhun.smsb.storage.SmsContentProvider" />
     </application>
