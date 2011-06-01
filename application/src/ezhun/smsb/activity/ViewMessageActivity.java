@@ -1,13 +1,13 @@
 package ezhun.smsb.activity;
 
+import android.app.Activity;
 import android.graphics.PorterDuff;
+import android.os.Bundle;
 import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import ezhun.smsb.R;
-import android.app.Activity;
-import android.os.Bundle;
 import ezhun.smsb.SmsPojo;
 import ezhun.smsb.storage.IMessageProvider;
 import ezhun.smsb.storage.MessageProviderHelper;
@@ -16,60 +16,97 @@ import ezhun.smsb.storage.MessageProviderHelper;
  * Show detailed sms message with several control functions.
  */
 public class ViewMessageActivity extends Activity {
-    private int mId = -1;
+	private int mId = -1;
 
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.view_message);
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.view_message);
 
-        Button button = (Button)findViewById(R.id.deleteButton);
-        button.getBackground().setColorFilter(ActivityConstants.COLOR_RED, PorterDuff.Mode.MULTIPLY);
-        button = (Button)findViewById(R.id.notSpamButton);
-        button.getBackground().setColorFilter(ActivityConstants.COLOR_GREEN, PorterDuff.Mode.MULTIPLY);
-        button = (Button)findViewById(R.id.replyButton);
-        button.getBackground().setColorFilter(ActivityConstants.COLOR_GREEN, PorterDuff.Mode.MULTIPLY);
-
-        Bundle b = getIntent().getExtras();
-        mId = b.getInt("id", -1);
-        if(mId >= 0){
-            SmsPojo sms =  GetMessageProvider().getMessage(mId);
-
-            TextView sender = (TextView) findViewById(R.id.senderTextView);
-            TextView received = (TextView) findViewById(R.id.receivedTimeTextView);
-            TextView message = (TextView) findViewById(R.id.messageTextView);
-
-            sender.setText(sms.getSender());
-            received.setText(DateUtils.getRelativeDateTimeString(
-                    this,
-                    sms.getReceived(),
-                    DateUtils.MINUTE_IN_MILLIS,
-                    DateUtils.WEEK_IN_MILLIS,
-                    DateUtils.FORMAT_ABBREV_RELATIVE));
-            message.setText(sms.getMessage());
-
-            GetMessageProvider().read(mId);
-
-            setTitle(R.string.app_name);
-            setTitle(String.format(
-                    "%s (%s)",
-                    getTitle().toString(),
-                    Integer.toString(GetMessageProvider().getUnreadCount())));
-        }
-    }
+		Button btnDelete = (Button) findViewById(R.id.deleteButton);
+		btnDelete.getBackground().setColorFilter(ActivityConstants.COLOR_RED, PorterDuff.Mode.MULTIPLY);
+		btnDelete.setOnClickListener(new DeleteListener());
+		Button btnNotSpam = (Button) findViewById(R.id.notSpamButton);
+		btnNotSpam.getBackground().setColorFilter(ActivityConstants.COLOR_GREEN, PorterDuff.Mode.MULTIPLY);
+		btnNotSpam.setOnClickListener(new NotSpamListener());
+		Button btnReply = (Button) findViewById(R.id.replyButton);
+		btnReply.getBackground().setColorFilter(ActivityConstants.COLOR_GREEN, PorterDuff.Mode.MULTIPLY);
+		btnReply.setOnClickListener(new ReplyListener());
+		Button btnPrev = (Button) findViewById(R.id.prevButton);
+		btnPrev.setOnClickListener(new GoToPreviousListener());
+		Button btnNext = (Button) findViewById(R.id.nextButton);
+		btnNext.setOnClickListener(new GoToNextListener());
 
 
-    protected IMessageProvider GetMessageProvider() {
-        return MessageProviderHelper.getMessageProvider();
-    }
+		Bundle b = getIntent().getExtras();
+		mId = b.getInt("id", -1);
+		if (mId >= 0) {
+			SmsPojo sms = GetMessageProvider().getMessage(mId);
 
-    public void deleteMessage(View view) {
-        GetMessageProvider().delete(mId);
-        finish();
-    }
+			TextView sender = (TextView) findViewById(R.id.senderTextView);
+			TextView received = (TextView) findViewById(R.id.receivedTimeTextView);
+			TextView message = (TextView) findViewById(R.id.messageTextView);
 
-    public void markMessageAsNotSpam(View view) {
-        GetMessageProvider().notSpam(mId);
-        finish();
-    }
+			sender.setText(sms.getSender());
+			received.setText(DateUtils.getRelativeDateTimeString(
+					this,
+					sms.getReceived(),
+					DateUtils.MINUTE_IN_MILLIS,
+					DateUtils.WEEK_IN_MILLIS,
+					DateUtils.FORMAT_ABBREV_RELATIVE));
+			message.setText(sms.getMessage());
 
+			GetMessageProvider().read(mId);
+
+			setTitle(R.string.app_name);
+			setTitle(String.format(
+					"%s (%s)",
+					getTitle().toString(),
+					Integer.toString(GetMessageProvider().getUnreadCount())));
+		} else {
+			//todo: throw something and log actions
+		}
+	}
+
+
+	protected IMessageProvider GetMessageProvider() {
+		return MessageProviderHelper.getMessageProvider();
+	}
+
+
+	public class DeleteListener implements View.OnClickListener {
+		@Override
+		public void onClick(View view) {
+			GetMessageProvider().delete(mId);
+			finish();
+		}
+	}
+
+	public class NotSpamListener implements View.OnClickListener {
+		@Override
+		public void onClick(View view) {
+			GetMessageProvider().notSpam(mId);
+			finish();
+		}
+	}
+
+	public class ReplyListener implements View.OnClickListener {
+		@Override
+		public void onClick(View view) {
+			//todo: implement Reply button logic
+		}
+	}
+
+	public class GoToPreviousListener implements View.OnClickListener {
+		@Override
+		public void onClick(View view) {
+			//todo: implement Previous button logic
+		}
+	}
+
+	public class GoToNextListener implements View.OnClickListener {
+		@Override
+		public void onClick(View view) {
+			//todo: implement Next button logic
+		}
+	}
 }
