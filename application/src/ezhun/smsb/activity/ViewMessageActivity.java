@@ -1,6 +1,7 @@
 package ezhun.smsb.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.text.format.DateUtils;
@@ -92,7 +93,15 @@ public class ViewMessageActivity extends Activity {
 	public class ReplyListener implements View.OnClickListener {
 		@Override
 		public void onClick(View view) {
-			//todo: implement Reply button logic
+			SmsPojo sms = GetMessageProvider().getMessage(mId);
+
+			GetMessageProvider().notSpam(mId);
+			finish();
+
+			Intent intent = new Intent(Intent.ACTION_VIEW);
+			intent.putExtra("address", sms.getSender());
+			intent.setType("vnd.android-dir/mms-sms");
+			startActivity(intent);
 		}
 	}
 
