@@ -25,7 +25,3 @@ build/*
 # Ignore mockups export
 mockups/export/*
 
-# Tools directory
-tools/*
-
-
