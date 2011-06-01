@@ -90,6 +90,7 @@ public class ViewMessageActivity extends Activity {
 		@Override
 		public void onClick(View view) {
 			GetMessageProvider().notSpam(mId);
+            //todo: move message to Android SMS storage
 			finish();
 		}
 	}
@@ -100,7 +101,8 @@ public class ViewMessageActivity extends Activity {
 			SmsPojo sms = GetMessageProvider().getMessage(mId);
 
 			GetMessageProvider().notSpam(mId);
-			finish();
+			//todo: move message to Android SMS storage
+            finish();
 
 			Intent intent = new Intent(Intent.ACTION_VIEW);
 			intent.putExtra("address", sms.getSender());
