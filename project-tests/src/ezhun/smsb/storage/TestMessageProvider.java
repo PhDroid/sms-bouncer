@@ -173,7 +173,7 @@ public class TestMessageProvider implements IMessageProvider{
     }
 
     public void performActions() {
-        //To change body of implemented methods use File | Settings | File Templates.
+        mActions.clear();
     }
 
 	public int getIndex(SmsPojo message) {

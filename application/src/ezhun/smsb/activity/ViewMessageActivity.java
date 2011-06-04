@@ -46,9 +46,10 @@ public class ViewMessageActivity extends Activity {
 
 			setTitle(R.string.app_name);
 			setTitle(String.format(
-					"%s (%s)",
-					getTitle().toString(),
-					Integer.toString(GetMessageProvider().getUnreadCount())));
+                    "%s%s",
+                    getTitle().toString(),
+                    GetMessageProvider().getUnreadCount() > 0 ?
+						String.format(" (%s)", Integer.toString(GetMessageProvider().getUnreadCount())) : ""));
 		} else {
 			//todo: throw something and log actions
 			return;
