@@ -1,12 +1,16 @@
 package ezhun.smsb.activity;
 
 import android.test.ActivityInstrumentationTestCase2;
+import android.test.ViewAsserts;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import ezhun.android.test.blackjack.Solo;
 import ezhun.smsb.R;
+import ezhun.smsb.base.util.InMemoryPreferences;
+import ezhun.smsb.storage.IMessageProvider;
 import ezhun.smsb.storage.MessageProviderHelper;
 import ezhun.smsb.storage.TestMessageProvider;
 
@@ -15,6 +19,7 @@ public class BlockedSmsListActivityTest extends ActivityInstrumentationTestCase2
 	private ListView mList;
 	private SmsPojoArrayAdapter mAdapter;
 	private static final int ADAPTER_COUNT = 10;
+	private Solo mSolo;
 
 	public BlockedSmsListActivityTest(){
 		super("ezhun.smsb.activity.BlockedSmsListActivity", BlockedSmsListActivity.class);
@@ -35,6 +40,7 @@ public class BlockedSmsListActivityTest extends ActivityInstrumentationTestCase2
 		mActivity = getActivity();
 		mList = (ListView)mActivity.findViewById(R.id.messagesListView);
 		mAdapter = (SmsPojoArrayAdapter) mList.getAdapter();
+		mSolo = new Solo(getInstrumentation(), getActivity());
 	}
 
 	public void testPreConditions() {
@@ -83,6 +89,64 @@ public class BlockedSmsListActivityTest extends ActivityInstrumentationTestCase2
 		assertEquals(false, v.isEnabled());
 	}
 
+	public void test_pressing_select_many_button_opens_select_many_activity(){
+		pressSelectManyMenuItem();
+		assertEquals(SelectManyActivity.class, mSolo.getCurrentActivity().getClass());
+	}
+
+	public void test_pressing_settings_button_opens_settings_activity(){
+		pressSettingsMenuItem();
+		assertEquals(SettingsActivity.class, mSolo.getCurrentActivity().getClass());
+	}
+
+	public void test_pressing_message_opens_view_message_activity(){
+		pressMessage(3);
+		assertEquals(ViewMessageActivity.class, mSolo.getCurrentActivity().getClass());
+	}
+
+	public void test_actions_are_performed_when_navigating_to_select_many_activity(){
+		deleteFirstMessage();
+		pressSelectManyMenuItem();
+		sendKeys(KeyEvent.KEYCODE_BACK);
+		View v = mActivity.findViewById(R.id.buttonLayout);
+		assertEquals(View.GONE, v.getVisibility());
+	}
+
+	public void test_actions_are_performed_when_navigating_to_settings_activity(){
+		deleteFirstMessage();
+		pressSettingsMenuItem();
+		sendKeys(KeyEvent.KEYCODE_BACK);
+		View v = mActivity.findViewById(R.id.buttonLayout);
+		assertEquals(View.GONE, v.getVisibility());
+	}
+
+	public void test_actions_are_performed_when_navigating_to_view_message_activity(){
+		deleteFirstMessage();
+		pressMessage(2);
+		sendKeys(KeyEvent.KEYCODE_BACK);
+		View v = mActivity.findViewById(R.id.buttonLayout);
+		assertEquals(View.GONE, v.getVisibility());
+	}
+
+	private void deleteFirstMessage() {
+		final IMessageProvider provider = MessageProviderHelper.getMessageProvider();
+		mActivity.runOnUiThread(new Runnable() {
+			public void run() {
+				provider.delete(0);
+				mAdapter.notifyDataSetChanged();
+			}
+		});
+		getInstrumentation().waitForIdleSync();
+	}
+
+	private void pressMessage(int messageIndex) {
+		for(int i = 0; i<messageIndex; i++){
+			sendKeys(KeyEvent.KEYCODE_DPAD_DOWN); // selecting first menu item (delete all)
+		}
+		sendKeys(KeyEvent.KEYCODE_DPAD_CENTER); // pressing selected item
+		getInstrumentation().waitForIdleSync();
+	}
+
 	private void pressUndoButton() {
 		final Button b = (Button)mActivity.findViewById(R.id.undoButton);
 		mActivity.runOnUiThread(new Runnable() {
@@ -94,8 +158,23 @@ public class BlockedSmsListActivityTest extends ActivityInstrumentationTestCase2
 	}
 
 	private void pressDeleteAllMenuItem() {
+		pressMenuItem(1);
+	}
+
+	private void pressSelectManyMenuItem() {
+		pressMenuItem(2);
+	}
+
+	private void pressSettingsMenuItem() {
+		pressMenuItem(3);
+	}
+
+	private void pressMenuItem(int menuItemIndex){
 		sendKeys(KeyEvent.KEYCODE_MENU); // showing menu
-		sendKeys(KeyEvent.KEYCODE_DPAD_LEFT); // selecting first menu item (delete all)
+		for(int i = 0; i<menuItemIndex; i++){
+			sendKeys(KeyEvent.KEYCODE_DPAD_LEFT); // selecting menu item
+		}
 		sendKeys(KeyEvent.KEYCODE_DPAD_CENTER); // pressing selected item
+		getInstrumentation().waitForIdleSync();
 	}
 }
