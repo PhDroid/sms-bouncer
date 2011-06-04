@@ -79,13 +79,15 @@ public class BlockedSmsListActivityTest extends ActivityInstrumentationTestCase2
 
 	public void test_delete_all_menu_item_is_disabled_after_deleting_all_data(){
 		pressDeleteAllMenuItem();
+		getInstrumentation().sendKeyDownUpSync(KeyEvent.KEYCODE_MENU);
 		View v = mActivity.findViewById(R.id.delete_all_item);
 		assertEquals(false, v.isEnabled());
 	}
 
 	public void test_select_many_menu_item_is_disabled_after_deleting_all_data(){
 		pressDeleteAllMenuItem();
-		View v = mActivity.findViewById(R.id.select_many_item);
+		getInstrumentation().sendKeyDownUpSync(KeyEvent.KEYCODE_MENU);
+		View v = mActivity.findViewById(R.id.list_menu_group);
 		assertEquals(false, v.isEnabled());
 	}
 
@@ -158,23 +160,20 @@ public class BlockedSmsListActivityTest extends ActivityInstrumentationTestCase2
 	}
 
 	private void pressDeleteAllMenuItem() {
-		pressMenuItem(1);
+		getInstrumentation().sendKeyDownUpSync(KeyEvent.KEYCODE_MENU);
+		getInstrumentation().invokeMenuActionSync(mActivity, R.id.delete_all_item, 0);
+
 	}
 
 	private void pressSelectManyMenuItem() {
-		pressMenuItem(2);
+		getInstrumentation().sendKeyDownUpSync(KeyEvent.KEYCODE_MENU);
+		getInstrumentation().invokeMenuActionSync(mActivity, R.id.select_many_item, 0);
+
 	}
 
 	private void pressSettingsMenuItem() {
-		pressMenuItem(3);
-	}
+		getInstrumentation().sendKeyDownUpSync(KeyEvent.KEYCODE_MENU);
+		getInstrumentation().invokeMenuActionSync(mActivity, R.id.settings_item, 0);
 
-	private void pressMenuItem(int menuItemIndex){
-		sendKeys(KeyEvent.KEYCODE_MENU); // showing menu
-		for(int i = 0; i<menuItemIndex; i++){
-			sendKeys(KeyEvent.KEYCODE_DPAD_LEFT); // selecting menu item
-		}
-		sendKeys(KeyEvent.KEYCODE_DPAD_CENTER); // pressing selected item
-		getInstrumentation().waitForIdleSync();
 	}
 }
