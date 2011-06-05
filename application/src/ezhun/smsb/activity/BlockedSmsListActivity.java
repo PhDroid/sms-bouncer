@@ -49,6 +49,7 @@ public class BlockedSmsListActivity extends Activity {
                 Bundle b = new Bundle();
                 b.putInt("id", position);// TODO: change with message ID
                 intent.putExtras(b);
+				GetMessageProvider().performActions();
 				startActivity(intent);
             }
         });
@@ -86,10 +87,29 @@ public class BlockedSmsListActivity extends Activity {
     private void updateTitle() {
         setTitle(R.string.app_name);
         setTitle(String.format(
-                    "%s (%s)",
+                    "%s%s",
                     getTitle().toString(),
-                    Integer.toString(GetMessageProvider().getUnreadCount())));
+                    GetMessageProvider().getUnreadCount() > 0 ?
+						String.format(" (%s)", Integer.toString(GetMessageProvider().getUnreadCount())) : ""));
     }
+
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		super.onPrepareOptionsMenu(menu);
+		if(GetMessageProvider().getMessages().size() > 0){
+			MenuItem item = menu.findItem(R.id.delete_all_item);
+			item.setEnabled(true);
+			item = menu.findItem(R.id.select_many_item);
+			item.setEnabled(true);
+		} else {
+			MenuItem item = menu.findItem(R.id.delete_all_item);
+			item.setEnabled(false);
+			item = menu.findItem(R.id.select_many_item);
+			item.setEnabled(false);
+		}
+
+		return true;
+	}
 
     @Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -104,13 +124,16 @@ public class BlockedSmsListActivity extends Activity {
 		switch (item.getItemId()) {
 			case R.id.settings_item:
 				Intent intent = new Intent(BlockedSmsListActivity.this, SettingsActivity.class);
+				GetMessageProvider().performActions();
 				startActivity(intent);
 				return true;
             case R.id.select_many_item:
                 Intent smIntent = new Intent(BlockedSmsListActivity.this, SelectManyActivity.class);
+				GetMessageProvider().performActions();
 				startActivity(smIntent);
                 return true;
             case R.id.delete_all_item:
+				GetMessageProvider().performActions();
                 GetMessageProvider().deleteAll();
                 smsPojoArrayAdapter.notifyDataSetChanged();
                 processUndoButton();

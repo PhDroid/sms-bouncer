@@ -173,10 +173,38 @@ public class TestMessageProvider implements IMessageProvider{
     }
 
     public void performActions() {
-        //To change body of implemented methods use File | Settings | File Templates.
+        mActions.clear();
     }
 
-    private SmsPojo get(long id){
+	public int getIndex(SmsPojo message) {
+		return mList.indexOf(message);
+	}
+
+	public SmsPojo getPreviousMessage(SmsPojo message) {
+		int index = mList.indexOf(message);
+		if (index <= 0) {
+			return null;
+		}
+		return mList.get(--index);
+	}
+
+	public SmsPojo getNextMessage(SmsPojo message) {
+		int index = mList.indexOf(message);
+		if (index >= mList.size()-1) {
+			return null;
+		}
+		return mList.get(++index);
+	}
+
+	private SmsPojo get(long id){
         return mList.get((int)id);
     }
+
+	public boolean isFirstMessage(SmsPojo message) {
+		return mList.indexOf(message) == 0;
+	}
+
+	public boolean isLastMessage(SmsPojo message) {
+		return mList.indexOf(message) == mList.size()-1;
+	}
 }
