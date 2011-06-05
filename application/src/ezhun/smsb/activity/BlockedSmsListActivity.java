@@ -93,6 +93,24 @@ public class BlockedSmsListActivity extends Activity {
 						String.format(" (%s)", Integer.toString(GetMessageProvider().getUnreadCount())) : ""));
     }
 
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		super.onPrepareOptionsMenu(menu);
+		if(GetMessageProvider().getMessages().size() > 0){
+			MenuItem item = menu.findItem(R.id.delete_all_item);
+			item.setEnabled(true);
+			item = menu.findItem(R.id.select_many_item);
+			item.setEnabled(true);
+		} else {
+			MenuItem item = menu.findItem(R.id.delete_all_item);
+			item.setEnabled(false);
+			item = menu.findItem(R.id.select_many_item);
+			item.setEnabled(false);
+		}
+
+		return true;
+	}
+
     @Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();

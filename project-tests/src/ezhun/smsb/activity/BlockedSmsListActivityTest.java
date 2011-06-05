@@ -3,6 +3,7 @@ package ezhun.smsb.activity;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.ViewAsserts;
 import android.view.KeyEvent;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -75,20 +76,6 @@ public class BlockedSmsListActivityTest extends ActivityInstrumentationTestCase2
 		pressDeleteAllMenuItem();
 		pressUndoButton();
 		assertEquals(originalCount, mAdapter.getCount());
-	}
-
-	public void test_delete_all_menu_item_is_disabled_after_deleting_all_data(){
-		pressDeleteAllMenuItem();
-		getInstrumentation().sendKeyDownUpSync(KeyEvent.KEYCODE_MENU);
-		View v = mActivity.findViewById(R.id.delete_all_item);
-		assertEquals(false, v.isEnabled());
-	}
-
-	public void test_select_many_menu_item_is_disabled_after_deleting_all_data(){
-		pressDeleteAllMenuItem();
-		getInstrumentation().sendKeyDownUpSync(KeyEvent.KEYCODE_MENU);
-		View v = mActivity.findViewById(R.id.list_menu_group);
-		assertEquals(false, v.isEnabled());
 	}
 
 	public void test_pressing_select_many_button_opens_select_many_activity(){
