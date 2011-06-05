@@ -1,25 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout
-android:layout_width="fill_parent"
-android:layout_height="fill_parent"
-xmlns:android="http://schemas.android.com/apk/res/android"
-android:orientation="vertical" android:id="@+id/layout_settings">
-<TableRow android:id="@+id/tableRow1" android:layout_width="wrap_content" android:layout_height="wrap_content">
-    <TextView android:layout_height="wrap_content" android:padding="10px" android:layout_width="wrap_content" android:textSize="24sp" android:id="@+id/tb_Heading" android:text="Settings"></TextView>
-</TableRow>
-<TableRow android:id="@+id/tableRow2" android:layout_width="wrap_content" android:layout_height="wrap_content">
-    <LinearLayout android:layout_width="wrap_content" android:id="@+id/linearLayout1" android:layout_height="wrap_content">
-    	<TextView android:layout_width="wrap_content" android:id="@+id/tbDisplayNotification" android:text="Display panel notification" android:layout_height="20px"></TextView>
-    	<CheckBox android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/cbNotification"></CheckBox>
-	</LinearLayout>
-</TableRow>
-<TableRow android:id="@+id/tableRow3" android:layout_width="wrap_content" android:layout_height="wrap_content">
-    <LinearLayout android:layout_width="wrap_content" android:id="@+id/linearLayout2" android:layout_height="wrap_content">
-        <TextView android:layout_width="wrap_content" android:id="@+id/tbClear" android:text="Clear messages after" android:layout_height="20px"></TextView>
-        <Spinner android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/ddlDisplayNotification"></Spinner>
-    </LinearLayout>
-</TableRow>
-<TableRow android:id="@+id/tableRow4" android:layout_width="wrap_content" android:layout_height="wrap_content">
-    <Button android:layout_height="wrap_content" android:padding="5px" android:layout_width="244px" android:id="@+id/btnEditWhitelist" android:text="Edit senders white list"></Button>
-</TableRow>
-</TableLayout>
+<RelativeLayout
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:orientation="vertical" android:id="@+id/layout_settings">
+	<TextView android:id="@+id/tb_Heading"
+	          android:textSize="24sp"
+	          android:text="Settings"
+	          android:layout_height="wrap_content"
+	          android:layout_width="wrap_content"
+	          android:padding="5px"/>
+
+	<TextView android:id="@+id/tbDisplayNotification"
+	          android:text="Display panel notification"
+	          android:layout_width="wrap_content"
+	          android:layout_height="45dp"
+	          android:layout_below="@+id/tb_Heading"
+	          android:padding="5px"
+			/>
+
+	<CheckBox android:id="@+id/cbNotification"
+	          android:layout_width="wrap_content"
+	          android:layout_height="45dp"
+	          android:layout_alignParentRight="true"
+	          android:layout_below="@+id/tb_Heading"
+	          android:padding="5px"
+			/>
+
+	<TextView android:id="@+id/tbClear"
+	          android:text="Clear messages after"
+	          android:layout_width="wrap_content"
+	          android:layout_height="45dp"
+	          android:layout_below="@+id/tbDisplayNotification"
+	          android:padding="5px"/>
+
+	<Spinner android:id="@+id/ddlDisplayNotification"
+	         android:layout_width="wrap_content"
+	         android:layout_height="45dp"
+	         android:layout_alignParentRight="true"
+	         android:layout_toRightOf="@+id/tbClear"
+	         android:layout_alignTop="@+id/tbClear"
+	         android:padding="5px"/>
+
+	<Button android:id="@+id/btnEditWhitelist"
+	        android:text="Edit senders white list"
+	        android:layout_height="45dp"
+	        android:layout_width="fill_parent"
+	        android:layout_below="@+id/tbClear"
+	        android:padding="5px"/>
+</RelativeLayout>
