@@ -1,0 +1,13 @@
+# Ignore Intellij Idea files #
+workspace.xml
+.name
+ant.xml
+compiler.xml
+copyright/*
+encodings.xml
+misc.xml
+uiDesigner.xml
+vcs.xml
+dictionaries/*
+inspectionProfiles/*
+
