@@ -7,10 +7,10 @@ import android.view.MotionEvent;
  * Detects swipe action.
  */
 public class HorizontalSwipeListener extends GestureDetector.SimpleOnGestureListener {
-	private static final int SWIPE_MIN_DISTANCE = 120;
-	private static final int SWIPE_THRESHOLD_VELOCITY = 200;
+	private static final int SWIPE_MIN_DISTANCE = 100;
+	private static final int SWIPE_THRESHOLD_VELOCITY = 75;
 
-	public abstract class Swipe {
+	public abstract static class Swipe {
 		public abstract void doSwipe();
 	}
 
@@ -57,13 +57,13 @@ public class HorizontalSwipeListener extends GestureDetector.SimpleOnGestureList
 	@Override
 	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
 		if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-			if (swipeLeft != null) {
-				swipeLeft.doSwipe();
+			if (swipeRight != null) {
+				swipeRight.doSwipe();
 				return true;
 			}
 		} else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-			if (swipeRight != null) {
-				swipeRight.doSwipe();
+			if (swipeLeft != null) {
+				swipeLeft.doSwipe();
 				return true;
 			}
 		}

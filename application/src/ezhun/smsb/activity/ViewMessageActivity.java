@@ -1,6 +1,5 @@
 package ezhun.smsb.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -8,6 +7,7 @@ import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 import ezhun.smsb.R;
 import ezhun.smsb.SmsPojo;
 import ezhun.smsb.storage.IMessageProvider;
@@ -22,7 +22,7 @@ public class ViewMessageActivity extends EventInjectedActivity {
 	private int mId = -1;
 
 	public void onCreate(Bundle savedInstanceState) {
-		HorizontalSwipeListener.register(this);
+		HorizontalSwipeListener swiper = HorizontalSwipeListener.register(this);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.view_message);
 
@@ -49,10 +49,10 @@ public class ViewMessageActivity extends EventInjectedActivity {
 
 			setTitle(R.string.app_name);
 			setTitle(String.format(
-                    "%s%s",
-                    getTitle().toString(),
-                    GetMessageProvider().getUnreadCount() > 0 ?
-						String.format(" (%s)", Integer.toString(GetMessageProvider().getUnreadCount())) : ""));
+					"%s%s",
+					getTitle().toString(),
+					GetMessageProvider().getUnreadCount() > 0 ?
+							String.format(" (%s)", Integer.toString(GetMessageProvider().getUnreadCount())) : ""));
 		} else {
 			//todo: throw something and log actions
 			return;
@@ -74,6 +74,19 @@ public class ViewMessageActivity extends EventInjectedActivity {
 		Button btnNext = (Button) findViewById(R.id.nextButton);
 		btnNext.setEnabled(!GetMessageProvider().isLastMessage(sms));
 		btnNext.setOnClickListener(new GoToNextListener());
+
+		swiper.setSwipeLeft(new HorizontalSwipeListener.Swipe() {
+			@Override
+			public void doSwipe() {
+				goToPreviousMessage();
+			}
+		});
+		swiper.setSwipeRight(new HorizontalSwipeListener.Swipe() {
+			@Override
+			public void doSwipe() {
+				goToNextMessage();
+			}
+		});
 	}
 
 
@@ -94,7 +107,7 @@ public class ViewMessageActivity extends EventInjectedActivity {
 		@Override
 		public void onClick(View view) {
 			GetMessageProvider().notSpam(mId);
-            //todo: move message to Android SMS storage
+			//todo: move message to Android SMS storage
 			finish();
 		}
 	}
@@ -106,7 +119,7 @@ public class ViewMessageActivity extends EventInjectedActivity {
 
 			GetMessageProvider().notSpam(mId);
 			//todo: move message to Android SMS storage
-            finish();
+			finish();
 
 			Intent intent = new Intent(Intent.ACTION_VIEW);
 			intent.putExtra("address", sms.getSender());
@@ -118,40 +131,48 @@ public class ViewMessageActivity extends EventInjectedActivity {
 	public class GoToPreviousListener implements View.OnClickListener {
 		@Override
 		public void onClick(View view) {
-			IMessageProvider p = GetMessageProvider();
-			SmsPojo current = p.getMessage(mId);
-			SmsPojo target = p.getPreviousMessage(current);
-			if (target == null) {
-				return;
-			}
-
-			Intent intent = new Intent(ViewMessageActivity.this, ViewMessageActivity.class);
-            Bundle b = new Bundle();
-            b.putInt("id", p.getIndex(target));
-                intent.putExtras(b);
-				startActivity(intent);
-
-			finish();
+			goToPreviousMessage();
 		}
+	}
+
+	private void goToPreviousMessage() {
+		IMessageProvider p = GetMessageProvider();
+		SmsPojo current = p.getMessage(mId);
+		SmsPojo target = p.getPreviousMessage(current);
+		if (target == null) {
+			return;
+		}
+
+		Intent intent = new Intent(ViewMessageActivity.this, ViewMessageActivity.class);
+		Bundle b = new Bundle();
+		b.putInt("id", p.getIndex(target));
+		intent.putExtras(b);
+		startActivity(intent);
+
+		finish();
 	}
 
 	public class GoToNextListener implements View.OnClickListener {
 		@Override
 		public void onClick(View view) {
-			IMessageProvider p = GetMessageProvider();
-			SmsPojo current = p.getMessage(mId);
-			SmsPojo target = p.getNextMessage(current);
-			if (target == null) {
-				return;
-			}
-
-			Intent intent = new Intent(ViewMessageActivity.this, ViewMessageActivity.class);
-            Bundle b = new Bundle();
-            b.putInt("id", p.getIndex(target));
-                intent.putExtras(b);
-				startActivity(intent);
-
-			finish();
+			goToNextMessage();
 		}
+	}
+
+	private void goToNextMessage() {
+		IMessageProvider p = GetMessageProvider();
+		SmsPojo current = p.getMessage(mId);
+		SmsPojo target = p.getNextMessage(current);
+		if (target == null) {
+			return;
+		}
+
+		Intent intent = new Intent(ViewMessageActivity.this, ViewMessageActivity.class);
+		Bundle b = new Bundle();
+		b.putInt("id", p.getIndex(target));
+		intent.putExtras(b);
+		startActivity(intent);
+
+		finish();
 	}
 }
