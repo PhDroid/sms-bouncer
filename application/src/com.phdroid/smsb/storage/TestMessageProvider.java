@@ -84,6 +84,10 @@ public class TestMessageProvider implements IMessageProvider {
 		mUnreadCount = 6;
 	}
 
+	public int size(){
+		return mList.size();
+	}
+
 	public ArrayList<SmsPojo> getMessages() {
 		return mList;
 	}
@@ -95,18 +99,22 @@ public class TestMessageProvider implements IMessageProvider {
 	public void delete(long id) {
 		mActions.clear();
 		SmsPojo sms = get(id);
-		mActions.put(sms, SmsAction.Deleted);
-		mList.remove((int) id);
+		if (sms != null){
+			mActions.put(sms, SmsAction.Deleted);
+			mList.remove((int) id);
+		}
 	}
 
 	public void delete(long[] ids) {
 		mActions.clear();
 		for (long id = ids.length - 1; id >= 0; id--) {
-			SmsPojo sms = get(id);
-			if (!sms.wasRead())
-				mUnreadCount--;
-			mActions.put(sms, SmsAction.Deleted);
-			mList.remove((int) id);
+			SmsPojo sms = get(ids[(int)id]);
+			if (sms != null){
+				if (!sms.wasRead())
+					mUnreadCount--;
+				mActions.put(sms, SmsAction.Deleted);
+				mList.remove((int) id);
+			}
 		}
 	}
 
@@ -120,18 +128,22 @@ public class TestMessageProvider implements IMessageProvider {
 	public void notSpam(long id) {
 		mActions.clear();
 		SmsPojo sms = get(id);
-		mActions.put(sms, SmsAction.MarkedAsNotSpam);
-		mList.remove((int) id);
+		if(sms != null){
+			mActions.put(sms, SmsAction.MarkedAsNotSpam);
+			mList.remove((int) id);
+		}
 	}
 
 	public void notSpam(long[] ids) {
 		mActions.clear();
 		for (long id = ids.length - 1; id >= 0; id--) {
-			SmsPojo sms = get(id);
-			if (!sms.wasRead())
-				mUnreadCount--;
-			mActions.put(sms, SmsAction.MarkedAsNotSpam);
-			mList.remove((int) id);
+			SmsPojo sms = get(ids[(int)id]);
+			if (sms != null){
+				if (!sms.wasRead())
+					mUnreadCount--;
+				mActions.put(sms, SmsAction.MarkedAsNotSpam);
+				mList.remove((int) id);
+			}
 		}
 	}
 
@@ -173,8 +185,9 @@ public class TestMessageProvider implements IMessageProvider {
 	}
 
 	public void read(long id) {
-		if (!get(id).wasRead()) {
-			get(id).setRead(true);
+		SmsPojo smsPojo = get(id);
+		if (smsPojo != null && !smsPojo.wasRead()) {
+			smsPojo.setRead(true);
 			mUnreadCount--;
 		}
 	}
@@ -202,6 +215,8 @@ public class TestMessageProvider implements IMessageProvider {
 	}
 
 	private SmsPojo get(long id) {
+		if(id < 0) return null;
+		if(id > mList.size()) return null;
 		return mList.get((int) id);
 	}
 }

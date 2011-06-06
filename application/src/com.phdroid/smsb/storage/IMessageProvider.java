@@ -12,6 +12,8 @@ public interface IMessageProvider {
 
     SmsPojo getMessage(long id);
 
+	int size();
+
     void read(long id);
 
     void delete(long id);

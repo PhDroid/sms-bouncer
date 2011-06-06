@@ -9,7 +9,7 @@ import com.phdroid.android.test.blackjack.Solo;
 import com.phdroid.smsb.R;
 import com.phdroid.smsb.storage.IMessageProvider;
 import com.phdroid.smsb.storage.MessageProviderHelper;
-import com.phdroid.smsb.storage.TestMessageProvider;
+import com.phdroid.smsb.storage.TestMessageProvider2;
 
 public class BlockedSmsListActivityTest extends ActivityInstrumentationTestCase2<BlockedSmsListActivity> {
 	private BlockedSmsListActivity mActivity;
@@ -31,7 +31,7 @@ public class BlockedSmsListActivityTest extends ActivityInstrumentationTestCase2
 	}
 
 	public void setUp() throws Exception {
-		MessageProviderHelper.setMessageProvider(new TestMessageProvider());
+		MessageProviderHelper.setMessageProvider(new TestMessageProvider2());
 		super.setUp();
 		setActivityInitialTouchMode(false);
 		mActivity = getActivity();

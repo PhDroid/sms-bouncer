@@ -6,12 +6,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Hashtable;
 
-public class TestMessageProvider implements IMessageProvider{
+public class TestMessageProvider2 implements IMessageProvider{
     ArrayList<SmsPojo> mList;
     Hashtable<SmsPojo, SmsAction> mActions;
     int mUnreadCount = 0;
 
-    public TestMessageProvider(){
+    public TestMessageProvider2(){
         mActions = new Hashtable<SmsPojo, SmsAction>();
         mList = new ArrayList<SmsPojo>();
         Calendar c = Calendar.getInstance();
@@ -92,92 +92,79 @@ public class TestMessageProvider implements IMessageProvider{
         mUnreadCount = 6;
     }
 
-    public ArrayList<SmsPojo> getMessages() {
-         return mList;
-    }
+    public int size(){
+		return mList.size();
+	}
 
-    public Hashtable<SmsPojo, SmsAction> getActionMessages(){
-         return mActions;
-    }
+	public ArrayList<SmsPojo> getMessages() {
+		return mList;
+	}
 
-    public void delete(long id){
-        mActions.clear();
-        SmsPojo sms = get(id);
-        mActions.put(sms, SmsAction.Deleted);
-        mList.remove((int)id);
-    }
+	public Hashtable<SmsPojo, SmsAction> getActionMessages() {
+		return mActions;
+	}
 
-    public void delete(long[] ids) {
-        mActions.clear();
-        for(long id = ids.length - 1; id >= 0; id --){
-            SmsPojo sms = get(id);
-            if(!sms.wasRead())
-                mUnreadCount--;
-            mActions.put(sms, SmsAction.Deleted);
-            mList.remove((int)id);
-        }
-    }
+	public void delete(long id) {
+		mActions.clear();
+		SmsPojo sms = get(id);
+		if (sms != null){
+			mActions.put(sms, SmsAction.Deleted);
+			mList.remove((int) id);
+		}
+	}
 
-    public void deleteAll() {
-        for(SmsPojo sms : mList){
-            mActions.put(sms, SmsAction.Deleted);
-        }
-        mList.clear();
-    }
+	public void delete(long[] ids) {
+		mActions.clear();
+		for (long id = ids.length - 1; id >= 0; id--) {
+			SmsPojo sms = get(ids[(int)id]);
+			if (sms != null){
+				if (!sms.wasRead())
+					mUnreadCount--;
+				mActions.put(sms, SmsAction.Deleted);
+				mList.remove((int) id);
+			}
+		}
+	}
 
-    public void notSpam(long id){
-        mActions.clear();
-        SmsPojo sms = get(id);
-        mActions.put(sms, SmsAction.MarkedAsNotSpam);
-        mList.remove((int)id);
-    }
+	public void deleteAll() {
+		for (SmsPojo sms : mList) {
+			mActions.put(sms, SmsAction.Deleted);
+		}
+		mList.clear();
+	}
 
-    public void notSpam(long[] ids) {
-        mActions.clear();
-        for(long id = ids.length - 1; id >= 0; id --){
-            SmsPojo sms = get(id);
-            if(!sms.wasRead())
-                mUnreadCount--;
-            mActions.put(sms, SmsAction.MarkedAsNotSpam);
-            mList.remove((int)id);
-        }
-    }
+	public void notSpam(long id) {
+		mActions.clear();
+		SmsPojo sms = get(id);
+		if(sms != null){
+			mActions.put(sms, SmsAction.MarkedAsNotSpam);
+			mList.remove((int) id);
+		}
+	}
 
-    public SmsPojo getMessage(long id) {
-        return get(id);
-    }
-
-    public void read(long id){
-        if (!get(id).wasRead()){
-            get(id).setRead(true);
-            mUnreadCount --;
-        }
-    }
-
-    public int getUnreadCount(){
-        return mUnreadCount;
-    }
-
-    public void undo(){
-        for(SmsPojo sms : mActions.keySet()){
-            mList.add(0, sms);
-        }
-        mActions.clear();
-
-        mUnreadCount = 0;
-        for(SmsPojo sms : mList){
-            if(!sms.wasRead()){
-                mUnreadCount++;
-            }
-        }
-    }
-
-    public void performActions() {
-        mActions.clear();
-    }
+	public void notSpam(long[] ids) {
+		mActions.clear();
+		for (long id = ids.length - 1; id >= 0; id--) {
+			SmsPojo sms = get(ids[(int)id]);
+			if (sms != null){
+				if (!sms.wasRead())
+					mUnreadCount--;
+				mActions.put(sms, SmsAction.MarkedAsNotSpam);
+				mList.remove((int) id);
+			}
+		}
+	}
 
 	public int getIndex(SmsPojo message) {
 		return mList.indexOf(message);
+	}
+
+	public boolean isFirstMessage(SmsPojo message) {
+		return mList.indexOf(message) == 0;
+	}
+
+	public boolean isLastMessage(SmsPojo message) {
+		return mList.indexOf(message) == mList.size()-1;
 	}
 
 	public SmsPojo getPreviousMessage(SmsPojo message) {
@@ -196,15 +183,43 @@ public class TestMessageProvider implements IMessageProvider{
 		return mList.get(++index);
 	}
 
-	private SmsPojo get(long id){
-        return mList.get((int)id);
-    }
-
-	public boolean isFirstMessage(SmsPojo message) {
-		return mList.indexOf(message) == 0;
+	public SmsPojo getMessage(long id) {
+		return get(id);
 	}
 
-	public boolean isLastMessage(SmsPojo message) {
-		return mList.indexOf(message) == mList.size()-1;
+	public void read(long id) {
+		SmsPojo smsPojo = get(id);
+		if (smsPojo != null && !smsPojo.wasRead()) {
+			smsPojo.setRead(true);
+			mUnreadCount--;
+		}
+	}
+
+	public int getUnreadCount() {
+		return mUnreadCount;
+	}
+
+	public void undo() {
+		for (SmsPojo sms : mActions.keySet()) {
+			mList.add(0, sms);
+		}
+		mActions.clear();
+
+		mUnreadCount = 0;
+		for (SmsPojo sms : mList) {
+			if (!sms.wasRead()) {
+				mUnreadCount++;
+			}
+		}
+	}
+
+	public void performActions() {
+		mActions.clear();
+	}
+
+	private SmsPojo get(long id) {
+		if(id < 0) return null;
+		if(id > mList.size()) return null;
+		return mList.get((int) id);
 	}
 }
