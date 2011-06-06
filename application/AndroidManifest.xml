@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-      package="ezhun.smsb"
+      package="com.phdroid.smsb"
       android:versionCode="1"
       android:versionName="1.0">
     <uses-sdk android:minSdkVersion="8" />
@@ -24,7 +24,7 @@
             </intent-filter>
         </receiver>
 
-	    <provider android:name="ezhun.smsb.storage.SmsContentProvider"
-			android:authorities="ezhun.smsb.storage.SmsContentProvider" />
+	    <provider android:name="com.phdroid.smsb.storage.SmsContentProvider"
+			android:authorities="com.phdroid.smsb.storage.SmsContentProvider" />
     </application>
 </manifest>
