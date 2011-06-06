@@ -12,14 +12,17 @@ import ezhun.smsb.R;
 import ezhun.smsb.SmsPojo;
 import ezhun.smsb.storage.IMessageProvider;
 import ezhun.smsb.storage.MessageProviderHelper;
+import ezhun.smsb.ui.EventInjectedActivity;
+import ezhun.smsb.ui.HorizontalSwipeListener;
 
 /**
  * Show detailed sms message with several control functions.
  */
-public class ViewMessageActivity extends Activity {
+public class ViewMessageActivity extends EventInjectedActivity {
 	private int mId = -1;
 
 	public void onCreate(Bundle savedInstanceState) {
+		HorizontalSwipeListener.register(this);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.view_message);
 
