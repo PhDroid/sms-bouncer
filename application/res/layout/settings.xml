@@ -34,7 +34,7 @@
 	          android:layout_below="@+id/tbDisplayNotification"
 	          android:padding="5px"/>
 
-	<Spinner android:id="@+id/ddlDisplayNotification"
+	<Spinner android:id="@+id/ddlClear"
 	         android:layout_width="wrap_content"
 	         android:layout_height="45dp"
 	         android:layout_alignParentRight="true"

@@ -90,8 +90,8 @@ public class SettingsActivityTest extends ActivityUnitTestCase<SettingsActivity>
 	}
 
 	public void testSettings_DeleteAfterSpinner_initial_state() throws ViewNotFoundException {
-		Spinner deleteAfterSpinner = solo.getSpinner(R.id.ddlDisplayNotification);
-		Assert.assertEquals(R.id.ddlDisplayNotification, deleteAfterSpinner.getId());
+		Spinner deleteAfterSpinner = solo.getSpinner(R.id.ddlClear);
+		Assert.assertEquals(R.id.ddlClear, deleteAfterSpinner.getId());
 
 		DeleteAfter item = (DeleteAfter) deleteAfterSpinner.getSelectedItem();
 
@@ -99,18 +99,18 @@ public class SettingsActivityTest extends ActivityUnitTestCase<SettingsActivity>
 	}
 
 	public void testSettings_DeleteAfterSpinner_change() throws ViewNotFoundException {
-		Spinner deleteAfterSpinner = solo.getSpinner(R.id.ddlDisplayNotification);
+		Spinner deleteAfterSpinner = solo.getSpinner(R.id.ddlClear);
 		DeleteAfter initialSelectedItem = (DeleteAfter) deleteAfterSpinner.getSelectedItem();
 
 		SpinnerAdapter adapter = deleteAfterSpinner.getAdapter();
-		solo.clickOnSpinner(R.id.ddlDisplayNotification);
+		solo.clickOnSpinner(R.id.ddlClear);
 
 		DeleteAfter shouldBeSelected = null;
 		for (int i = 0; i < adapter.getCount(); i++) {
 			DeleteAfter adapterItem = (DeleteAfter) adapter.getItem(i);
 			if (initialSelectedItem.index() != adapterItem.index()) {
 				shouldBeSelected = adapterItem;
-				solo.selectSpinnerItem(R.id.ddlDisplayNotification, adapterItem);
+				solo.selectSpinnerItem(R.id.ddlClear, adapterItem);
 				break;
 			}
 		}

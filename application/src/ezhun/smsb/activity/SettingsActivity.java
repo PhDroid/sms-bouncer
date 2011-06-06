@@ -61,7 +61,7 @@ public class SettingsActivity extends Activity {
 		btnEditWhitelist.setOnClickListener(editWhitelistListener);
 
 		//Spinner init
-		Spinner ddlClearWhitelist = (Spinner) findViewById(R.id.ddlDisplayNotification);
+		Spinner ddlClearWhitelist = (Spinner) findViewById(R.id.ddlClear);
 		ClearAfterSpinnerAdapter adapter = new ClearAfterSpinnerAdapter(getApplicationContext());
 		ddlClearWhitelist.setAdapter(adapter);
 
