@@ -1,3 +1,7 @@
-SMS Bouncer for Android
+SMS Bouncer
+-----------
 
-SMS Bouncer is an application for spam filtering of sms messages.
+SMS Bouncer is Android application for spam filtering of sms messages.
+
+(c) phdroid.com
+
