@@ -39,29 +39,32 @@
 	<RelativeLayout
       xmlns:android="http://schemas.android.com/apk/res/android"
       android:layout_width="match_parent"
-      android:layout_height="200dp"
+      android:layout_height="65dp"
 	  android:layout_alignParentBottom="true"
       android:padding="3dp"
       android:background="@drawable/buttons_background">
 		<Button android:id="@+id/replyButton"
 				android:layout_alignParentBottom="true"
+				android:layout_alignParentLeft="true"
 				android:layout_height="60dp"
-				android:layout_width="fill_parent"
-				android:layout_marginBottom="130dp"
-				android:text="@string/reply"
-				android:onClick="">
+				android:layout_width="170dp"
+				android:layout_marginLeft="0dp"
+				android:text="@string/reply">
 		</Button>
 		<Button android:id="@+id/notSpamButton"
 				android:layout_alignParentBottom="true"
+				android:layout_alignParentLeft="true"
 				android:layout_height="60dp"
-				android:layout_width="fill_parent"
-				android:layout_marginBottom="65dp"
+				android:layout_width="175dp"
+				android:layout_marginLeft="175dp"
 				android:text="@string/not_spam">
 		</Button>
 		<Button android:id="@+id/deleteButton"
 				android:layout_alignParentBottom="true"
+				android:layout_alignParentRight="true"
 				android:layout_height="60dp"
-				android:layout_width="fill_parent"
+				android:layout_width="170dp"
+				android:layout_marginRight="0dp"
 				android:text="@string/delete">
 		</Button>
 	</RelativeLayout>

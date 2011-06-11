@@ -5,6 +5,7 @@ import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.text.format.DateUtils;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 import com.phdroid.smsb.R;
@@ -19,11 +20,15 @@ import com.phdroid.smsb.ui.HorizontalSwipeListener;
  */
 public class ViewMessageActivity extends EventInjectedActivity {
 	private int mId = -1;
+	protected TextView title;
 
 	public void onCreate(Bundle savedInstanceState) {
 		HorizontalSwipeListener swiper = HorizontalSwipeListener.register(this);
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.view_message);
+		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.view_message_custom_title);
+		title = (TextView)findViewById(R.id.title);
 
 		Bundle b = getIntent().getExtras();
 		SmsPojo sms = null;
@@ -46,10 +51,9 @@ public class ViewMessageActivity extends EventInjectedActivity {
 
 			GetMessageProvider().read(mId);
 
-			setTitle(R.string.app_name);
-			setTitle(String.format(
+			title.setText(String.format(
 					"%s%s",
-					getTitle().toString(),
+					getString(R.string.app_name),
 					GetMessageProvider().getUnreadCount() > 0 ?
 							String.format(" (%s)", Integer.toString(GetMessageProvider().getUnreadCount())) : ""));
 		} else {
