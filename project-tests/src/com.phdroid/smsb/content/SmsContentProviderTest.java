@@ -26,9 +26,7 @@ public class SmsContentProviderTest extends ProviderTestCase2<SmsContentProvider
 			values[i].put(SmsContentProvider.SENDER, SENDER);
 			values[i].put(SmsContentProvider.MESSAGE, "message from setUp #");
 			values[i].put(SmsContentProvider.RECEIVED, (int) (System.currentTimeMillis() / 1000L));
-			values[i].put(SmsContentProvider.SYSTEM_FLAG_SPAM, 0);
 			values[i].put(SmsContentProvider.USER_FLAG_NOT_SPAM, 0);
-			values[i].put(SmsContentProvider.USER_FLAG_SPAM, 0);
 		}
 		c.bulkInsert(SmsContentProvider.CONTENT_URI, values);
 	}
@@ -76,9 +74,7 @@ public class SmsContentProviderTest extends ProviderTestCase2<SmsContentProvider
 		values.put(SmsContentProvider.SENDER, sender);
 		values.put(SmsContentProvider.MESSAGE, message);
 		values.put(SmsContentProvider.RECEIVED, received);
-		values.put(SmsContentProvider.SYSTEM_FLAG_SPAM, 0);
 		values.put(SmsContentProvider.USER_FLAG_NOT_SPAM, 0);
-		values.put(SmsContentProvider.USER_FLAG_SPAM, 0);
 
 		Uri uri = c.insert(SmsContentProvider.CONTENT_URI, values);
 		String id = uri.getLastPathSegment();
@@ -89,9 +85,7 @@ public class SmsContentProviderTest extends ProviderTestCase2<SmsContentProvider
                 SmsContentProvider.SENDER,
                 SmsContentProvider.MESSAGE,
                 SmsContentProvider.RECEIVED,
-                SmsContentProvider.SYSTEM_FLAG_SPAM,
-                SmsContentProvider.USER_FLAG_NOT_SPAM,
-                SmsContentProvider.USER_FLAG_SPAM};
+                SmsContentProvider.USER_FLAG_NOT_SPAM};
 		Cursor cur = c.query(uri, projection, null, null, null);
 		try {
 			cur.moveToFirst();
@@ -100,9 +94,7 @@ public class SmsContentProviderTest extends ProviderTestCase2<SmsContentProvider
 			Assert.assertEquals(cur.getString(cur.getColumnIndex(SmsContentProvider.SENDER)), sender);
 			Assert.assertEquals(cur.getString(cur.getColumnIndex(SmsContentProvider.MESSAGE)), message);
 			Assert.assertEquals(cur.getInt(cur.getColumnIndex(SmsContentProvider.RECEIVED)), received);
-			Assert.assertEquals(cur.getInt(cur.getColumnIndex(SmsContentProvider.SYSTEM_FLAG_SPAM)), 0);
 			Assert.assertEquals(cur.getInt(cur.getColumnIndex(SmsContentProvider.USER_FLAG_NOT_SPAM)), 0);
-			Assert.assertEquals(cur.getInt(cur.getColumnIndex(SmsContentProvider.USER_FLAG_SPAM)), 0);
 		} finally {
 			cur.close();
 		}
@@ -122,9 +114,7 @@ public class SmsContentProviderTest extends ProviderTestCase2<SmsContentProvider
 		values.put(SmsContentProvider.SENDER, "Unknown");
 		values.put(SmsContentProvider.MESSAGE, "Bomba! Putin!");
 		values.put(SmsContentProvider.RECEIVED, (int) (System.currentTimeMillis() / 1000L));
-		values.put(SmsContentProvider.SYSTEM_FLAG_SPAM, 0);
 		values.put(SmsContentProvider.USER_FLAG_NOT_SPAM, 0);
-		values.put(SmsContentProvider.USER_FLAG_SPAM, 0);
 
 		Uri uri = c.insert(SmsContentProvider.CONTENT_URI, values);
 		int count = c.delete(uri, null, null);
@@ -134,12 +124,12 @@ public class SmsContentProviderTest extends ProviderTestCase2<SmsContentProvider
 	public void testUpdateBulk() {
 		ContentResolver c = this.getMockContentResolver();
 		ContentValues values = new ContentValues();
-		values.put(SmsContentProvider.USER_FLAG_SPAM, 1);
+		values.put(SmsContentProvider.READ, 1);
 		int count = c.update(SmsContentProvider.CONTENT_URI, values, null, null);
 		Assert.assertEquals(SETUP_COUNT, count);
 		
 		String[] selectionArgs = {"1"};
-		Cursor cur = c.query(SmsContentProvider.CONTENT_URI, null, SmsContentProvider.USER_FLAG_SPAM + " = :1", selectionArgs, null);
+		Cursor cur = c.query(SmsContentProvider.CONTENT_URI, null, SmsContentProvider.READ + " = :1", selectionArgs, null);
 		try {
 			Assert.assertEquals(SETUP_COUNT, cur.getCount());
 		} finally {
@@ -164,7 +154,7 @@ public class SmsContentProviderTest extends ProviderTestCase2<SmsContentProvider
 		Uri entity = Uri.parse(SmsContentProvider.CONTENT_URI.toString() + "/" + id);
 		ContentValues values = new ContentValues();
 		values.put(SmsContentProvider.MESSAGE, message);
-		values.put(SmsContentProvider.SYSTEM_FLAG_SPAM, 1);
+		values.put(SmsContentProvider.READ, 1);
 		int count = c.update(entity, values, null, null);
 		Assert.assertEquals(1, count);
 		
@@ -172,7 +162,7 @@ public class SmsContentProviderTest extends ProviderTestCase2<SmsContentProvider
 		Cursor updcur = c.query(SmsContentProvider.CONTENT_URI, null, SmsContentProvider.MESSAGE + " = :1", selectionArgs, null); 
 		try {
 			updcur.moveToFirst();
-			int value = updcur.getInt(updcur.getColumnIndex(SmsContentProvider.SYSTEM_FLAG_SPAM));
+			int value = updcur.getInt(updcur.getColumnIndex(SmsContentProvider.READ));
 			Assert.assertEquals(1, updcur.getCount());
 			Assert.assertEquals(1, value);
 		} finally {

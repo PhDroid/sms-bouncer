@@ -16,7 +16,7 @@ import android.util.Log;
 public class SmsContentProvider extends ContentProvider {
 	private static final String TAG = "SmsContentProvider";
 	private static final String DATABASE_NAME = "sms.db";
-	private static final int DATABASE_VERSION = 2;
+	private static final int DATABASE_VERSION = 3;
 	private static final String TABLE_NAME = "sms";
 	private static final int CODE_SMS_LIST = 1;
 	public static final String TYPE_SMS_LIST = "vnd.android.cursor.dir/vnd.smsbouncer.sms ";
