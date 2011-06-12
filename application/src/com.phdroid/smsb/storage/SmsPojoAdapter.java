@@ -13,8 +13,6 @@ public class SmsPojoAdapter {
 		values.put(SmsContentProvider.MESSAGE, sms.getMessage());
 		values.put(SmsContentProvider.RECEIVED, sms.getReceived());
         values.put(SmsContentProvider.READ, sms.isRead());
-		values.put(SmsContentProvider.SYSTEM_FLAG_SPAM, sms.isMarkedSpamBySystem());
-		values.put(SmsContentProvider.USER_FLAG_SPAM, sms.isMarkedSpamByUser());
 		values.put(SmsContentProvider.USER_FLAG_NOT_SPAM, sms.isMarkedNotSpamByUser());
 		return values;
 	}

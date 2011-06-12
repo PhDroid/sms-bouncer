@@ -12,8 +12,6 @@ public class SmsPojo {
 	private String message;
 	private long received;
     private boolean read;
-	private boolean markedSpamBySystem;
-	private boolean markedSpamByUser;
 	private boolean markedNotSpamByUser;
 
 	public SmsPojo() {
@@ -60,22 +58,6 @@ public class SmsPojo {
 
 	public void setReceived(long received) {
 		this.received = received;
-	}
-
-	public boolean isMarkedSpamBySystem() {
-		return markedSpamBySystem;
-	}
-
-	public void setMarkedSpamBySystem(boolean markedSpamBySystem) {
-		this.markedSpamBySystem = markedSpamBySystem;
-	}
-
-	public boolean isMarkedSpamByUser() {
-		return markedSpamByUser;
-	}
-
-	public void setMarkedSpamByUser(boolean markedSpamByUser) {
-		this.markedSpamByUser = markedSpamByUser;
 	}
 
 	public boolean isMarkedNotSpamByUser() {
