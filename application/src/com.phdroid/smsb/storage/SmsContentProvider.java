@@ -31,8 +31,6 @@ public class SmsContentProvider extends ContentProvider {
 	public static final String MESSAGE = "message";
 	public static final String RECEIVED = "received";
     public static final String READ = "read";
-	public static final String SYSTEM_FLAG_SPAM = "is_spam_system";
-	public static final String USER_FLAG_SPAM = "is_spam_user"; //did user say this sms is spam
 	public static final String USER_FLAG_NOT_SPAM = "not_spam_user"; //did user say this sms is NOT spam
 
 	private SQLiteDatabase smsDb;
@@ -178,8 +176,6 @@ public class SmsContentProvider extends ContentProvider {
 					MESSAGE + " LONGTEXT," +
 					RECEIVED + " INTEGER," +
 					READ + " INTEGER," +
-					SYSTEM_FLAG_SPAM + " INTEGER," +
-					USER_FLAG_SPAM + " INTEGER," +
 					USER_FLAG_NOT_SPAM + " INTEGER" +
 					");";
 			db.execSQL(sql);
