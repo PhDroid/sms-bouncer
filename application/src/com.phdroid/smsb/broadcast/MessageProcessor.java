@@ -6,7 +6,7 @@ import com.phdroid.smsb.SmsPojo;
 import com.phdroid.smsb.exceptions.ApplicationException;
 import com.phdroid.smsb.filter.ISpamFilter;
 import com.phdroid.smsb.filter.SmartSpamFilter;
-import com.phdroid.smsb.storage.SmsContentProvider;
+import com.phdroid.smsb.storage.dao.SmsContentProvider;
 
 import java.util.ArrayList;
 

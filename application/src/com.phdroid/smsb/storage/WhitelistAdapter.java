@@ -2,6 +2,7 @@ package com.phdroid.smsb.storage;
 
 import android.content.Context;
 import android.database.Cursor;
+import com.phdroid.smsb.storage.dao.SmsContentProvider;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -5,7 +5,7 @@ import android.database.Cursor;
 import com.phdroid.smsb.SmsPojo;
 import com.phdroid.smsb.exceptions.ApplicationException;
 import com.phdroid.smsb.exceptions.ArgumentException;
-import com.phdroid.smsb.storage.SmsContentProvider;
+import com.phdroid.smsb.storage.dao.SmsContentProvider;
 
 /**
  * Spam Filter taking into consideration only white list of senders.

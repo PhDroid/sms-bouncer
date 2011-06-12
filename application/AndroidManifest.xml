@@ -24,7 +24,7 @@
             </intent-filter>
         </receiver>
 
-	    <provider android:name="com.phdroid.smsb.storage.SmsContentProvider"
-			android:authorities="com.phdroid.smsb.storage.SmsContentProvider" />
+	    <provider android:name=".storage.dao.SmsContentProvider"
+			android:authorities="com.phdroid.smsb.storage.dao.SmsContentProvider" />
     </application>
 </manifest>

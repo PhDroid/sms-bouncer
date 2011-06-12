@@ -1,4 +1,4 @@
-package com.phdroid.smsb.storage;
+package com.phdroid.smsb.storage.dao;
 
 import android.content.*;
 import android.database.Cursor;
@@ -24,7 +24,7 @@ public class SmsContentProvider extends ContentProvider {
 	public static final String TYPE_SMS = "vnd.android.cursor.item/vnd.smsbouncer.sms ";
 
 
-	public static final String PROVIDER_NAME = "com.phdroid.smsb.storage.SmsContentProvider";
+	public static final String PROVIDER_NAME = "com.phdroid.smsb.storage.dao.SmsContentProvider";
 	public static final Uri CONTENT_URI = Uri.parse("content://" + PROVIDER_NAME + "/sms");
 	public static final String _ID = "_id";
 	public static final String SENDER = "sender";

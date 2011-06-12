@@ -5,7 +5,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
 import android.test.ProviderTestCase2;
-import com.phdroid.smsb.storage.SmsContentProvider;
+import com.phdroid.smsb.storage.dao.SmsContentProvider;
 import junit.framework.Assert;
 
 public class SmsContentProviderTest extends ProviderTestCase2<SmsContentProvider> {

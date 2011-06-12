@@ -5,7 +5,7 @@ import android.net.Uri;
 import com.phdroid.smsb.SmsPojo;
 import com.phdroid.smsb.base.ProviderTestBase;
 import com.phdroid.smsb.exceptions.ApplicationException;
-import com.phdroid.smsb.storage.SmsContentProvider;
+import com.phdroid.smsb.storage.dao.SmsContentProvider;
 import junit.framework.Assert;
 
 import java.util.Hashtable;

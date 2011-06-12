@@ -2,6 +2,7 @@ package com.phdroid.smsb.storage;
 
 import android.content.ContentValues;
 import com.phdroid.smsb.SmsPojo;
+import com.phdroid.smsb.storage.dao.SmsContentProvider;
 
 /**
  * Please, write short description of what this file is for.
