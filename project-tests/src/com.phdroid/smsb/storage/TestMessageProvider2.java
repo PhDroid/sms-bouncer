@@ -118,7 +118,7 @@ public class TestMessageProvider2 implements IMessageProvider{
 		for (long id = ids.length - 1; id >= 0; id--) {
 			SmsPojo sms = get(ids[(int)id]);
 			if (sms != null){
-				if (!sms.wasRead())
+				if (!sms.isRead())
 					mUnreadCount--;
 				mActions.put(sms, SmsAction.Deleted);
 				mList.remove((int) id);
@@ -147,7 +147,7 @@ public class TestMessageProvider2 implements IMessageProvider{
 		for (long id = ids.length - 1; id >= 0; id--) {
 			SmsPojo sms = get(ids[(int)id]);
 			if (sms != null){
-				if (!sms.wasRead())
+				if (!sms.isRead())
 					mUnreadCount--;
 				mActions.put(sms, SmsAction.MarkedAsNotSpam);
 				mList.remove((int) id);
@@ -189,7 +189,7 @@ public class TestMessageProvider2 implements IMessageProvider{
 
 	public void read(long id) {
 		SmsPojo smsPojo = get(id);
-		if (smsPojo != null && !smsPojo.wasRead()) {
+		if (smsPojo != null && !smsPojo.isRead()) {
 			smsPojo.setRead(true);
 			mUnreadCount--;
 		}
@@ -207,7 +207,7 @@ public class TestMessageProvider2 implements IMessageProvider{
 
 		mUnreadCount = 0;
 		for (SmsPojo sms : mList) {
-			if (!sms.wasRead()) {
+			if (!sms.isRead()) {
 				mUnreadCount++;
 			}
 		}

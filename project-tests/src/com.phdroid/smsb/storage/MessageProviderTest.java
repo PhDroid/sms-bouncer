@@ -37,13 +37,13 @@ public class MessageProviderTest extends TestCase{
 
 	public void test_read_marks_unread_message_as_read(){
 		mProvider.read(UNREAD_MESSAGE_ID);
-		assertEquals(true, mProvider.getMessage(UNREAD_MESSAGE_ID).wasRead());
+		assertEquals(true, mProvider.getMessage(UNREAD_MESSAGE_ID).isRead());
 	}
 
 	public void test_read_leaves_read_message_as_it_was(){
-		boolean b = mProvider.getMessage(READ_MESSAGE_ID).wasRead();
+		boolean b = mProvider.getMessage(READ_MESSAGE_ID).isRead();
 		mProvider.read(READ_MESSAGE_ID);
-		assertEquals(b, mProvider.getMessage(READ_MESSAGE_ID).wasRead());
+		assertEquals(b, mProvider.getMessage(READ_MESSAGE_ID).isRead());
 	}
 
 	public void test_read_doesnt_throw_if_message_id_is_not_in_list(){

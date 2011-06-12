@@ -3,7 +3,6 @@ package com.phdroid.smsb.storage;
 import com.phdroid.smsb.SmsPojo;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Hashtable;
 
 public class ListMessageProvider implements IMessageProvider {
@@ -37,7 +36,7 @@ public class ListMessageProvider implements IMessageProvider {
 		for (long id = ids.length - 1; id >= 0; id--) {
 			SmsPojo sms = get(ids[(int)id]);
 			if (sms != null){
-				if (!sms.wasRead())
+				if (!sms.isRead())
 					mUnreadCount--;
 				mActions.put(sms, SmsAction.Deleted);
 				mList.remove((int) id);
@@ -66,7 +65,7 @@ public class ListMessageProvider implements IMessageProvider {
 		for (long id = ids.length - 1; id >= 0; id--) {
 			SmsPojo sms = get(ids[(int)id]);
 			if (sms != null){
-				if (!sms.wasRead())
+				if (!sms.isRead())
 					mUnreadCount--;
 				mActions.put(sms, SmsAction.MarkedAsNotSpam);
 				mList.remove((int) id);
@@ -113,7 +112,7 @@ public class ListMessageProvider implements IMessageProvider {
 
 	public void read(long id) {
 		SmsPojo smsPojo = get(id);
-		if (smsPojo != null && !smsPojo.wasRead()) {
+		if (smsPojo != null && !smsPojo.isRead()) {
 			smsPojo.setRead(true);
 			mUnreadCount--;
 		}
@@ -131,7 +130,7 @@ public class ListMessageProvider implements IMessageProvider {
 
 		mUnreadCount = 0;
 		for (SmsPojo sms : mList) {
-			if (!sms.wasRead()) {
+			if (!sms.isRead()) {
 				mUnreadCount++;
 			}
 		}

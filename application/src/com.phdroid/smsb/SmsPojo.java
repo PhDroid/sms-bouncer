@@ -39,7 +39,7 @@ public class SmsPojo {
 		this.sender = sender;
 	}
 
-    public boolean  wasRead(){
+    public boolean isRead(){
         return read;
     }
 
