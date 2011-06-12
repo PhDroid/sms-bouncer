@@ -16,7 +16,7 @@ import android.util.Log;
 public class SmsContentProvider extends ContentProvider {
 	private static final String TAG = "SmsContentProvider";
 	private static final String DATABASE_NAME = "sms.db";
-	private static final int DATABASE_VERSION = 1;
+	private static final int DATABASE_VERSION = 2;
 	private static final String TABLE_NAME = "sms";
 	private static final int CODE_SMS_LIST = 1;
 	public static final String TYPE_SMS_LIST = "vnd.android.cursor.dir/vnd.smsbouncer.sms ";
@@ -30,6 +30,7 @@ public class SmsContentProvider extends ContentProvider {
 	public static final String SENDER = "sender";
 	public static final String MESSAGE = "message";
 	public static final String RECEIVED = "received";
+    public static final String READ = "read";
 	public static final String SYSTEM_FLAG_SPAM = "is_spam_system";
 	public static final String USER_FLAG_SPAM = "is_spam_user"; //did user say this sms is spam
 	public static final String USER_FLAG_NOT_SPAM = "not_spam_user"; //did user say this sms is NOT spam
@@ -176,6 +177,7 @@ public class SmsContentProvider extends ContentProvider {
 					SENDER + " NVARCHAR(255)," +
 					MESSAGE + " LONGTEXT," +
 					RECEIVED + " INTEGER," +
+					READ + " INTEGER," +
 					SYSTEM_FLAG_SPAM + " INTEGER," +
 					USER_FLAG_SPAM + " INTEGER," +
 					USER_FLAG_NOT_SPAM + " INTEGER" +

@@ -11,8 +11,7 @@ public class SmsPojo {
 	private String sender;
 	private String message;
 	private long received;
-    //todo: store to DB
-	private boolean read;
+    private boolean read;
 	private boolean markedSpamBySystem;
 	private boolean markedSpamByUser;
 	private boolean markedNotSpamByUser;
