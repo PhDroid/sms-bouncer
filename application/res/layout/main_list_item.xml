@@ -3,7 +3,7 @@
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="match_parent"
   android:layout_height="wrap_content"
-  android:background="@drawable/message_background"
+  android:background="@drawable/background"
   android:paddingBottom="5dp"
   android:paddingTop="5dp"
   android:paddingLeft="6dp"
@@ -20,8 +20,9 @@
     		  android:layout_height="wrap_content" 
     		  android:text="TextView" 
     		  android:layout_width="wrap_content" 
-    		  android:layout_alignParentRight="true" 
+    		  android:layout_alignParentRight="true"
     		  android:layout_alignParentTop="true"
+			  android:layout_marginRight="20dp"
     		  android:textSize="12sp"
               android:textColor="@color/received_text">
     </TextView>
@@ -31,8 +32,19 @@
     		  android:layout_width="fill_parent"
     		  android:layout_alignParentTop="true"
     		  android:layout_marginTop="25dp"
+			  android:layout_marginRight="20dp"
               android:singleLine="true"
               android:textColor="@color/message_text"
-    		  android:textSize="16sp">
+    		  android:textSize="14sp">
     </TextView>
+	<ImageView android:id="@+id/arrow"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:layout_alignParentRight="true"
+			android:layout_alignParentTop="true"
+			android:layout_marginRight="3dp"
+			android:layout_marginTop="15dp"
+			android:src="@drawable/arrow"
+			>
+	</ImageView>
 </RelativeLayout>
