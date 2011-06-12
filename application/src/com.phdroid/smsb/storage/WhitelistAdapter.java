@@ -3,6 +3,7 @@ package com.phdroid.smsb.storage;
 import android.content.Context;
 import android.database.Cursor;
 import com.phdroid.smsb.storage.dao.SmsContentProvider;
+import com.phdroid.smsb.storage.dao.SmsMessageEntry;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +26,7 @@ public class WhitelistAdapter {
 		String[] data = {"True"};
 		return getContext().getContentResolver().query(SmsContentProvider.CONTENT_URI,
 				null,
-				SmsContentProvider.USER_FLAG_NOT_SPAM + " = :1",
+				SmsMessageEntry.USER_FLAG_NOT_SPAM + " = :1",
 				data,
 				null);
 	}
@@ -37,7 +38,7 @@ public class WhitelistAdapter {
 			whitelist.moveToFirst();
 			int count = whitelist.getCount();
 			for (int i = 0; i < count; i++) {
-				String sender = whitelist.getString(whitelist.getColumnIndexOrThrow(SmsContentProvider.SENDER));
+				String sender = whitelist.getString(whitelist.getColumnIndexOrThrow(SmsMessageEntry.SENDER_ID));
 				if (!res.contains(sender)) {
 					//todo:check address book
 					res.add(sender);

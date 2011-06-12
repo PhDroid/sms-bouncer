@@ -11,7 +11,7 @@ import android.util.Log;
 public class DatabaseOpenHelper extends SQLiteOpenHelper {
     private static final String TAG = "SmsContentProvider";
     private static final String DATABASE_NAME = "sms.db";
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
 
 
     DatabaseOpenHelper(Context context) {
@@ -20,13 +20,20 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String sql = "CREATE TABLE " + SmsContentProvider.TABLE_NAME + " (" +
-                SmsContentProvider._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                SmsContentProvider.SENDER + " NVARCHAR(255)," +
-                SmsContentProvider.MESSAGE + " LONGTEXT," +
-                SmsContentProvider.RECEIVED + " INTEGER," +
-                SmsContentProvider.READ + " INTEGER," +
-                SmsContentProvider.USER_FLAG_NOT_SPAM + " INTEGER" +
+        String sql = "CREATE TABLE " + SenderContentProvider.TABLE_NAME + " (" +
+                        SmsMessageSenderEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                        SmsMessageSenderEntry.VALUE + " NVARCHAR(255)," + //todo:check for unique constraint
+                        SmsMessageSenderEntry.IN_WHITE_LIST + " INTEGER," +
+                        ");";
+        db.execSQL(sql);
+
+        sql = "CREATE TABLE " + SmsContentProvider.TABLE_NAME + " (" +
+                SmsMessageEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                SmsMessageEntry.SENDER_ID + " INTEGER," + //todo:check for foreign key statement
+                SmsMessageEntry.MESSAGE + " LONGTEXT," +
+                SmsMessageEntry.RECEIVED + " INTEGER," +
+                SmsMessageEntry.READ + " INTEGER," +
+                SmsMessageEntry.USER_FLAG_NOT_SPAM + " INTEGER" +
                 ");";
         db.execSQL(sql);
     }
@@ -36,6 +43,7 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
         Log.w(TAG, "Upgrading database from version " + oldVersion + " to " + newVersion
                 + ", which will destroy all old data");
         db.execSQL("DROP TABLE IF EXISTS " + SmsContentProvider.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + SenderContentProvider.TABLE_NAME);
         onCreate(db);
     }
 }

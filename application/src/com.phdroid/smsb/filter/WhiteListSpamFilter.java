@@ -6,6 +6,7 @@ import com.phdroid.smsb.SmsPojo;
 import com.phdroid.smsb.exceptions.ApplicationException;
 import com.phdroid.smsb.exceptions.ArgumentException;
 import com.phdroid.smsb.storage.dao.SmsContentProvider;
+import com.phdroid.smsb.storage.dao.SmsMessageEntry;
 
 /**
  * Spam Filter taking into consideration only white list of senders.
@@ -29,7 +30,7 @@ public class WhiteListSpamFilter implements ISpamFilter {
 		String[] selectionArgs = {message.getSender(), "1"};
 		Cursor cur = getContentResolver().query(SmsContentProvider.CONTENT_URI,
 				null,
-				SmsContentProvider.SENDER + " = :1 AND " + SmsContentProvider.USER_FLAG_NOT_SPAM + " = :2",
+				SmsMessageEntry.SENDER_ID + " = :1 AND " + SmsMessageEntry.USER_FLAG_NOT_SPAM + " = :2",
 				selectionArgs,
 				null);
 

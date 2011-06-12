@@ -1,5 +1,8 @@
 package com.phdroid.smsb.storage.dao;
 
+import android.content.ContentValues;
+import android.database.Cursor;
+
 /**
  * DAO for SmsSender
  */
@@ -12,12 +15,25 @@ public class SmsMessageSenderEntry {
     private String value;
     private boolean inWhiteList;
 
-    public int getId() {
-        return id;
+    public SmsMessageSenderEntry(String value) {
+        this.value = value;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public SmsMessageSenderEntry(Cursor c) {
+        this.id = c.getInt(c.getColumnIndex(SmsMessageSenderEntry._ID));
+        this.value = c.getString(c.getColumnIndex(SmsMessageSenderEntry.VALUE));
+        this.inWhiteList = c.getInt(c.getColumnIndex(SmsMessageSenderEntry.IN_WHITE_LIST)) == 1;
+	}
+
+    public ContentValues toContentValues() {
+		ContentValues values = new ContentValues();
+		values.put(VALUE, this.getValue());
+		values.put(IN_WHITE_LIST, this.isInWhiteList());
+		return values;
+	}
+
+    public int getId() {
+        return id;
     }
 
     public String getValue() {

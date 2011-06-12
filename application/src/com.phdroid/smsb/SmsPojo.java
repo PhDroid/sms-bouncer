@@ -1,71 +1,65 @@
 package com.phdroid.smsb;
 
-import android.content.ContentValues;
-import android.telephony.SmsMessage;
-import com.phdroid.smsb.storage.SmsPojoAdapter;
+import android.content.ContentResolver;
+import com.phdroid.smsb.storage.dao.DaoMaster;
+import com.phdroid.smsb.storage.dao.SmsMessageEntry;
+import com.phdroid.smsb.storage.dao.SmsMessageSenderEntry;
 
 /**
  * Plain old java object for Sms message.
  */
 public class SmsPojo {
-	private String sender;
-	private String message;
-	private long received;
-    private boolean read;
-	private boolean markedNotSpamByUser;
+	private SmsMessageEntry innerEntry;
+    private DaoMaster daoMaster;
 
-	public SmsPojo() {
-	}
+    protected SmsPojo() {
+    }
 
-	public SmsPojo(SmsMessage msg) {
-		sender = msg.getOriginatingAddress();
-		message = msg.getMessageBody();
-		received = msg.getTimestampMillis();
-        read = false;
-	}
-
-	public ContentValues toContentValues() {
-		return SmsPojoAdapter.toContentValues(this);
+	public SmsPojo(ContentResolver contentResolver, SmsMessageEntry entry) {
+        innerEntry = entry;
+        this.daoMaster = new DaoMaster(contentResolver);
 	}
 
 	public String getSender() {
-		return sender;
+        SmsMessageSenderEntry sender = this.daoMaster.getSenderById(innerEntry.getSenderId());
+		return sender.getValue();
 	}
 
 	public void setSender(String sender) {
-		this.sender = sender;
+		SmsMessageSenderEntry senderEntry = this.daoMaster.insertOrSelectSender(sender);
+        innerEntry.setSenderId(senderEntry.getId());
 	}
 
     public boolean isRead(){
-        return read;
+        return innerEntry.isRead();
     }
 
     public void setRead(boolean r){
-        read = r;
+        innerEntry.setRead(r);
     }
 
 	public String getMessage() {
-		return message;
+		return innerEntry.getMessage();
 	}
 
 	public void setMessage(String message) {
-		this.message = message;
+		innerEntry.setMessage(message);
 	}
 
 	public long getReceived() {
-		return received;
+		return innerEntry.getReceived();
 	}
 
 	public void setReceived(long received) {
-		this.received = received;
+		innerEntry.setReceived(received);
 	}
 
 	public boolean isMarkedNotSpamByUser() {
-		return markedNotSpamByUser;
+		return innerEntry.isMarkedNotSpamByUser();
 	}
 
 	public void setMarkedNotSpamByUser(boolean markedNotSpamByUser) {
-		this.markedNotSpamByUser = markedNotSpamByUser;
+		innerEntry.setMarkedNotSpamByUser(markedNotSpamByUser);
 	}
 
     @Override

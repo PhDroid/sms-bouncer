@@ -1,6 +1,7 @@
 package com.phdroid.smsb.storage;
 
 import com.phdroid.smsb.SmsPojo;
+import com.phdroid.smsb.TestSmsPojo;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -16,27 +17,27 @@ public class TestMessageProvider implements IMessageProvider {
 		mList = new ArrayList<SmsPojo>();
 		Calendar c = Calendar.getInstance();
 
-		SmsPojo sms = new SmsPojo();
+		SmsPojo sms = new TestSmsPojo();
 		sms.setMessage("Hey you there! How you doin'?");
 		sms.setSender("+380971122333");
 		sms.setReceived(c.getTime().getTime());
 		mList.add(sms);
 
-		sms = new SmsPojo();
+		sms = new TestSmsPojo();
 		sms.setMessage("Nova aktsia vid magazinu Target! Kupuy 2 kartopli ta otrymay 1 v podarunok!");
 		sms.setSender("TARGET");
 		c.add(Calendar.SECOND, -30);
 		sms.setReceived(c.getTime().getTime());
 		mList.add(sms);
 
-		sms = new SmsPojo();
+		sms = new TestSmsPojo();
 		sms.setMessage("This is my new number. B. Obama.");
 		sms.setSender("+1570333444555");
 		c.add(Calendar.MINUTE, -5);
 		sms.setReceived(c.getTime().getTime());
 		mList.add(sms);
 
-		sms = new SmsPojo();
+		sms = new TestSmsPojo();
 		sms.setMessage("How about having some beer tonight? Stranger.");
 		sms.setSender("+380509998887");
 		sms.setRead(true);
@@ -44,21 +45,21 @@ public class TestMessageProvider implements IMessageProvider {
 		sms.setReceived(c.getTime().getTime());
 		mList.add(sms);
 
-		sms = new SmsPojo();
+		sms = new TestSmsPojo();
 		sms.setMessage("Vash rakhunok na 9.05.2011 stanovyt 27,35 uah.");
 		sms.setSender("KYIVSTAR");
 		c.add(Calendar.MINUTE, -20);
 		sms.setReceived(c.getTime().getTime());
 		mList.add(sms);
 
-		sms = new SmsPojo();
+		sms = new TestSmsPojo();
 		sms.setMessage("Skydky v ALDO. Kupuy 1 ked ta otrymuy dryguy v podarunok!");
 		sms.setSender("ALDO");
 		c.add(Calendar.HOUR, -2);
 		sms.setReceived(c.getTime().getTime());
 		mList.add(sms);
 
-		sms = new SmsPojo();
+		sms = new TestSmsPojo();
 		sms.setMessage("Big football tonight v taverne chili!");
 		sms.setSender("+380991001010");
 		sms.setRead(true);
@@ -66,14 +67,14 @@ public class TestMessageProvider implements IMessageProvider {
 		sms.setReceived(c.getTime().getTime());
 		mList.add(sms);
 
-		sms = new SmsPojo();
+		sms = new TestSmsPojo();
 		sms.setMessage("15:43 ZABLOKOVANO 17,99 UAH, SUPERMARKET PORTAL");
 		sms.setSender("PUMB");
 		c.add(Calendar.HOUR, -400);
 		sms.setReceived(c.getTime().getTime());
 		mList.add(sms);
 
-		sms = new SmsPojo();
+		sms = new TestSmsPojo();
 		sms.setMessage("Vash rakhunok na 8.05.2011 stanovyt 24 uah.");
 		sms.setSender("KYIVSTAR");
 		sms.setRead(true);

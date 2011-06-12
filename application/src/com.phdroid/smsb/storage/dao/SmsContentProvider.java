@@ -20,12 +20,6 @@ public class SmsContentProvider extends ContentProvider {
 
     public static final String PROVIDER_NAME = "com.phdroid.smsb.storage.dao.SmsContentProvider";
     public static final Uri CONTENT_URI = Uri.parse("content://" + PROVIDER_NAME + "/sms");
-    public static final String _ID = "_id";
-    public static final String SENDER = "sender";
-    public static final String MESSAGE = "message";
-    public static final String RECEIVED = "received";
-    public static final String READ = "read";
-    public static final String USER_FLAG_NOT_SPAM = "not_spam_user"; //did user say this sms is NOT spam
 
     private SQLiteDatabase smsDb;
     private static DatabaseOpenHelper dbHelper;
@@ -53,10 +47,10 @@ public class SmsContentProvider extends ContentProvider {
         if (uriMatcher.match(uri) == CODE_SMS)
             //---if getting a particular sms---
             sqlBuilder.appendWhere(
-                    _ID + " = " + uri.getPathSegments().get(1));
+                    SmsMessageEntry._ID + " = " + uri.getPathSegments().get(1));
 
         if (sortOrder == null || sortOrder.equals(""))
-            sortOrder = RECEIVED;
+            sortOrder = SmsMessageEntry.RECEIVED;
 
         Cursor c = sqlBuilder.query(
                 smsDb,
@@ -115,7 +109,7 @@ public class SmsContentProvider extends ContentProvider {
                 String id = uri.getPathSegments().get(1);
                 count = smsDb.delete(
                         TABLE_NAME,
-                        _ID + " = " + id +
+                        SmsMessageEntry._ID + " = " + id +
                                 (!TextUtils.isEmpty(selection) ? " AND (" +
                                         selection + ')' : ""),
                         selectionArgs);
@@ -144,7 +138,7 @@ public class SmsContentProvider extends ContentProvider {
                 count = smsDb.update(
                         TABLE_NAME,
                         values,
-                        _ID + " = " + uri.getPathSegments().get(1) +
+                        SmsMessageEntry._ID + " = " + uri.getPathSegments().get(1) +
                                 (!TextUtils.isEmpty(selection) ? " AND (" +
                                         selection + ')' : ""),
                         selectionArgs);
