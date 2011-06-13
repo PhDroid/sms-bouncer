@@ -5,7 +5,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
-import com.phdroid.android.test.blackjack.Solo;
+import com.phdroid.test.blackjack.Solo;
 import com.phdroid.smsb.R;
 import com.phdroid.smsb.storage.IMessageProvider;
 import com.phdroid.smsb.storage.MessageProviderHelper;

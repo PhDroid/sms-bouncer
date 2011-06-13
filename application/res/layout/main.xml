@@ -20,6 +20,8 @@
 	</LinearLayout>
     <ListView android:id="@+id/messagesListView"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+			android:divider="@drawable/border"
+			android:dividerHeight="3dp">
     </ListView>
 </LinearLayout>

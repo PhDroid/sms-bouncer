@@ -1,4 +1,4 @@
-package com.phdroid.android.test.blackjack;
+package com.phdroid.test.blackjack;
 
 import java.util.ArrayList;
 import junit.framework.Assert;

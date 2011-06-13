@@ -76,17 +76,18 @@ public class SmsPojoArrayAdapter extends ArrayAdapter<SmsPojo> {
 
         SmsPojo sms = this.getItem(position);
         holder.sender.setText(sms.getSender());
-        holder.received.setText(DateUtils.getRelativeDateTimeString(
-                ctx,
-                sms.getReceived(),
-                DateUtils.MINUTE_IN_MILLIS,
-                DateUtils.WEEK_IN_MILLIS,
-                DateUtils.FORMAT_ABBREV_RELATIVE));
+		String dateTimeString = DateUtils.getRelativeDateTimeString(
+				ctx,
+				sms.getReceived(),
+				DateUtils.MINUTE_IN_MILLIS,
+				DateUtils.WEEK_IN_MILLIS,
+				DateUtils.FORMAT_ABBREV_RELATIVE).toString();
+		String s = dateTimeString.substring(0, dateTimeString.indexOf(','));
+		holder.received.setText(s);
         holder.message.setText(sms.getMessage());
 
         int style = sms.isRead() ? R.style.read_message : R.style.non_read_message;
         holder.sender.setTextAppearance(ctx, style);
-        holder.message.setTextAppearance(ctx, style);
 
         return (convertView);
     }
