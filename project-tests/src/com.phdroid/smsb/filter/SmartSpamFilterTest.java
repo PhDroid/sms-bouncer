@@ -6,10 +6,14 @@ import android.net.Uri;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.provider.ContactsContract.Data;
 import com.phdroid.smsb.SmsPojo;
+import com.phdroid.smsb.TestSmsPojo;
 import com.phdroid.smsb.base.ProviderTestBase;
 import com.phdroid.smsb.exceptions.ApplicationException;
 import com.phdroid.smsb.filter.doubles.PhoneContentProviderFake;
+import com.phdroid.smsb.storage.dao.DaoMaster;
 import com.phdroid.smsb.storage.dao.SmsContentProvider;
+import com.phdroid.smsb.storage.dao.SmsMessageEntry;
+import com.phdroid.smsb.storage.dao.SmsMessageSenderEntry;
 import junit.framework.Assert;
 
 import java.util.Hashtable;
@@ -42,14 +46,17 @@ public class SmartSpamFilterTest extends ProviderTestBase {
 		getContentResolver().insert(Data.CONTENT_URI, values);
 
 		//prepare for white list filter
-		SmsPojo spam = new SmsPojo();
-		spam.setSender("1346");
+        DaoMaster m = new DaoMaster(getContentResolver());
+        SmsMessageSenderEntry spamSender = m.insertOrSelectSender("1346");
+        SmsMessageEntry spam = new SmsMessageEntry();
+		spam.setSenderId(spamSender.getId());
 		spam.setMessage("Novaja aktsia ot magazinov Kharkova");
 		spam.setReceived((int) (System.currentTimeMillis() / 1000L));
 		getContentResolver().insert(SmsContentProvider.CONTENT_URI, spam.toContentValues());
 
-		SmsPojo notSpam = new SmsPojo();
-		notSpam.setSender(SENDER);
+        SmsMessageSenderEntry sender = m.insertOrSelectSender(SENDER);
+		SmsMessageEntry notSpam = new SmsMessageEntry();
+		notSpam.setSenderId(sender.getId());
 		notSpam.setMessage("Let's grab some whisky");
 		notSpam.setReceived((int) (System.currentTimeMillis() / 1000L));
 		notSpam.setMarkedNotSpamByUser(true);
@@ -64,7 +71,7 @@ public class SmartSpamFilterTest extends ProviderTestBase {
 	}
 
 	public void testKnownNumber() throws Exception {
-		SmsPojo message = new SmsPojo();
+		TestSmsPojo message = new TestSmsPojo();
 		message.setSender(SENDER);
 		message.setReceived((int) (System.currentTimeMillis() / 1000L));
 		message.setMessage("I am not a SPAM message");
@@ -75,7 +82,7 @@ public class SmartSpamFilterTest extends ProviderTestBase {
 	}
 
 	public void testUnknownNumber() throws Exception {
-		SmsPojo message = new SmsPojo();
+		TestSmsPojo message = new TestSmsPojo();
 		message.setSender("(097) 112-33-26");
 		message.setReceived((int) (System.currentTimeMillis() / 1000L));
 		message.setMessage("I am SPAM message");
@@ -86,17 +93,17 @@ public class SmartSpamFilterTest extends ProviderTestBase {
 	}
 
 	public void testWhiteList() throws ApplicationException {
-		SmsPojo spam1 = new SmsPojo();
+		TestSmsPojo spam1 = new TestSmsPojo();
 		spam1.setSender("1346");
 		spam1.setMessage("Novaja aktsia ot magazinov Kharkova");
 		spam1.setReceived((int) (System.currentTimeMillis() / 1000L));
 
-		SmsPojo spam2 = new SmsPojo();
+		TestSmsPojo spam2 = new TestSmsPojo();
 		spam2.setSender("1343");
 		spam2.setMessage("Staraja aktsia ot magazinov Kharkova");
 		spam2.setReceived((int) (System.currentTimeMillis() / 1000L));
 
-		SmsPojo notSpam = new SmsPojo();
+		TestSmsPojo notSpam = new TestSmsPojo();
 		notSpam.setSender(SENDER);
 		notSpam.setMessage("Let's grab some whisky again");
 		notSpam.setReceived((int) (System.currentTimeMillis() / 1000L));

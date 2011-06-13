@@ -62,6 +62,8 @@ public class DaoMaster {
         String senderText = message.getOriginatingAddress();
         SmsMessageSenderEntry sender = this.insertOrSelectSender(senderText);
 
-        return new SmsMessageEntry(sender, message);
+        SmsMessageEntry res = new SmsMessageEntry(sender, message);
+        this.contentResolver.insert(SenderContentProvider.CONTENT_URI, res.toContentValues());
+        return res;
     }
 }
