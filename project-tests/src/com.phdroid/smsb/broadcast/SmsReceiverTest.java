@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.test.AndroidTestCase;
 import android.test.mock.MockContext;
 import com.phdroid.smsb.SmsPojo;
+import com.phdroid.smsb.TestSmsPojo;
 import junit.framework.Assert;
 
 import java.util.ArrayList;
@@ -82,7 +83,7 @@ public List<Intent> getReceivedIntents()
         @Override
         protected SmsPojo[] ConvertMessages(Object[] pdusObj){
             SmsPojo[] pojos = new SmsPojo[1];
-            SmsPojo message = pojos[0] = new SmsPojo();
+            SmsPojo message = pojos[0] = new TestSmsPojo();
             if (((byte[])pdusObj[0])[0] == 49){
                 // spam
                 message.setMessage("How YOU doin'?");

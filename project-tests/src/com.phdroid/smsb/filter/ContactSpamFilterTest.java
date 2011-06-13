@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.provider.ContactsContract.Data;
 import com.phdroid.smsb.SmsPojo;
+import com.phdroid.smsb.TestSmsPojo;
 import com.phdroid.smsb.base.ProviderTestBase;
 import com.phdroid.smsb.filter.doubles.PhoneContentProviderFake;
 import junit.framework.Assert;
@@ -39,7 +40,7 @@ public class ContactSpamFilterTest extends ProviderTestBase {
 	}
 
 	public void testKnownNumber() throws Exception {
-		SmsPojo message = new SmsPojo();
+		TestSmsPojo message = new TestSmsPojo();
 		message.setSender(SENDER);
 		message.setReceived((int) (System.currentTimeMillis() / 1000L));
 		message.setMessage("I am not a SPAM message");
@@ -50,7 +51,7 @@ public class ContactSpamFilterTest extends ProviderTestBase {
 	}
 
 	public void testUnknownNumber() throws Exception {
-		SmsPojo message = new SmsPojo();
+		TestSmsPojo message = new TestSmsPojo();
 		message.setSender("(097) 112-33-26");
 		message.setReceived((int) (System.currentTimeMillis() / 1000L));
 		message.setMessage("I am SPAM message");

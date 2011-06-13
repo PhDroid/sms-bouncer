@@ -1,6 +1,7 @@
 package com.phdroid.smsb.storage;
 
 import com.phdroid.smsb.SmsPojo;
+import com.phdroid.smsb.TestSmsPojo;
 import junit.framework.TestCase;
 
 import java.util.ArrayList;
@@ -242,7 +243,7 @@ public class MessageProviderTest extends TestCase{
 	}
 
 	public void test_getIndex_return_minus_one_if_message_wasnt_found(){
-		SmsPojo sms = new SmsPojo();
+		TestSmsPojo sms = new TestSmsPojo();
 		assertEquals(-1, mProvider.getIndex(sms));
 	}
 
