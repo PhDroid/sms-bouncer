@@ -19,7 +19,7 @@ public class SenderContentProvider extends ContentProvider {
     public static final String TYPE_SENDER = "vnd.android.cursor.item/vnd.smsbouncer.sender ";
 
     public static final String PROVIDER_NAME = "com.phdroid.smsb.storage.dao.SenderContentProvider";
-    public static final Uri CONTENT_URI = Uri.parse("content://" + PROVIDER_NAME + "/sms");
+    public static final Uri CONTENT_URI = Uri.parse("content://" + PROVIDER_NAME + "/sender");
 
     private SQLiteDatabase smsDb;
     private static DatabaseOpenHelper dbHelper;
