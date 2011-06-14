@@ -23,7 +23,7 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
         String sql = "CREATE TABLE " + SenderContentProvider.TABLE_NAME + " (" +
                         SmsMessageSenderEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                         SmsMessageSenderEntry.VALUE + " NVARCHAR(255)," + //todo:check for unique constraint
-                        SmsMessageSenderEntry.IN_WHITE_LIST + " INTEGER," +
+                        SmsMessageSenderEntry.IN_WHITE_LIST + " INTEGER" +
                         ");";
         db.execSQL(sql);
 
