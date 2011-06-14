@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@color/main_list_message_background">
+	android:orientation="vertical"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:background="@drawable/list_background">
 	<LinearLayout  android:id="@+id/buttonLayout"
 		android:orientation="vertical"
 		android:layout_width="fill_parent"
@@ -18,10 +18,10 @@
 				android:onClick="undo">
 			</Button>
 	</LinearLayout>
-    <ListView android:id="@+id/messagesListView"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-			android:divider="@drawable/border"
-			android:dividerHeight="3dp">
-    </ListView>
+	<ListView android:id="@+id/messagesListView"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:divider="@drawable/divider"
+			android:dividerHeight="0px">
+	</ListView>
 </LinearLayout>

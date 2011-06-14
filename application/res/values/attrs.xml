@@ -1,0 +1,5 @@
+<resources>
+	<declare-styleable name="message">
+		<attr name="state_read" format="boolean" />
+	</declare-styleable>
+</resources>

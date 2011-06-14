@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import com.phdroid.smsb.R;
 import com.phdroid.smsb.SmsPojo;
+import com.phdroid.smsb.widget.ReadableImageView;
 
 import java.util.List;
 
@@ -68,6 +69,7 @@ public class SmsPojoArrayAdapter extends ArrayAdapter<SmsPojo> {
             holder.sender = (TextView) convertView.findViewById(R.id.senderTextView);
             holder.received = (TextView) convertView.findViewById(R.id.receivedTimeTextView);
             holder.message = (TextView) convertView.findViewById(R.id.messageTextView);
+            holder.arrow = (ReadableImageView) convertView.findViewById(R.id.arrow);
 
             convertView.setTag(holder);
         } else {
@@ -76,6 +78,9 @@ public class SmsPojoArrayAdapter extends ArrayAdapter<SmsPojo> {
 
         SmsPojo sms = this.getItem(position);
         holder.sender.setText(sms.getSender());
+		if(holder.arrow != null){
+			holder.arrow.setRead(sms.isRead());
+		}
 		String dateTimeString = DateUtils.getRelativeDateTimeString(
 				ctx,
 				sms.getReceived(),

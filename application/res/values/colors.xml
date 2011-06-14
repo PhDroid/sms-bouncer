@@ -6,4 +6,5 @@
 	<color name="select_many_buttons_background">#CFCFCF</color>
 	<color name="button_bg_light">#949A94</color>
 	<color name="button_bg_dark">#7B827B</color>
+	<color name="divider">#00000000</color>
 </resources>

@@ -3,7 +3,7 @@
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="match_parent"
   android:layout_height="wrap_content"
-  android:background="@drawable/list_background"
+  android:background="@drawable/list_item_background"
   android:paddingBottom="5dp"
   android:paddingTop="5dp"
   android:paddingLeft="6dp"
@@ -37,14 +37,14 @@
               android:textColor="@color/message_text"
     		  android:textSize="14sp">
     </TextView>
-	<ImageView android:id="@+id/arrow"
+	<com.phdroid.smsb.widget.ReadableImageView android:id="@+id/arrow"
 			android:layout_height="wrap_content"
 			android:layout_width="wrap_content"
 			android:layout_alignParentRight="true"
 			android:layout_alignParentTop="true"
 			android:layout_marginRight="3dp"
 			android:layout_marginTop="15dp"
-			android:src="@drawable/arrow"
+			android:src="@drawable/list_arrow"
 			>
-	</ImageView>
+	</com.phdroid.smsb.widget.ReadableImageView>
 </RelativeLayout>

@@ -3,14 +3,14 @@
 	android:orientation="vertical"
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
-	android:background="@color/main_list_message_background">
+	android:background="@drawable/list_background">
 	<ListView android:id="@+id/messagesListView"
 			android:layout_width="fill_parent"
 			android:layout_height="fill_parent"
 			android:choiceMode="multipleChoice"
 			android:focusable="false"
-			android:divider="@drawable/border"
-			android:dividerHeight="3dp">
+			android:divider="@drawable/divider"
+			android:dividerHeight="0px">
 	</ListView>
 	<RelativeLayout android:id="@+id/listFooter"
 				android:layout_width="fill_parent"
