@@ -11,7 +11,7 @@ import android.util.Log;
 public class DatabaseOpenHelper extends SQLiteOpenHelper {
     private static final String TAG = "SmsContentProvider";
     private static final String DATABASE_NAME = "sms.db";
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 7;
 
 
     DatabaseOpenHelper(Context context) {
@@ -35,6 +35,23 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
                 SmsMessageEntry.READ + " INTEGER," +
                 SmsMessageEntry.USER_FLAG_NOT_SPAM + " INTEGER" +
                 ");";
+	    db.execSQL(sql);
+
+	    sql = "CREATE VIEW " + SmsContentProvider.VIEW_NAME + " AS " +
+			    "select " +
+			        "sms." + SmsMessageEntry._ID + "," +
+			        "sms." + SmsMessageEntry.SENDER_ID + "," +
+			        "sender." + SmsMessageSenderEntry.VALUE + " as " + SmsMessageEntry.SENDER + "," +
+			        "sms." + SmsMessageEntry.MESSAGE + "," +
+			        "sms." + SmsMessageEntry.RECEIVED + "," +
+			        "sms." + SmsMessageEntry.READ + "," +
+			        "sms." + SmsMessageEntry.USER_FLAG_NOT_SPAM +
+			    " from " +
+	                SmsContentProvider.TABLE_NAME + " as sms " +
+	            " inner join " +
+	                SenderContentProvider.TABLE_NAME + " as sender " +
+	            " on " +
+	                "sender." + SmsMessageSenderEntry._ID + " = " + "sms." + SmsMessageEntry.SENDER_ID ;
         db.execSQL(sql);
     }
 
@@ -42,6 +59,7 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.w(TAG, "Upgrading database from version " + oldVersion + " to " + newVersion
                 + ", which will destroy all old data");
+        db.execSQL("DROP VIEW IF EXISTS " + SmsContentProvider.VIEW_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + SmsContentProvider.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS " + SenderContentProvider.TABLE_NAME);
         onCreate(db);

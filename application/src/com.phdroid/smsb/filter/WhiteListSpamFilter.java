@@ -30,7 +30,7 @@ public class WhiteListSpamFilter implements ISpamFilter {
 		String[] selectionArgs = {message.getSender(), "1"};
 		Cursor cur = getContentResolver().query(SmsContentProvider.CONTENT_URI,
 				null,
-				SmsMessageEntry.SENDER_ID + " = :1 AND " + SmsMessageEntry.USER_FLAG_NOT_SPAM + " = :2",
+				SmsMessageEntry.SENDER + " = :1 AND " + SmsMessageEntry.USER_FLAG_NOT_SPAM + " = :2",
 				selectionArgs,
 				null);
 

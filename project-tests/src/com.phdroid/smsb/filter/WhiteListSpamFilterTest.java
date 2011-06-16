@@ -6,10 +6,7 @@ import com.phdroid.smsb.SmsPojo;
 import com.phdroid.smsb.TestSmsPojo;
 import com.phdroid.smsb.base.ProviderTestBase;
 import com.phdroid.smsb.exceptions.ApplicationException;
-import com.phdroid.smsb.storage.dao.DaoMaster;
-import com.phdroid.smsb.storage.dao.SmsContentProvider;
-import com.phdroid.smsb.storage.dao.SmsMessageEntry;
-import com.phdroid.smsb.storage.dao.SmsMessageSenderEntry;
+import com.phdroid.smsb.storage.dao.*;
 import junit.framework.Assert;
 
 import java.util.Hashtable;
@@ -23,6 +20,7 @@ public class WhiteListSpamFilterTest extends ProviderTestBase {
 	@Override
 	public Hashtable<Uri, ContentProvider> getTestContentProviders() {
 		Hashtable<Uri, ContentProvider> settings = new Hashtable<Uri, ContentProvider>();
+		settings.put(SenderContentProvider.CONTENT_URI, new SenderContentProvider());
 		settings.put(SmsContentProvider.CONTENT_URI, new SmsContentProvider());
 		return settings;
 	}

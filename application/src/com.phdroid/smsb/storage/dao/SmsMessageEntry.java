@@ -9,7 +9,8 @@ import android.telephony.SmsMessage;
  */
 public class SmsMessageEntry {
     public static final String _ID = "_id";
-    public static final String SENDER_ID = "sender";
+    public static final String SENDER_ID = "sender_id";
+    public static final String SENDER = "sender";
     public static final String MESSAGE = "message";
     public static final String RECEIVED = "received";
     public static final String READ = "read";
@@ -21,6 +22,7 @@ public class SmsMessageEntry {
 	private long received;
     private boolean read;
 	private boolean markedNotSpamByUser;
+	private String sender;
 
 	public SmsMessageEntry() {
 	}
@@ -28,6 +30,7 @@ public class SmsMessageEntry {
     public SmsMessageEntry(Cursor c) {
         this.id = c.getInt(c.getColumnIndex(SmsMessageEntry._ID));
         this.senderId = c.getInt(c.getColumnIndex(SmsMessageEntry.SENDER_ID));
+	    this.sender = c.getString(c.getColumnIndex(SmsMessageEntry.SENDER));
         this.message = c.getString(c.getColumnIndex(SmsMessageEntry.MESSAGE));
         this.received = c.getInt(c.getColumnIndex(SmsMessageEntry.RECEIVED));
         this.read = c.getInt(c.getColumnIndex(SmsMessageEntry.READ)) == 1;
@@ -63,7 +66,11 @@ public class SmsMessageEntry {
 		this.senderId = senderId;
 	}
 
-    public boolean isRead(){
+	public String getSender() {
+		return sender;
+	}
+
+	public boolean isRead(){
         return read;
     }
 

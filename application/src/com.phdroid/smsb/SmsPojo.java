@@ -21,8 +21,7 @@ public class SmsPojo {
 	}
 
 	public String getSender() {
-        SmsMessageSenderEntry sender = this.daoMaster.getSenderById(innerEntry.getSenderId());
-		return sender.getValue();
+        return innerEntry.getSender();
 	}
 
 	public void setSender(String sender) {

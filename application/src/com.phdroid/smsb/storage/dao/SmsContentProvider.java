@@ -13,6 +13,7 @@ import android.text.TextUtils;
  */
 public class SmsContentProvider extends ContentProvider {
     public static final String TABLE_NAME = "sms";
+    public static final String VIEW_NAME = "v_sms";
     private static final int CODE_SMS_LIST = 1;
     public static final String TYPE_SMS_LIST = "vnd.android.cursor.dir/vnd.smsbouncer.sms ";
     private static final int CODE_SMS = 2;
@@ -42,7 +43,7 @@ public class SmsContentProvider extends ContentProvider {
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
         SQLiteQueryBuilder sqlBuilder = new SQLiteQueryBuilder();
-        sqlBuilder.setTables(TABLE_NAME);
+        sqlBuilder.setTables(VIEW_NAME);
 
         if (uriMatcher.match(uri) == CODE_SMS)
             //---if getting a particular sms---

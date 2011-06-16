@@ -10,10 +10,7 @@ import com.phdroid.smsb.TestSmsPojo;
 import com.phdroid.smsb.base.ProviderTestBase;
 import com.phdroid.smsb.exceptions.ApplicationException;
 import com.phdroid.smsb.filter.doubles.PhoneContentProviderFake;
-import com.phdroid.smsb.storage.dao.DaoMaster;
-import com.phdroid.smsb.storage.dao.SmsContentProvider;
-import com.phdroid.smsb.storage.dao.SmsMessageEntry;
-import com.phdroid.smsb.storage.dao.SmsMessageSenderEntry;
+import com.phdroid.smsb.storage.dao.*;
 import junit.framework.Assert;
 
 import java.util.Hashtable;
@@ -30,6 +27,7 @@ public class SmartSpamFilterTest extends ProviderTestBase {
 
 		Hashtable<Uri, ContentProvider> settings = new Hashtable<Uri, ContentProvider>();
 		settings.put(SmsContentProvider.CONTENT_URI, new SmsContentProvider());
+		settings.put(SenderContentProvider.CONTENT_URI, new SenderContentProvider());
 		settings.put(Data.CONTENT_URI, phoneContentProvider);
 		settings.put(Phone.CONTENT_URI, phoneContentProvider);
 		return settings;
