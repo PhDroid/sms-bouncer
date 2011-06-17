@@ -14,9 +14,21 @@ import java.util.List;
  * Side cache implementation class for SmsMessages
  */
 public class SmsMessageCache {
+	private class SmsContentObserver extends ContentObserver {
+		public SmsContentObserver(Handler handler) {
+			super(handler);
+		}
+
+		@Override
+		public void onChange(boolean selfChange) {
+			super.onChange(selfChange);
+			SmsMessageCache.this.onDataChanged();
+		}
+	}
+
 	private static SmsMessageCache ourInstance;
 
-	public static SmsMessageCache getInstance(ContentResolver contentResolver) {
+	public synchronized static SmsMessageCache getInstance(ContentResolver contentResolver) {
 		if (ourInstance == null) {
 			ourInstance = new SmsMessageCache(contentResolver);
 		}
@@ -32,19 +44,11 @@ public class SmsMessageCache {
 		this.contentResolver.registerContentObserver(SmsContentProvider.CONTENT_URI, true, new SmsContentObserver(new Handler()));
 	}
 
-	private class SmsContentObserver extends ContentObserver {
-		public SmsContentObserver(Handler handler) {
-			super(handler);
-		}
-
-		@Override
-		public void onChange(boolean selfChange) {
-			super.onChange(selfChange);
-			SmsMessageCache.this.onDataChanged();
-		}
+	public List<SmsMessageEntry> getItems() {
+		return items;
 	}
 
-	private void onDataChanged() {
+	private synchronized void onDataChanged() {
 		items.clear();
 		getData();
 	}
