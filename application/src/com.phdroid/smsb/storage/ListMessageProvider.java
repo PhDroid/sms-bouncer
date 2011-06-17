@@ -10,9 +10,6 @@ import java.util.Hashtable;
 import java.util.List;
 
 public class ListMessageProvider implements IMessageProvider {
-	private final Object lock = new Object();
-	private ArrayList<SmsPojo> mList;
-	private ArrayList<SmsMessageEntry> cachedSmsList;
 	private Hashtable<SmsPojo, SmsAction> mActions;
 	private int mUnreadCount = 0;
 	private ContentResolver contentResolver;
@@ -26,27 +23,7 @@ public class ListMessageProvider implements IMessageProvider {
 	}
 
 	private List<SmsPojo> getSmsList() {
-		synchronized (lock) {
-
-			if (mList != null) {
-				return mList;
-			}
-
-			List<SmsMessageEntry> smsDataList = SmsMessageCache.getInstance(getContentResolver()).getItems();
-			SmsMessageCache.getInstance(getContentResolver()).setOnDataChanged(new SmsMessageCache.OnDataChanged() {
-				@Override
-				public void dataChanged() {
-					synchronized (lock) {
-						mList = null;
-					}
-				}
-			});
-			mList = new ArrayList<SmsPojo>(smsDataList.size());
-			for (SmsMessageEntry smsData : smsDataList) {
-				mList.add(new SmsPojo(smsData));
-			}
-			return mList;
-		}
+		return SmsMessageCache.getInstance(getContentResolver()).getItems();
 	}
 
 	public int size() {
@@ -66,7 +43,7 @@ public class ListMessageProvider implements IMessageProvider {
 		SmsPojo sms = get(id);
 		if (sms != null) {
 			mActions.put(sms, SmsAction.Deleted);
-			mList.remove((int) id);
+			//mList.remove((int) id);
 		}
 	}
 
@@ -78,16 +55,16 @@ public class ListMessageProvider implements IMessageProvider {
 				if (!sms.isRead())
 					mUnreadCount--;
 				mActions.put(sms, SmsAction.Deleted);
-				mList.remove((int) id);
+				//mList.remove((int) id);
 			}
 		}
 	}
 
 	public void deleteAll() {
-		for (SmsPojo sms : mList) {
-			mActions.put(sms, SmsAction.Deleted);
-		}
-		mList.clear();
+//		for (SmsPojo sms : mList) {
+//			mActions.put(sms, SmsAction.Deleted);
+//		}
+//		mList.clear();
 	}
 
 	public void notSpam(long id) {
@@ -95,7 +72,7 @@ public class ListMessageProvider implements IMessageProvider {
 		SmsPojo sms = get(id);
 		if (sms != null) {
 			mActions.put(sms, SmsAction.MarkedAsNotSpam);
-			mList.remove((int) id);
+//			mList.remove((int) id);
 		}
 	}
 
@@ -107,42 +84,44 @@ public class ListMessageProvider implements IMessageProvider {
 				if (!sms.isRead())
 					mUnreadCount--;
 				mActions.put(sms, SmsAction.MarkedAsNotSpam);
-				mList.remove((int) id);
+//				mList.remove((int) id);
 			}
 		}
 	}
 
 	@Override
 	public int getIndex(SmsPojo message) {
-		return mList.indexOf(message);
+		return getMessages().indexOf(message);
 	}
 
 	@Override
 	public boolean isFirstMessage(SmsPojo message) {
-		return mList.indexOf(message) == 0;
+		return getIndex(message) == 0;
 	}
 
 	@Override
 	public boolean isLastMessage(SmsPojo message) {
-		return mList.indexOf(message) == mList.size() - 1;
+		return getIndex(message) == size() - 1;
 	}
 
 	@Override
 	public SmsPojo getPreviousMessage(SmsPojo message) {
-		int index = mList.indexOf(message);
-		if (index <= 0) {
-			return null;
-		}
-		return mList.get(--index);
+		return null;
+//		int index = mList.indexOf(message);
+//		if (index <= 0) {
+//			return null;
+//		}
+//		return mList.get(--index);
 	}
 
 	@Override
 	public SmsPojo getNextMessage(SmsPojo message) {
-		int index = mList.indexOf(message);
-		if (index >= mList.size() - 1) {
-			return null;
-		}
-		return mList.get(++index);
+		return null;
+//		int index = mList.indexOf(message);
+//		if (index >= mList.size() - 1) {
+//			return null;
+//		}
+//		return mList.get(++index);
 	}
 
 	public SmsPojo getMessage(long id) {
@@ -163,16 +142,16 @@ public class ListMessageProvider implements IMessageProvider {
 
 	public void undo() {
 		for (SmsPojo sms : mActions.keySet()) {
-			mList.add(0, sms);
+//			mList.add(0, sms);
 		}
 		mActions.clear();
 
 		mUnreadCount = 0;
-		for (SmsPojo sms : mList) {
-			if (!sms.isRead()) {
-				mUnreadCount++;
-			}
-		}
+//		for (SmsPojo sms : mList) {
+//			if (!sms.isRead()) {
+//				mUnreadCount++;
+//			}
+//		}
 	}
 
 	public void performActions() {
@@ -180,8 +159,9 @@ public class ListMessageProvider implements IMessageProvider {
 	}
 
 	private SmsPojo get(long id) {
-		if (id < 0) return null;
-		if (id > mList.size()) return null;
-		return mList.get((int) id);
+		return null;
+//		if (id < 0) return null;
+//		if (id > mList.size()) return null;
+//		return mList.get((int) id);
 	}
 }

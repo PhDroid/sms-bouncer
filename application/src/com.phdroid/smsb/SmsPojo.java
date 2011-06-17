@@ -9,55 +9,31 @@ import com.phdroid.smsb.storage.dao.SmsMessageSenderEntry;
 /**
  * Plain old java object for Sms message.
  */
-public class SmsPojo {
-	private SmsMessageEntry innerEntry;
-
-    protected SmsPojo() {
+public abstract class SmsPojo {
+	protected SmsPojo() {
     }
 
-	public SmsPojo(SmsMessageEntry entry) {
-        innerEntry = entry;
-	}
-
-	public String getSender() {
-        return innerEntry.getSender();
-	}
+	public abstract String getSender();
 
 	public void setSender(String sender) throws NotSupportedMethodException {
 		throw new NotSupportedMethodException();
 	}
 
-    public boolean isRead(){
-        return innerEntry.isRead();
-    }
+    public abstract boolean isRead();
 
-    public void setRead(boolean r){
-        innerEntry.setRead(r);
-    }
+    public abstract void setRead(boolean r);
 
-	public String getMessage() {
-		return innerEntry.getMessage();
-	}
+	public abstract String getMessage();
 
-	public void setMessage(String message) {
-		innerEntry.setMessage(message);
-	}
+	public abstract void setMessage(String message);
 
-	public long getReceived() {
-		return innerEntry.getReceived();
-	}
+	public abstract long getReceived();
 
-	public void setReceived(long received) {
-		innerEntry.setReceived(received);
-	}
+	public abstract void setReceived(long received);
 
-	public boolean isMarkedNotSpamByUser() {
-		return innerEntry.isMarkedNotSpamByUser();
-	}
+	public abstract boolean isMarkedNotSpamByUser();
 
-	public void setMarkedNotSpamByUser(boolean markedNotSpamByUser) {
-		innerEntry.setMarkedNotSpamByUser(markedNotSpamByUser);
-	}
+	public abstract void setMarkedNotSpamByUser(boolean markedNotSpamByUser);
 
     @Override
     public String toString(){

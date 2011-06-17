@@ -4,6 +4,7 @@ import android.content.ContentResolver;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.os.Handler;
+import com.phdroid.smsb.SmsPojo;
 import com.phdroid.smsb.storage.dao.SmsContentProvider;
 import com.phdroid.smsb.storage.dao.SmsMessageEntry;
 
@@ -39,13 +40,13 @@ public class SmsMessageCache {
 		return ourInstance;
 	}
 
-	private List<SmsMessageEntry> items;
+	private List<SmsPojo> items;
 	private ContentResolver contentResolver;
 	private OnDataChanged onDataChanged;
 
 	private SmsMessageCache(ContentResolver contentResolver) {
 		this.contentResolver = contentResolver;
-		this.items = new ArrayList<SmsMessageEntry>();
+		this.items = new ArrayList<SmsPojo>();
 		this.contentResolver.registerContentObserver(SmsContentProvider.CONTENT_URI, true, new SmsContentObserver(new Handler()));
 	}
 
@@ -53,7 +54,7 @@ public class SmsMessageCache {
 		onDataChanged = handler;
 	}
 
-	public List<SmsMessageEntry> getItems() {
+	public List<SmsPojo> getItems() {
 		return items;
 	}
 
