@@ -7,6 +7,7 @@ import com.phdroid.smsb.storage.dao.SmsMessageEntry;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
 
 public class ListMessageProvider implements IMessageProvider {
     private ArrayList<SmsPojo> mList;
@@ -28,7 +29,7 @@ public class ListMessageProvider implements IMessageProvider {
 		return mList.size();
 	}
 
-	public ArrayList<SmsPojo> getMessages() {
+	public List<SmsPojo> getMessages() {
 		return mList;
 	}
 

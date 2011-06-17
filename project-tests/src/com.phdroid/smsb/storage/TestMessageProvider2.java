@@ -6,6 +6,7 @@ import com.phdroid.smsb.TestSmsPojo;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Hashtable;
+import java.util.List;
 
 public class TestMessageProvider2 implements IMessageProvider{
     ArrayList<SmsPojo> mList;
@@ -97,7 +98,7 @@ public class TestMessageProvider2 implements IMessageProvider{
 		return mList.size();
 	}
 
-	public ArrayList<SmsPojo> getMessages() {
+	public List<SmsPojo> getMessages() {
 		return mList;
 	}
 

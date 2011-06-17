@@ -12,6 +12,7 @@ import com.phdroid.smsb.storage.IMessageProvider;
 import com.phdroid.smsb.storage.MessageProviderHelper;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class SelectManyActivity extends Activity {
@@ -34,7 +35,7 @@ public class SelectManyActivity extends Activity {
 	protected void onStart() {
 		super.onStart();
 
-        ArrayList<SmsPojo> messages = GetMessageProvider().getMessages();
+        List<SmsPojo> messages = GetMessageProvider().getMessages();
         final ListView lv = (ListView)findViewById(R.id.messagesListView);
         lv.setAdapter(new SmsPojoArrayAdapter(this, R.layout.select_many_list_item, messages));
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
