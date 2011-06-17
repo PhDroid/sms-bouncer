@@ -26,6 +26,10 @@ public class SmsMessageCache {
 		}
 	}
 
+	public static abstract class OnDataChanged {
+		public abstract void dataChanged();
+	}
+
 	private static SmsMessageCache ourInstance;
 
 	public synchronized static SmsMessageCache getInstance(ContentResolver contentResolver) {
@@ -37,11 +41,16 @@ public class SmsMessageCache {
 
 	private List<SmsMessageEntry> items;
 	private ContentResolver contentResolver;
+	private OnDataChanged onDataChanged;
 
 	private SmsMessageCache(ContentResolver contentResolver) {
 		this.contentResolver = contentResolver;
 		this.items = new ArrayList<SmsMessageEntry>();
 		this.contentResolver.registerContentObserver(SmsContentProvider.CONTENT_URI, true, new SmsContentObserver(new Handler()));
+	}
+
+	public synchronized void setOnDataChanged(OnDataChanged handler) {
+		onDataChanged = handler;
 	}
 
 	public List<SmsMessageEntry> getItems() {
@@ -50,6 +59,9 @@ public class SmsMessageCache {
 
 	private synchronized void onDataChanged() {
 		items.clear();
+		if(onDataChanged != null) {
+			onDataChanged.dataChanged();
+		}
 		getData();
 	}
 
