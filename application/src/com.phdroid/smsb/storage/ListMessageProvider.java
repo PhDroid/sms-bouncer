@@ -1,16 +1,30 @@
 package com.phdroid.smsb.storage;
 
+import android.content.ContentProvider;
+import android.database.ContentObserver;
 import com.phdroid.smsb.SmsPojo;
+import com.phdroid.smsb.storage.dao.SmsMessageEntry;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
 
 public class ListMessageProvider implements IMessageProvider {
-	private ArrayList<SmsPojo> mList;
+    private ArrayList<SmsPojo> mList;
+    private ArrayList<SmsMessageEntry> cachedSmsList;
 	private Hashtable<SmsPojo, SmsAction> mActions;
 	private int mUnreadCount = 0;
+    private ContentProvider contentProvider;
 
-	public int size(){
+    public ListMessageProvider(ContentProvider contentProvider) {
+        this.contentProvider = contentProvider;
+        //todo:invalidate caches when content changes. ContentObserver?
+    }
+
+    private ContentProvider getContentProvider() {
+        return contentProvider;
+    }
+
+    public int size(){
 		return mList.size();
 	}
 
