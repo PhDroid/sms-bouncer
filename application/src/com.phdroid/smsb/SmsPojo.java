@@ -1,6 +1,7 @@
 package com.phdroid.smsb;
 
 import android.content.ContentResolver;
+import com.phdroid.smsb.exceptions.NotSupportedMethodException;
 import com.phdroid.smsb.storage.dao.DaoMaster;
 import com.phdroid.smsb.storage.dao.SmsMessageEntry;
 import com.phdroid.smsb.storage.dao.SmsMessageSenderEntry;
@@ -10,23 +11,20 @@ import com.phdroid.smsb.storage.dao.SmsMessageSenderEntry;
  */
 public class SmsPojo {
 	private SmsMessageEntry innerEntry;
-    private DaoMaster daoMaster;
 
     protected SmsPojo() {
     }
 
-	public SmsPojo(ContentResolver contentResolver, SmsMessageEntry entry) {
+	public SmsPojo(SmsMessageEntry entry) {
         innerEntry = entry;
-        this.daoMaster = new DaoMaster(contentResolver);
 	}
 
 	public String getSender() {
         return innerEntry.getSender();
 	}
 
-	public void setSender(String sender) {
-		SmsMessageSenderEntry senderEntry = this.daoMaster.insertOrSelectSender(sender);
-        innerEntry.setSenderId(senderEntry.getId());
+	public void setSender(String sender) throws NotSupportedMethodException {
+		throw new NotSupportedMethodException();
 	}
 
     public boolean isRead(){
