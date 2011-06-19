@@ -15,8 +15,7 @@ public abstract class SmsPojo {
 
 	public abstract String getSender();
 
-	public void setSender(String sender) throws NotSupportedMethodException {
-		throw new NotSupportedMethodException();
+	public void setSender(String sender) {
 	}
 
     public abstract boolean isRead();
