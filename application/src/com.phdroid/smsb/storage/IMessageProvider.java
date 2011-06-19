@@ -4,9 +4,10 @@ import com.phdroid.smsb.SmsPojo;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
 
 public interface IMessageProvider {
-    ArrayList<SmsPojo> getMessages();
+    List<SmsPojo> getMessages();
 
     Hashtable<SmsPojo, SmsAction> getActionMessages();
 

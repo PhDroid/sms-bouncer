@@ -3,11 +3,12 @@ package com.phdroid.smsb.storage.dao;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.telephony.SmsMessage;
+import com.phdroid.smsb.SmsPojo;
 
 /**
  * DAO for SmsMessage
  */
-public class SmsMessageEntry {
+public class SmsMessageEntry extends SmsPojo {
     public static final String _ID = "_id";
     public static final String SENDER_ID = "sender_id";
     public static final String SENDER = "sender";

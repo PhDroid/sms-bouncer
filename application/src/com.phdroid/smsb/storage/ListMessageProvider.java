@@ -1,35 +1,37 @@
 package com.phdroid.smsb.storage;
 
-import android.content.ContentProvider;
-import android.database.ContentObserver;
+import android.content.ContentResolver;
 import com.phdroid.smsb.SmsPojo;
+import com.phdroid.smsb.storage.cache.SmsMessageCache;
 import com.phdroid.smsb.storage.dao.SmsMessageEntry;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
 
 public class ListMessageProvider implements IMessageProvider {
-    private ArrayList<SmsPojo> mList;
-    private ArrayList<SmsMessageEntry> cachedSmsList;
 	private Hashtable<SmsPojo, SmsAction> mActions;
 	private int mUnreadCount = 0;
-    private ContentProvider contentProvider;
+	private ContentResolver contentResolver;
 
-    public ListMessageProvider(ContentProvider contentProvider) {
-        this.contentProvider = contentProvider;
-        //todo:invalidate caches when content changes. ContentObserver?
-    }
-
-    private ContentProvider getContentProvider() {
-        return contentProvider;
-    }
-
-    public int size(){
-		return mList.size();
+	public ListMessageProvider(ContentResolver contentResolver) {
+		this.contentResolver = contentResolver;
 	}
 
-	public ArrayList<SmsPojo> getMessages() {
-		return mList;
+	private ContentResolver getContentResolver() {
+		return contentResolver;
+	}
+
+	private List<SmsPojo> getSmsList() {
+		return SmsMessageCache.getInstance(getContentResolver()).getItems();
+	}
+
+	public int size() {
+		return getSmsList().size();
+	}
+
+	public List<SmsPojo> getMessages() {
+		return getSmsList();
 	}
 
 	public Hashtable<SmsPojo, SmsAction> getActionMessages() {
@@ -39,85 +41,87 @@ public class ListMessageProvider implements IMessageProvider {
 	public void delete(long id) {
 		mActions.clear();
 		SmsPojo sms = get(id);
-		if (sms != null){
+		if (sms != null) {
 			mActions.put(sms, SmsAction.Deleted);
-			mList.remove((int) id);
+			//mList.remove((int) id);
 		}
 	}
 
 	public void delete(long[] ids) {
 		mActions.clear();
 		for (long id = ids.length - 1; id >= 0; id--) {
-			SmsPojo sms = get(ids[(int)id]);
-			if (sms != null){
+			SmsPojo sms = get(ids[(int) id]);
+			if (sms != null) {
 				if (!sms.isRead())
 					mUnreadCount--;
 				mActions.put(sms, SmsAction.Deleted);
-				mList.remove((int) id);
+				//mList.remove((int) id);
 			}
 		}
 	}
 
 	public void deleteAll() {
-		for (SmsPojo sms : mList) {
-			mActions.put(sms, SmsAction.Deleted);
-		}
-		mList.clear();
+//		for (SmsPojo sms : mList) {
+//			mActions.put(sms, SmsAction.Deleted);
+//		}
+//		mList.clear();
 	}
 
 	public void notSpam(long id) {
 		mActions.clear();
 		SmsPojo sms = get(id);
-		if(sms != null){
+		if (sms != null) {
 			mActions.put(sms, SmsAction.MarkedAsNotSpam);
-			mList.remove((int) id);
+//			mList.remove((int) id);
 		}
 	}
 
 	public void notSpam(long[] ids) {
 		mActions.clear();
 		for (long id = ids.length - 1; id >= 0; id--) {
-			SmsPojo sms = get(ids[(int)id]);
-			if (sms != null){
+			SmsPojo sms = get(ids[(int) id]);
+			if (sms != null) {
 				if (!sms.isRead())
 					mUnreadCount--;
 				mActions.put(sms, SmsAction.MarkedAsNotSpam);
-				mList.remove((int) id);
+//				mList.remove((int) id);
 			}
 		}
 	}
 
 	@Override
 	public int getIndex(SmsPojo message) {
-		return mList.indexOf(message);
+		return getMessages().indexOf(message);
 	}
 
 	@Override
 	public boolean isFirstMessage(SmsPojo message) {
-		return mList.indexOf(message) == 0;
+		return getIndex(message) == 0;
 	}
 
 	@Override
 	public boolean isLastMessage(SmsPojo message) {
-		return mList.indexOf(message) == mList.size()-1;
+		return getIndex(message) == size() - 1;
 	}
 
 	@Override
 	public SmsPojo getPreviousMessage(SmsPojo message) {
-		int index = mList.indexOf(message);
-		if (index <= 0) {
-			return null;
-		}
-		return mList.get(--index);
+		return null;
+//		int index = mList.indexOf(message);
+//		if (index <= 0) {
+//			return null;
+//		}
+//		return mList.get(--index);
 	}
 
 	@Override
 	public SmsPojo getNextMessage(SmsPojo message) {
-		int index = mList.indexOf(message);
-		if (index >= mList.size()-1) {
-			return null;
-		}
-		return mList.get(++index);
+		return null;
+//		int index = mList.indexOf(message);
+//		if (index >= mList.size() - 1) {
+//			return null;
+//		}
+//		return mList.get(++index);
 	}
 
 	public SmsPojo getMessage(long id) {
@@ -138,16 +142,16 @@ public class ListMessageProvider implements IMessageProvider {
 
 	public void undo() {
 		for (SmsPojo sms : mActions.keySet()) {
-			mList.add(0, sms);
+//			mList.add(0, sms);
 		}
 		mActions.clear();
 
 		mUnreadCount = 0;
-		for (SmsPojo sms : mList) {
-			if (!sms.isRead()) {
-				mUnreadCount++;
-			}
-		}
+//		for (SmsPojo sms : mList) {
+//			if (!sms.isRead()) {
+//				mUnreadCount++;
+//			}
+//		}
 	}
 
 	public void performActions() {
@@ -155,8 +159,9 @@ public class ListMessageProvider implements IMessageProvider {
 	}
 
 	private SmsPojo get(long id) {
-		if(id < 0) return null;
-		if(id > mList.size()) return null;
-		return mList.get((int) id);
+		return null;
+//		if (id < 0) return null;
+//		if (id > mList.size()) return null;
+//		return mList.get((int) id);
 	}
 }

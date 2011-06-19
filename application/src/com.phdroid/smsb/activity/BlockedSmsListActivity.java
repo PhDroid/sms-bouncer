@@ -14,6 +14,7 @@ import com.phdroid.smsb.storage.SmsAction;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
 
 public class BlockedSmsListActivity extends Activity {
 
@@ -38,7 +39,7 @@ public class BlockedSmsListActivity extends Activity {
 
         processUndoButton();
 
-        ArrayList<SmsPojo> messages = GetMessageProvider().getMessages();
+        List<SmsPojo> messages = GetMessageProvider().getMessages();
         ListView lv = (ListView)findViewById(R.id.messagesListView);
         smsPojoArrayAdapter = new SmsPojoArrayAdapter(this, R.layout.main_list_item, messages);
         lv.setAdapter(smsPojoArrayAdapter);

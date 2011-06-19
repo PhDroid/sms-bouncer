@@ -6,6 +6,7 @@ import junit.framework.TestCase;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
 
 public class MessageProviderTest extends TestCase{
 	IMessageProvider mProvider;
@@ -24,7 +25,7 @@ public class MessageProviderTest extends TestCase{
 	}
 
 	public void test_getMessages_returns_full_messages_list(){
-		ArrayList<SmsPojo> messages = mProvider.getMessages();
+		List<SmsPojo> messages = mProvider.getMessages();
 		 assertEquals(MESSAGES_COUNT, messages.size());
 		 assertEquals(mProvider.size(), messages.size());
 	}

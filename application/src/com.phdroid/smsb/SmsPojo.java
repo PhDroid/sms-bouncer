@@ -1,6 +1,7 @@
 package com.phdroid.smsb;
 
 import android.content.ContentResolver;
+import com.phdroid.smsb.exceptions.NotSupportedMethodException;
 import com.phdroid.smsb.storage.dao.DaoMaster;
 import com.phdroid.smsb.storage.dao.SmsMessageEntry;
 import com.phdroid.smsb.storage.dao.SmsMessageSenderEntry;
@@ -8,58 +9,31 @@ import com.phdroid.smsb.storage.dao.SmsMessageSenderEntry;
 /**
  * Plain old java object for Sms message.
  */
-public class SmsPojo {
-	private SmsMessageEntry innerEntry;
-    private DaoMaster daoMaster;
-
-    protected SmsPojo() {
+public abstract class SmsPojo {
+	protected SmsPojo() {
     }
 
-	public SmsPojo(ContentResolver contentResolver, SmsMessageEntry entry) {
-        innerEntry = entry;
-        this.daoMaster = new DaoMaster(contentResolver);
+	public abstract String getSender();
+
+	public void setSender(String sender) throws NotSupportedMethodException {
+		throw new NotSupportedMethodException();
 	}
 
-	public String getSender() {
-        return innerEntry.getSender();
-	}
+    public abstract boolean isRead();
 
-	public void setSender(String sender) {
-		SmsMessageSenderEntry senderEntry = this.daoMaster.insertOrSelectSender(sender);
-        innerEntry.setSenderId(senderEntry.getId());
-	}
+    public abstract void setRead(boolean r);
 
-    public boolean isRead(){
-        return innerEntry.isRead();
-    }
+	public abstract String getMessage();
 
-    public void setRead(boolean r){
-        innerEntry.setRead(r);
-    }
+	public abstract void setMessage(String message);
 
-	public String getMessage() {
-		return innerEntry.getMessage();
-	}
+	public abstract long getReceived();
 
-	public void setMessage(String message) {
-		innerEntry.setMessage(message);
-	}
+	public abstract void setReceived(long received);
 
-	public long getReceived() {
-		return innerEntry.getReceived();
-	}
+	public abstract boolean isMarkedNotSpamByUser();
 
-	public void setReceived(long received) {
-		innerEntry.setReceived(received);
-	}
-
-	public boolean isMarkedNotSpamByUser() {
-		return innerEntry.isMarkedNotSpamByUser();
-	}
-
-	public void setMarkedNotSpamByUser(boolean markedNotSpamByUser) {
-		innerEntry.setMarkedNotSpamByUser(markedNotSpamByUser);
-	}
+	public abstract void setMarkedNotSpamByUser(boolean markedNotSpamByUser);
 
     @Override
     public String toString(){
