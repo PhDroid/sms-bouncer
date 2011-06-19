@@ -9,91 +9,86 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import com.phdroid.smsb.R;
 import com.phdroid.smsb.SmsPojo;
+import com.phdroid.smsb.utility.DateUtilities;
 import com.phdroid.smsb.widget.ReadableImageView;
 
+import java.util.Date;
 import java.util.List;
 
 public class SmsPojoArrayAdapter extends ArrayAdapter<SmsPojo> {
-    protected Activity ctx;
-    protected int mViewId;
-    protected LayoutInflater mInflater;
+	protected Activity ctx;
+	protected int mViewId;
+	protected LayoutInflater mInflater;
 
-    public SmsPojoArrayAdapter(Activity context, int textViewResourceId) {
-        super(context, textViewResourceId);
-        ctx = context;
-        mViewId = textViewResourceId;
-        mInflater = ctx.getLayoutInflater();
-    }
+	public SmsPojoArrayAdapter(Activity context, int textViewResourceId) {
+		super(context, textViewResourceId);
+		ctx = context;
+		mViewId = textViewResourceId;
+		mInflater = ctx.getLayoutInflater();
+	}
 
-    public SmsPojoArrayAdapter(Activity context, int resource, int textViewResourceId) {
-        super(context, resource, textViewResourceId);
-        ctx = context;
-        mViewId = textViewResourceId;
-        mInflater = ctx.getLayoutInflater();
-    }
+	public SmsPojoArrayAdapter(Activity context, int resource, int textViewResourceId) {
+		super(context, resource, textViewResourceId);
+		ctx = context;
+		mViewId = textViewResourceId;
+		mInflater = ctx.getLayoutInflater();
+	}
 
-    public SmsPojoArrayAdapter(Activity context, int textViewResourceId, SmsPojo[] objects) {
-        super(context, textViewResourceId, objects);
-        ctx = context;
-        mViewId = textViewResourceId;
-        mInflater = ctx.getLayoutInflater();
-    }
+	public SmsPojoArrayAdapter(Activity context, int textViewResourceId, SmsPojo[] objects) {
+		super(context, textViewResourceId, objects);
+		ctx = context;
+		mViewId = textViewResourceId;
+		mInflater = ctx.getLayoutInflater();
+	}
 
-    public SmsPojoArrayAdapter(Activity context, int resource, int textViewResourceId, SmsPojo[] objects) {
-        super(context, resource, textViewResourceId, objects);
-        ctx = context;
-        mViewId = textViewResourceId;
-        mInflater = ctx.getLayoutInflater();
-    }
+	public SmsPojoArrayAdapter(Activity context, int resource, int textViewResourceId, SmsPojo[] objects) {
+		super(context, resource, textViewResourceId, objects);
+		ctx = context;
+		mViewId = textViewResourceId;
+		mInflater = ctx.getLayoutInflater();
+	}
 
-    public SmsPojoArrayAdapter(Activity context, int textViewResourceId, List<SmsPojo> objects) {
-        super(context, textViewResourceId, objects);
-        ctx = context;
-        mViewId = textViewResourceId;
-        mInflater = ctx.getLayoutInflater();
-    }
+	public SmsPojoArrayAdapter(Activity context, int textViewResourceId, List<SmsPojo> objects) {
+		super(context, textViewResourceId, objects);
+		ctx = context;
+		mViewId = textViewResourceId;
+		mInflater = ctx.getLayoutInflater();
+	}
 
-    public SmsPojoArrayAdapter(Activity context, int resource, int textViewResourceId, List<SmsPojo> objects) {
-        super(context, resource, textViewResourceId, objects);
-        ctx = context;
-        mViewId = textViewResourceId;
-        mInflater = ctx.getLayoutInflater();
-    }
+	public SmsPojoArrayAdapter(Activity context, int resource, int textViewResourceId, List<SmsPojo> objects) {
+		super(context, resource, textViewResourceId, objects);
+		ctx = context;
+		mViewId = textViewResourceId;
+		mInflater = ctx.getLayoutInflater();
+	}
 
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent){
-        SmsViewHolder holder;
-        if(convertView == null){
-            convertView = mInflater.inflate(mViewId, null);
-            holder = new SmsViewHolder();
-            holder.sender = (TextView) convertView.findViewById(R.id.senderTextView);
-            holder.received = (TextView) convertView.findViewById(R.id.receivedTimeTextView);
-            holder.message = (TextView) convertView.findViewById(R.id.messageTextView);
-            holder.arrow = (ReadableImageView) convertView.findViewById(R.id.arrow);
+	@Override
+	public View getView(int position, View convertView, ViewGroup parent){
+		SmsViewHolder holder;
+		if(convertView == null){
+			convertView = mInflater.inflate(mViewId, null);
+			holder = new SmsViewHolder();
+			holder.sender = (TextView) convertView.findViewById(R.id.senderTextView);
+			holder.received = (TextView) convertView.findViewById(R.id.receivedTimeTextView);
+			holder.message = (TextView) convertView.findViewById(R.id.messageTextView);
+			holder.arrow = (ReadableImageView) convertView.findViewById(R.id.arrow);
 
-            convertView.setTag(holder);
-        } else {
-            holder = (SmsViewHolder) convertView.getTag();
-        }
+			convertView.setTag(holder);
+		} else {
+			holder = (SmsViewHolder) convertView.getTag();
+		}
 
-        SmsPojo sms = this.getItem(position);
-        holder.sender.setText(sms.getSender());
+		SmsPojo sms = this.getItem(position);
+		holder.sender.setText(sms.getSender());
 		if(holder.arrow != null){
 			holder.arrow.setRead(sms.isRead());
 		}
-		String dateTimeString = DateUtils.getRelativeDateTimeString(
-				ctx,
-				sms.getReceived(),
-				DateUtils.MINUTE_IN_MILLIS,
-				DateUtils.WEEK_IN_MILLIS,
-				DateUtils.FORMAT_ABBREV_RELATIVE).toString();
-		String s = dateTimeString.substring(0, dateTimeString.indexOf(','));
-		holder.received.setText(s);
-        holder.message.setText(sms.getMessage());
+		holder.received.setText(DateUtilities.getRelativeDateString(sms, ctx));
+		holder.message.setText(sms.getMessage());
 
-        int style = sms.isRead() ? R.style.read_message : R.style.non_read_message;
-        holder.sender.setTextAppearance(ctx, style);
+		int style = sms.isRead() ? R.style.read_message : R.style.non_read_message;
+		holder.sender.setTextAppearance(ctx, style);
 
-        return (convertView);
-    }
+		return (convertView);
+	}
 }

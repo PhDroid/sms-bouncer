@@ -97,12 +97,7 @@ public class BlockedSmsListActivity extends Activity {
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		super.onPrepareOptionsMenu(menu);
-		if(GetMessageProvider().size() > 0){
-			MenuItem item = menu.findItem(R.id.delete_all_item);
-			item.setEnabled(true);
-			item = menu.findItem(R.id.select_many_item);
-			item.setEnabled(true);
-		} else {
+		if(GetMessageProvider().getMessages().size() == 0){
 			MenuItem item = menu.findItem(R.id.delete_all_item);
 			item.setEnabled(false);
 			item = menu.findItem(R.id.select_many_item);

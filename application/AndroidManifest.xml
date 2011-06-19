@@ -1,30 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-      package="com.phdroid.smsb"
-      android:versionCode="1"
-      android:versionName="1.0">
-    <uses-sdk android:minSdkVersion="8" />
-    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+	  package="com.phdroid.smsb"
+	  android:versionCode="1"
+	  android:versionName="1.0">
+	<uses-sdk android:minSdkVersion="8" />
+	<uses-permission android:name="android.permission.RECEIVE_SMS" />
 	<uses-permission android:name="android.permission.READ_CONTACTS" />
-    <application android:icon="@drawable/icon" android:label="@string/app_name" android:debuggable="true">
-        <activity android:name=".activity.BlockedSmsListActivity"
-                  android:label="@string/app_name">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-	    <activity android:name=".activity.SettingsActivity" />
-	    <activity android:name=".activity.EditWhitelistActivity"/>
-	    <activity android:name=".activity.ViewMessageActivity" android:theme="@style/view_message_activity_style"/>
-        <activity android:name=".activity.SelectManyActivity"/>
-        <receiver android:name=".broadcast.SmsReceiver">
-            <intent-filter android:priority="32137">
-                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
-            </intent-filter>
-        </receiver>
+	<application
+			android:icon="@drawable/icon"
+			android:label="@string/app_name"
+			android:debuggable="true">
+		<activity android:name=".activity.BlockedSmsListActivity"
+				android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".activity.SettingsActivity"/>
+		<activity android:name=".activity.EditWhitelistActivity"/>
+		<activity android:name=".activity.ViewMessageActivity"/>
+		<activity android:name=".activity.SelectManyActivity"/>
+		<receiver android:name=".broadcast.SmsReceiver">
+			<intent-filter android:priority="32137">
+				<action android:name="android.provider.Telephony.SMS_RECEIVED" />
+			</intent-filter>
+		</receiver>
 
-	    <provider android:name=".storage.dao.SmsContentProvider" android:authorities="com.phdroid.smsb.storage.dao.SmsContentProvider" />
-	    <provider android:name=".storage.dao.SenderContentProvider" android:authorities="com.phdroid.smsb.storage.dao.SenderContentProvider" />
-    </application>
+		<provider android:name=".storage.dao.SmsContentProvider" android:authorities="com.phdroid.smsb.storage.dao.SmsContentProvider" />
+		<provider android:name=".storage.dao.SenderContentProvider" android:authorities="com.phdroid.smsb.storage.dao.SenderContentProvider" />
+	</application>
 </manifest>
