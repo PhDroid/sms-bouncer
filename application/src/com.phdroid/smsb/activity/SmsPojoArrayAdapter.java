@@ -86,7 +86,7 @@ public class SmsPojoArrayAdapter extends ArrayAdapter<SmsPojo> {
 		holder.received.setText(DateUtilities.getRelativeDateString(sms, ctx));
 		holder.message.setText(sms.getMessage());
 
-		int style = sms.isRead() ? R.style.read_message : R.style.non_read_message;
+		int style = sms.isRead() ? R.style.read_message : R.style.title_text_non_read_message;
 		holder.sender.setTextAppearance(ctx, style);
 
 		return (convertView);

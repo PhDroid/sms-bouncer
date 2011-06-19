@@ -103,6 +103,12 @@ public class BlockedSmsListActivity extends Activity {
 			item = menu.findItem(R.id.select_many_item);
 			item.setEnabled(false);
 		}
+		else {
+			MenuItem item = menu.findItem(R.id.delete_all_item);
+			item.setEnabled(true);
+			item = menu.findItem(R.id.select_many_item);
+			item.setEnabled(true);
+		}
 
 		return true;
 	}

@@ -3,49 +3,56 @@
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
 		xmlns:android="http://schemas.android.com/apk/res/android"
-		android:orientation="vertical" android:id="@+id/layout_settings">
+		android:id="@+id/layout_settings"
+		android:background="@drawable/list_background">
 	<TextView android:id="@+id/tb_Heading"
-	          android:textSize="24sp"
-	          android:text="Settings"
-	          android:layout_height="wrap_content"
-	          android:layout_width="wrap_content"
-	          android:padding="5px"/>
+			android:text="@string/settings"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:layout_alignParentTop="true"
+			android:layout_alignParentLeft="true"
+			style="@style/title_text.settings_title"/>
 
 	<TextView android:id="@+id/tbDisplayNotification"
-	          android:text="Display panel notification"
-	          android:layout_width="wrap_content"
-	          android:layout_height="45dp"
-	          android:layout_below="@+id/tb_Heading"
-	          android:padding="5px"
-			/>
+			android:text="@string/display_notification"
+			android:layout_width="wrap_content"
+			android:layout_height="55dp"
+			android:layout_marginTop="40dp"
+			android:layout_alignParentTop="true"
+			android:layout_alignParentLeft="true"
+			style="@style/settings_label"/>
 
 	<CheckBox android:id="@+id/cbNotification"
-	          android:layout_width="wrap_content"
-	          android:layout_height="45dp"
-	          android:layout_alignParentRight="true"
-	          android:layout_below="@+id/tb_Heading"
-	          android:padding="5px"
+			android:layout_width="wrap_content"
+			android:layout_height="55dp"
+			android:layout_marginTop="40dp"
+			android:layout_alignParentTop="true"
+			android:layout_alignParentRight="true"
+			style="@style/settings_input"
 			/>
 
 	<TextView android:id="@+id/tbClear"
-	          android:text="Clear messages after"
-	          android:layout_width="wrap_content"
-	          android:layout_height="45dp"
-	          android:layout_below="@+id/tbDisplayNotification"
-	          android:padding="5px"/>
+			android:text="@string/clear_after"
+			android:layout_width="wrap_content"
+			android:layout_height="55dp"
+			android:layout_marginTop="95dp"
+			android:layout_alignParentTop="true"
+			android:layout_alignParentLeft="true"
+			style="@style/settings_label"/>
 
 	<Spinner android:id="@+id/ddlClear"
-	         android:layout_width="wrap_content"
-	         android:layout_height="45dp"
-	         android:layout_alignParentRight="true"
-	         android:layout_toRightOf="@+id/tbClear"
-	         android:layout_alignTop="@+id/tbClear"
-	         android:padding="5px"/>
+			android:layout_width="wrap_content"
+			android:layout_height="55dp"
+			android:layout_marginTop="95dp"
+			android:layout_alignParentTop="true"
+			android:layout_alignParentRight="true"
+			android:textSize="20sp"/>
 
 	<Button android:id="@+id/btnEditWhitelist"
-	        android:text="Edit senders white list"
-	        android:layout_height="45dp"
-	        android:layout_width="fill_parent"
-	        android:layout_below="@+id/tbClear"
-	        android:padding="5px"/>
+			android:text="@string/edit_white_list"
+			android:layout_height="55dp"
+			android:layout_width="match_parent"
+			android:layout_marginTop="165dp"
+			android:layout_alignParentTop="true"
+			style="@style/settings_input"/>
 </RelativeLayout>

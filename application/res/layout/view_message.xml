@@ -18,7 +18,7 @@
 					android:layout_marginTop="5dp"
 					android:layout_marginLeft="12dp"
 					android:textSize="20sp"
-					style="@style/non_read_message"
+					style="@style/title_text.non_read_message"
 					>
 			</TextView>
 			<TextView android:id="@+id/receivedTimeTextView"
