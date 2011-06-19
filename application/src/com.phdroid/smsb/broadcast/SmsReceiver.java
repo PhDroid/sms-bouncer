@@ -86,8 +86,7 @@ public class SmsReceiver extends BroadcastReceiver {
 		for (int i = 0; i < pdusObj.length; i++) {
 			SmsMessage msg = SmsMessage.createFromPdu((byte[]) pdusObj[i]);
             SmsMessageEntry entry = daoMaster.insertMessage(msg);
-            SmsPojo sms = new SmsPojo(daoMaster.getContentResolver(), entry);
-			messages[i] = sms;
+            messages[i] = entry;
 		}
 		return messages;
 	}
