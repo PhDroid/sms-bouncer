@@ -62,9 +62,11 @@
 		<Button android:id="@+id/notSpamButton"
 				android:layout_alignParentBottom="true"
 				android:layout_alignParentLeft="true"
+				android:layout_alignParentRight="true"
 				android:layout_height="60dp"
 				android:layout_width="175dp"
 				android:layout_marginLeft="175dp"
+				android:layout_marginRight="175dp"
 				android:text="@string/not_spam"
 				android:onClick="notSpamClick">
 		</Button>
