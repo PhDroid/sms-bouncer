@@ -18,7 +18,7 @@ public class TestMessageProvider implements IMessageProvider {
 		mList = new ArrayList<SmsPojo>();
 		Calendar c = Calendar.getInstance();
 
-		SmsPojo sms = new TestSmsPojo();
+		TestSmsPojo sms = new TestSmsPojo();
 		sms.setMessage("Hey you there! How you doin'?");
 		sms.setSender("+380971122333");
 		sms.setReceived(c.getTime().getTime());
