@@ -1,68 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-      xmlns:android="http://schemas.android.com/apk/res/android"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:background="@color/main_list_message_background">
-    <TextView android:id="@+id/senderTextView"
-    		  android:layout_height="wrap_content"
-    		  android:layout_width="wrap_content"
-    		  android:layout_alignParentTop="true"
-              android:layout_marginTop="5dp"
-              android:layout_marginLeft="6dp"
-    		  android:textColor="@color/sender_text"
-    		  android:textSize="20sp"
-              android:textStyle="bold"
-              >
-    </TextView>
-    <TextView android:id="@+id/receivedTimeTextView"
-    		  android:layout_height="wrap_content"
-    		  android:layout_width="wrap_content"
-    		  android:layout_alignParentRight="true"
-    		  android:layout_alignParentTop="true"
-              android:layout_marginTop="8dp"
-			  android:layout_marginRight="6dp"
-    		  android:textSize="14sp"
-              android:textColor="@color/received_text">
-    </TextView>
-    <TextView android:id="@+id/messageTextView"
-    		  android:layout_height="wrap_content"
-    		  android:text="TextView"
-    		  android:layout_width="fill_parent"
-    		  android:layout_alignParentTop="true"
-    		  android:layout_marginTop="40dp"
-			  android:layout_marginLeft="6dp"
-			  android:layout_marginRight="6dp"
-              android:textColor="@color/message_text"
-    		  android:textSize="18sp">
-    </TextView>
+	  xmlns:android="http://schemas.android.com/apk/res/android"
+	  android:layout_width="match_parent"
+	  android:layout_height="match_parent"
+	  android:background="@color/main_list_message_background">
+	<RelativeLayout android:id="@+id/message_layout"
+				android:layout_height="300dp"
+				android:layout_width="wrap_content"
+				android:layout_alignParentTop="true"
+				android:padding="5dp"
+				android:background="@drawable/message_bg"
+			>
+			<TextView android:id="@+id/senderTextView"
+					android:layout_height="wrap_content"
+					android:layout_width="wrap_content"
+					android:layout_alignParentTop="true"
+					android:layout_marginTop="5dp"
+					android:layout_marginLeft="12dp"
+					android:textSize="20sp"
+					style="@style/non_read_message"
+					>
+			</TextView>
+			<TextView android:id="@+id/receivedTimeTextView"
+					android:layout_height="wrap_content"
+					android:layout_width="wrap_content"
+					android:layout_alignParentRight="true"
+					android:layout_alignParentTop="true"
+					android:layout_marginTop="8dp"
+					android:layout_marginRight="12dp"
+					android:textSize="14sp"
+					android:textColor="@color/received_text">
+			</TextView>
+			<TextView android:id="@+id/messageTextView"
+					android:layout_height="wrap_content"
+					android:text="TextView"
+					android:layout_width="fill_parent"
+					android:layout_alignParentTop="true"
+					android:layout_marginTop="60dp"
+					android:layout_marginLeft="15dp"
+					android:layout_marginRight="15dp"
+					android:textColor="@color/message_text"
+					android:textSize="18sp">
+			</TextView>
+	</RelativeLayout>
+
 	<RelativeLayout
-      xmlns:android="http://schemas.android.com/apk/res/android"
-      android:layout_width="match_parent"
-      android:layout_height="200dp"
+	  xmlns:android="http://schemas.android.com/apk/res/android"
+	  android:layout_width="match_parent"
+	  android:layout_height="220dp"
 	  android:layout_alignParentBottom="true"
-      android:padding="3dp"
-      android:background="@drawable/buttons_background">
+	  android:padding="3dp"
+	  android:background="@drawable/buttons_bg_port">
 		<Button android:id="@+id/replyButton"
 				android:layout_alignParentBottom="true"
 				android:layout_height="60dp"
 				android:layout_width="fill_parent"
 				android:layout_marginBottom="130dp"
 				android:text="@string/reply"
-				android:onClick="">
+				android:onClick="replyClick">
 		</Button>
 		<Button android:id="@+id/notSpamButton"
 				android:layout_alignParentBottom="true"
 				android:layout_height="60dp"
 				android:layout_width="fill_parent"
 				android:layout_marginBottom="65dp"
-				android:text="@string/not_spam">
+				android:text="@string/not_spam"
+				android:onClick="notSpamClick">
 		</Button>
 		<Button android:id="@+id/deleteButton"
 				android:layout_alignParentBottom="true"
 				android:layout_height="60dp"
 				android:layout_width="fill_parent"
-				android:text="@string/delete">
+				android:text="@string/delete"
+				android:onClick="deleteClick">
 		</Button>
 	</RelativeLayout>
 </RelativeLayout>

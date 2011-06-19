@@ -1,8 +1,10 @@
 package com.phdroid.smsb.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.text.TextPaint;
 import android.text.format.DateUtils;
 import android.view.View;
 import android.view.Window;
@@ -14,21 +16,18 @@ import com.phdroid.smsb.storage.IMessageProvider;
 import com.phdroid.smsb.storage.MessageProviderHelper;
 import com.phdroid.smsb.ui.EventInjectedActivity;
 import com.phdroid.smsb.ui.HorizontalSwipeListener;
+import com.phdroid.smsb.utility.DateUtilities;
 
 /**
  * Show detailed sms message with several control functions.
  */
 public class ViewMessageActivity extends EventInjectedActivity {
 	private int mId = -1;
-	protected TextView title;
 
 	public void onCreate(Bundle savedInstanceState) {
 		HorizontalSwipeListener swiper = HorizontalSwipeListener.register(this);
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.view_message);
-		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.view_message_custom_title);
-		title = (TextView)findViewById(R.id.title);
 
 		Bundle b = getIntent().getExtras();
 		SmsPojo sms = null;
@@ -41,17 +40,12 @@ public class ViewMessageActivity extends EventInjectedActivity {
 			TextView message = (TextView) findViewById(R.id.messageTextView);
 
 			sender.setText(sms.getSender());
-			received.setText(DateUtils.getRelativeDateTimeString(
-					this,
-					sms.getReceived(),
-					DateUtils.MINUTE_IN_MILLIS,
-					DateUtils.WEEK_IN_MILLIS,
-					DateUtils.FORMAT_ABBREV_RELATIVE));
+			received.setText(DateUtilities.getRelativeDateString(sms, this));
 			message.setText(sms.getMessage());
 
 			GetMessageProvider().read(mId);
 
-			title.setText(String.format(
+			setTitle(String.format(
 					"%s%s",
 					getString(R.string.app_name),
 					GetMessageProvider().getUnreadCount() > 0 ?
@@ -63,20 +57,13 @@ public class ViewMessageActivity extends EventInjectedActivity {
 
 
 		Button btnDelete = (Button) findViewById(R.id.deleteButton);
-		btnDelete.getBackground().setColorFilter(ActivityConstants.COLOR_RED, PorterDuff.Mode.MULTIPLY);
-		btnDelete.setOnClickListener(new DeleteListener());
+		setButtonShadow(btnDelete);
+
 		Button btnNotSpam = (Button) findViewById(R.id.notSpamButton);
-		btnNotSpam.getBackground().setColorFilter(ActivityConstants.COLOR_GREEN, PorterDuff.Mode.MULTIPLY);
-		btnNotSpam.setOnClickListener(new NotSpamListener());
+		setButtonShadow(btnNotSpam);
+
 		Button btnReply = (Button) findViewById(R.id.replyButton);
-		btnReply.getBackground().setColorFilter(ActivityConstants.COLOR_GREEN, PorterDuff.Mode.MULTIPLY);
-		btnReply.setOnClickListener(new ReplyListener());
-		Button btnPrev = (Button) findViewById(R.id.prevButton);
-		btnPrev.setEnabled(!GetMessageProvider().isFirstMessage(sms));
-		btnPrev.setOnClickListener(new GoToPreviousListener());
-		Button btnNext = (Button) findViewById(R.id.nextButton);
-		btnNext.setEnabled(!GetMessageProvider().isLastMessage(sms));
-		btnNext.setOnClickListener(new GoToNextListener());
+		setButtonShadow(btnReply);
 
 		swiper.setSwipeLeft(new HorizontalSwipeListener.Swipe() {
 			@Override
@@ -92,43 +79,38 @@ public class ViewMessageActivity extends EventInjectedActivity {
 		});
 	}
 
+	private void setButtonShadow(Button button) {
+		//button.setShadowLayer(9, 1, 1, Color.argb(196, 0, 0, 0));
+	}
+
 
 	protected IMessageProvider GetMessageProvider() {
 		return MessageProviderHelper.getMessageProvider();
 	}
 
 
-	public class DeleteListener implements View.OnClickListener {
-		@Override
-		public void onClick(View view) {
-			GetMessageProvider().delete(mId);
-			finish();
-		}
+	public void deleteClick(View view) {
+		GetMessageProvider().delete(mId);
+		finish();
 	}
 
-	public class NotSpamListener implements View.OnClickListener {
-		@Override
-		public void onClick(View view) {
-			GetMessageProvider().notSpam(mId);
-			//todo: move message to Android SMS storage
-			finish();
-		}
+	public void notSpamClick(View view) {
+		GetMessageProvider().notSpam(mId);
+		//todo: move message to Android SMS storage
+		finish();
 	}
 
-	public class ReplyListener implements View.OnClickListener {
-		@Override
-		public void onClick(View view) {
-			SmsPojo sms = GetMessageProvider().getMessage(mId);
+	public void replyClick(View view) {
+		SmsPojo sms = GetMessageProvider().getMessage(mId);
 
-			GetMessageProvider().notSpam(mId);
-			//todo: move message to Android SMS storage
-			finish();
+		GetMessageProvider().notSpam(mId);
+		//todo: move message to Android SMS storage
+		finish();
 
-			Intent intent = new Intent(Intent.ACTION_VIEW);
-			intent.putExtra("address", sms.getSender());
-			intent.setType("vnd.android-dir/mms-sms");
-			startActivity(intent);
-		}
+		Intent intent = new Intent(Intent.ACTION_VIEW);
+		intent.putExtra("address", sms.getSender());
+		intent.setType("vnd.android-dir/mms-sms");
+		startActivity(intent);
 	}
 
 	public class GoToPreviousListener implements View.OnClickListener {
