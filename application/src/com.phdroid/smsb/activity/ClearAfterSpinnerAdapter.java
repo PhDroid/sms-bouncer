@@ -3,21 +3,23 @@ package com.phdroid.smsb.activity;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import com.phdroid.smsb.storage.DeleteAfter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Please, write short description of what this file is for.
  */
-public class ClearAfterSpinnerAdapter extends BaseAdapter implements SpinnerAdapter {
+public class ClearAfterSpinnerAdapter extends ArrayAdapter implements SpinnerAdapter {
 	ArrayList<DeleteAfter> items;
 	Context context;
 
-	public ClearAfterSpinnerAdapter(Context context) {
+	private void init(Context context) {
 		this.context = context;
 		this.items = new ArrayList<DeleteAfter>();
 		this.items.add(DeleteAfter.SevenDays);
@@ -25,11 +27,41 @@ public class ClearAfterSpinnerAdapter extends BaseAdapter implements SpinnerAdap
 		this.items.add(DeleteAfter.ThirtyDays);
 	}
 
+	public ClearAfterSpinnerAdapter(Context context, int textViewResourceId) {
+		super(context, textViewResourceId);
+		init(context);
+	}
+
+	public ClearAfterSpinnerAdapter(Context context, int resource, int textViewResourceId) {
+		super(context, resource, textViewResourceId);
+		init(context);
+	}
+
+	public ClearAfterSpinnerAdapter(Context context, int textViewResourceId, Object[] objects) {
+		super(context, textViewResourceId, objects);
+		init(context);
+	}
+
+	public ClearAfterSpinnerAdapter(Context context, int resource, int textViewResourceId, Object[] objects) {
+		super(context, resource, textViewResourceId, objects);
+		init(context);
+	}
+
+	public ClearAfterSpinnerAdapter(Context context, int textViewResourceId, List objects) {
+		super(context, textViewResourceId, objects);
+		init(context);
+	}
+
+	public ClearAfterSpinnerAdapter(Context context, int resource, int textViewResourceId, List objects) {
+		super(context, resource, textViewResourceId, objects);
+		init(context);
+	}
+
 	private ArrayList<DeleteAfter> getItems() {
 		return items;
 	}
 
-	private Context getContext() {
+	public Context getContext() {
 		return context;
 	}
 

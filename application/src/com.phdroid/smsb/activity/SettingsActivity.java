@@ -62,7 +62,8 @@ public class SettingsActivity extends Activity {
 
 		//Spinner init
 		Spinner ddlClearWhitelist = (Spinner) findViewById(R.id.ddlClear);
-		ClearAfterSpinnerAdapter adapter = new ClearAfterSpinnerAdapter(getApplicationContext());
+		ClearAfterSpinnerAdapter adapter = new ClearAfterSpinnerAdapter(getApplicationContext(), R.layout.spinner_item);
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		ddlClearWhitelist.setAdapter(adapter);
 
 		int index = getItemIndex(adapter);
