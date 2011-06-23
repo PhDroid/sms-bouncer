@@ -9,6 +9,7 @@ import android.text.format.DateUtils;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.Gallery;
 import android.widget.TextView;
 import com.phdroid.smsb.R;
 import com.phdroid.smsb.SmsPojo;
@@ -25,24 +26,15 @@ public class ViewMessageActivity extends EventInjectedActivity {
 	private int mId = -1;
 
 	public void onCreate(Bundle savedInstanceState) {
-		HorizontalSwipeListener swiper = HorizontalSwipeListener.register(this);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.view_message);
 
+		Gallery gallery = (Gallery)findViewById(R.id.message_gallery);
+		gallery.setAdapter(new SmsPojoSpinnerAdapter(this, GetMessageProvider().getMessages()));
+
 		Bundle b = getIntent().getExtras();
-		SmsPojo sms = null;
 		mId = b.getInt("id", -1);
 		if (mId >= 0) {
-			sms = GetMessageProvider().getMessage(mId);
-
-			TextView sender = (TextView) findViewById(R.id.senderTextView);
-			TextView received = (TextView) findViewById(R.id.receivedTimeTextView);
-			TextView message = (TextView) findViewById(R.id.messageTextView);
-
-			sender.setText(sms.getSender());
-			received.setText(DateUtilities.getRelativeDateString(sms, this));
-			message.setText(sms.getMessage());
-
 			GetMessageProvider().read(mId);
 
 			setTitle(String.format(
@@ -64,19 +56,6 @@ public class ViewMessageActivity extends EventInjectedActivity {
 
 		Button btnReply = (Button) findViewById(R.id.replyButton);
 		setButtonShadow(btnReply);
-
-		swiper.setSwipeLeft(new HorizontalSwipeListener.Swipe() {
-			@Override
-			public void doSwipe() {
-				goToPreviousMessage();
-			}
-		});
-		swiper.setSwipeRight(new HorizontalSwipeListener.Swipe() {
-			@Override
-			public void doSwipe() {
-				goToNextMessage();
-			}
-		});
 	}
 
 	private void setButtonShadow(Button button) {
@@ -111,53 +90,5 @@ public class ViewMessageActivity extends EventInjectedActivity {
 		intent.putExtra("address", sms.getSender());
 		intent.setType("vnd.android-dir/mms-sms");
 		startActivity(intent);
-	}
-
-	public class GoToPreviousListener implements View.OnClickListener {
-		@Override
-		public void onClick(View view) {
-			goToPreviousMessage();
-		}
-	}
-
-	private void goToPreviousMessage() {
-		IMessageProvider p = GetMessageProvider();
-		SmsPojo current = p.getMessage(mId);
-		SmsPojo target = p.getPreviousMessage(current);
-		if (target == null) {
-			return;
-		}
-
-		Intent intent = new Intent(ViewMessageActivity.this, ViewMessageActivity.class);
-		Bundle b = new Bundle();
-		b.putInt("id", p.getIndex(target));
-		intent.putExtras(b);
-		startActivity(intent);
-
-		finish();
-	}
-
-	public class GoToNextListener implements View.OnClickListener {
-		@Override
-		public void onClick(View view) {
-			goToNextMessage();
-		}
-	}
-
-	private void goToNextMessage() {
-		IMessageProvider p = GetMessageProvider();
-		SmsPojo current = p.getMessage(mId);
-		SmsPojo target = p.getNextMessage(current);
-		if (target == null) {
-			return;
-		}
-
-		Intent intent = new Intent(ViewMessageActivity.this, ViewMessageActivity.class);
-		Bundle b = new Bundle();
-		b.putInt("id", p.getIndex(target));
-		intent.putExtras(b);
-		startActivity(intent);
-
-		finish();
 	}
 }

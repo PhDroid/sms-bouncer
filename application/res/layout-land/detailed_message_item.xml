@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+			xmlns:android="http://schemas.android.com/apk/res/android"
+			android:id="@+id/message_layout"
+			android:layout_height="200dp"
+			android:layout_width="match_parent"
+			android:layout_alignParentTop="true"
+			android:padding="5dp"
+			android:background="@drawable/message_bg_land">
+		<TextView android:id="@+id/senderTextView"
+				  android:layout_height="wrap_content"
+				  android:layout_width="wrap_content"
+				  android:layout_alignParentTop="true"
+				  android:layout_marginTop="5dp"
+				  android:layout_marginLeft="12dp"
+				  android:textSize="20sp"
+				  style="@style/title_text.non_read_message"
+				>
+		</TextView>
+		<TextView android:id="@+id/receivedTimeTextView"
+				  android:layout_height="wrap_content"
+				  android:layout_width="wrap_content"
+				  android:layout_alignParentRight="true"
+				  android:layout_alignParentTop="true"
+				  android:layout_marginTop="8dp"
+				  android:layout_marginRight="12dp"
+				  android:textSize="14sp"
+				  android:textColor="@color/received_text">
+		</TextView>
+		<TextView android:id="@+id/messageTextView"
+				  android:layout_height="wrap_content"
+				  android:text="TextView"
+				  android:layout_width="fill_parent"
+				  android:layout_alignParentTop="true"
+				  android:layout_marginTop="60dp"
+				  android:layout_marginLeft="15dp"
+				  android:layout_marginRight="15dp"
+				  android:textColor="@color/message_text"
+				  android:textSize="18sp">
+		</TextView>
+</RelativeLayout>
