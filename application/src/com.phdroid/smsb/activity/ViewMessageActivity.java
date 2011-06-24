@@ -1,67 +1,60 @@
 package com.phdroid.smsb.activity;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.text.TextPaint;
-import android.text.format.DateUtils;
 import android.view.View;
-import android.view.Window;
-import android.widget.Button;
+import android.widget.AdapterView;
 import android.widget.Gallery;
-import android.widget.TextView;
 import com.phdroid.smsb.R;
 import com.phdroid.smsb.SmsPojo;
 import com.phdroid.smsb.storage.IMessageProvider;
 import com.phdroid.smsb.storage.MessageProviderHelper;
 import com.phdroid.smsb.ui.EventInjectedActivity;
-import com.phdroid.smsb.ui.HorizontalSwipeListener;
-import com.phdroid.smsb.utility.DateUtilities;
 
 /**
  * Show detailed sms message with several control functions.
  */
 public class ViewMessageActivity extends EventInjectedActivity {
-	private int mId = -1;
+	private Gallery mGallery;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.view_message);
 
-		Gallery gallery = (Gallery)findViewById(R.id.message_gallery);
-		gallery.setAdapter(new SmsPojoSpinnerAdapter(this, GetMessageProvider().getMessages()));
+		mGallery = (Gallery)findViewById(R.id.message_gallery);
+		mGallery.setAdapter(new SmsPojoSpinnerAdapter(this, GetMessageProvider().getMessages()));
+		mGallery.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+				GetMessageProvider().read(i);
+				updateTitle();
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> adapterView) {
+			}
+		});
 
 		Bundle b = getIntent().getExtras();
-		mId = b.getInt("id", -1);
-		if (mId >= 0) {
-			GetMessageProvider().read(mId);
+		int id = b.getInt("id", -1);
+		if (id >= 0) {
+			GetMessageProvider().read(id);
+			mGallery.setSelection(id, false);
 
-			setTitle(String.format(
-					"%s%s",
-					getString(R.string.app_name),
-					GetMessageProvider().getUnreadCount() > 0 ?
-							String.format(" (%s)", Integer.toString(GetMessageProvider().getUnreadCount())) : ""));
+			updateTitle();
 		} else {
 			//todo: throw something and log actions
 			return;
 		}
-
-
-		Button btnDelete = (Button) findViewById(R.id.deleteButton);
-		setButtonShadow(btnDelete);
-
-		Button btnNotSpam = (Button) findViewById(R.id.notSpamButton);
-		setButtonShadow(btnNotSpam);
-
-		Button btnReply = (Button) findViewById(R.id.replyButton);
-		setButtonShadow(btnReply);
 	}
 
-	private void setButtonShadow(Button button) {
-		//button.setShadowLayer(9, 1, 1, Color.argb(196, 0, 0, 0));
+	private void updateTitle() {
+		setTitle(String.format(
+				"%s%s",
+				getString(R.string.app_name),
+				GetMessageProvider().getUnreadCount() > 0 ?
+						String.format(" (%s)", Integer.toString(GetMessageProvider().getUnreadCount())) : ""));
 	}
-
 
 	protected IMessageProvider GetMessageProvider() {
 		return MessageProviderHelper.getMessageProvider();
@@ -69,20 +62,23 @@ public class ViewMessageActivity extends EventInjectedActivity {
 
 
 	public void deleteClick(View view) {
-		GetMessageProvider().delete(mId);
+		long id = mGallery.getSelectedItemId();
+		GetMessageProvider().delete(id);
 		finish();
 	}
 
 	public void notSpamClick(View view) {
-		GetMessageProvider().notSpam(mId);
+		long id = mGallery.getSelectedItemId();
+		GetMessageProvider().notSpam(id);
 		//todo: move message to Android SMS storage
 		finish();
 	}
 
 	public void replyClick(View view) {
-		SmsPojo sms = GetMessageProvider().getMessage(mId);
+		long id = mGallery.getSelectedItemId();
+		SmsPojo sms = GetMessageProvider().getMessage(id);
 
-		GetMessageProvider().notSpam(mId);
+		GetMessageProvider().notSpam(id);
 		//todo: move message to Android SMS storage
 		finish();
 

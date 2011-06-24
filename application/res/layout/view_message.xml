@@ -3,7 +3,7 @@
 	  xmlns:android="http://schemas.android.com/apk/res/android"
 	  android:layout_width="match_parent"
 	  android:layout_height="match_parent"
-	  android:background="@color/main_list_message_background">
+	  android:background="@drawable/list_background">
 
 	<Gallery
 		android:id="@+id/message_gallery"
