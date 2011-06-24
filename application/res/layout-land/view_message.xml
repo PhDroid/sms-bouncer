@@ -4,16 +4,19 @@
 	  android:layout_width="match_parent"
 	  android:layout_height="match_parent"
 	  android:background="@drawable/list_background">
+
 	<Gallery
 		android:id="@+id/message_gallery"
-		android:layout_width="fill_parent"
-		android:layout_height="200dp"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="0dp"
+		android:layout_alignParentTop="true"
 	/>
 
 	<RelativeLayout
 	  xmlns:android="http://schemas.android.com/apk/res/android"
 	  android:layout_width="match_parent"
-	  android:layout_height="85dp"
+	  android:layout_height="94dp"
 	  android:layout_alignParentBottom="true"
 	  android:padding="3dp"
 	  android:background="@drawable/buttons_bg_land">
