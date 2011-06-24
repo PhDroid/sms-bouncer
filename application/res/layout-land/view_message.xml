@@ -27,7 +27,8 @@
 				android:layout_width="170dp"
 				android:layout_marginLeft="0dp"
 				android:text="@string/reply"
-				android:onClick="replyClick">
+				android:onClick="replyClick"
+				style="@style/button">
 		</Button>
 		<Button android:id="@+id/notSpamButton"
 				android:layout_alignParentBottom="true"
@@ -38,7 +39,8 @@
 				android:layout_marginLeft="175dp"
 				android:layout_marginRight="175dp"
 				android:text="@string/not_spam"
-				android:onClick="notSpamClick">
+				android:onClick="notSpamClick"
+				style="@style/button">
 		</Button>
 		<Button android:id="@+id/deleteButton"
 				android:layout_alignParentBottom="true"
@@ -47,7 +49,8 @@
 				android:layout_width="170dp"
 				android:layout_marginRight="0dp"
 				android:text="@string/delete"
-				android:onClick="deleteClick">
+				android:onClick="deleteClick"
+				style="@style/button">
 		</Button>
 	</RelativeLayout>
 </RelativeLayout>
