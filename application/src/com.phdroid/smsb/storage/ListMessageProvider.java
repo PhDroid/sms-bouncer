@@ -8,12 +8,13 @@ import java.util.Hashtable;
 import java.util.List;
 
 public class ListMessageProvider implements IMessageProvider {
-	private Hashtable<SmsPojo, SmsAction> mActions;
+	private Hashtable<SmsPojo, SmsAction> actions;
 	private int unreadCount;
 	private List<SmsPojo> data;
 	private Session session;
 
 	public ListMessageProvider(ContentResolver contentResolver) {
+		this.actions = new Hashtable<SmsPojo, SmsAction>();
 		this.session = new Session(contentResolver);
 	}
 
@@ -49,26 +50,26 @@ public class ListMessageProvider implements IMessageProvider {
 	}
 
 	public Hashtable<SmsPojo, SmsAction> getActionMessages() {
-		return mActions;
+		return actions;
 	}
 
 	public void delete(long id) {
-		mActions.clear();
+		performActions();
 		SmsPojo sms = get(id);
 		if (sms != null) {
-			mActions.put(sms, SmsAction.Deleted);
+			actions.put(sms, SmsAction.Deleted);
 			getSmsList().remove(sms);
 		}
 	}
 
 	public void delete(long[] ids) {
-		mActions.clear();
+		performActions();
 		for (long id = ids.length - 1; id >= 0; id--) {
 			SmsPojo sms = get(ids[(int) id]);
 			if (sms != null) {
 				if (!sms.isRead())
 					unreadCount--;
-				mActions.put(sms, SmsAction.Deleted);
+				actions.put(sms, SmsAction.Deleted);
 				getSmsList().remove(sms);
 			}
 		}
@@ -77,28 +78,28 @@ public class ListMessageProvider implements IMessageProvider {
 	public void deleteAll() {
 		List<SmsPojo> smsPojoList = getSession().getSmsList();
 		for (SmsPojo sms : smsPojoList) {
-			mActions.put(sms, SmsAction.Deleted);
+			actions.put(sms, SmsAction.Deleted);
 			getSmsList().remove(sms);
 		}
 	}
 
 	public void notSpam(long id) {
-		mActions.clear();
+		performActions();
 		SmsPojo sms = get(id);
 		if (sms != null) {
-			mActions.put(sms, SmsAction.MarkedAsNotSpam);
+			actions.put(sms, SmsAction.MarkedAsNotSpam);
 			getSmsList().remove(sms);
 		}
 	}
 
 	public void notSpam(long[] ids) {
-		mActions.clear();
+		performActions();
 		for (long id = ids.length - 1; id >= 0; id--) {
 			SmsPojo sms = get(ids[(int) id]);
 			if (sms != null) {
 				if (!sms.isRead())
 					unreadCount--;
-				mActions.put(sms, SmsAction.MarkedAsNotSpam);
+				actions.put(sms, SmsAction.MarkedAsNotSpam);
 				getSmsList().remove(sms);
 			}
 		}
@@ -147,7 +148,7 @@ public class ListMessageProvider implements IMessageProvider {
 		SmsPojo smsPojo = get(id);
 		if (smsPojo != null && !smsPojo.isRead()) {
 			smsPojo.setRead(true);
-			//TODO: add action setRead and save to DB after perform actions
+			actions.put(smsPojo, SmsAction.Read);
 			unreadCount--;
 		}
 	}
@@ -158,20 +159,33 @@ public class ListMessageProvider implements IMessageProvider {
 
 	public void undo() {
 		List<SmsPojo> smsPojoList = getSmsList();
-		for (SmsPojo sms : mActions.keySet()) {
+		for (SmsPojo sms : actions.keySet()) {
 			smsPojoList.add(0, sms);
 			if (!sms.isRead()) {
 				unreadCount++;
 			}
 		}
 		data = smsPojoList;
-		//TODO: actions.clear looks suspicious. Check everywhere.
-		mActions.clear();
+		actions.clear();
 	}
 
 	public void performActions() {
-		//TODO: insert logic here
-		mActions.clear();
+		for (SmsPojo sms : actions.keySet()) {
+			SmsAction action = actions.get(sms);
+			switch (action) {
+				case Deleted:
+					getSession().delete(sms);
+					break;
+				case MarkedAsNotSpam:
+					getSession().delete(sms);
+					break;
+				case Read:
+					getSession().update(sms);
+					break;
+				default:
+			}
+		}
+		actions.clear();
 	}
 
 	private SmsPojo get(long id) {

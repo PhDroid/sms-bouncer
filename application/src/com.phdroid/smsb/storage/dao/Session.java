@@ -65,4 +65,10 @@ public class Session {
 		int res = contentResolver.delete(SmsContentProvider.getItemUri(sms), null, null);
 		return res == 1;
 	}
+
+	public boolean update(SmsPojo sms) {
+		SmsMessageEntry smsEntry = (SmsMessageEntry) sms;
+		int res = contentResolver.update(SmsContentProvider.getItemUri(sms), smsEntry.toContentValues(), null, null);
+		return res == 1;
+	}
 }
