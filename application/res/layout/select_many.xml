@@ -32,7 +32,8 @@
 				android:layout_alignParentLeft="true"
 				android:layout_alignParentTop="true"
 				android:onClick="markMessagesAsNotSpam"
-				android:text="Not spam">
+				android:text="@string/not_spam"
+				style="@style/button">
 		</Button>
 		<Button android:id="@+id/deleteButton"
 				android:layout_width="150dp"
@@ -40,7 +41,8 @@
 				android:layout_alignParentRight="true"
 				android:layout_alignParentTop="true"
 				android:onClick="deleteMessages"
-				android:text="Delete">
+				android:text="@string/delete"
+				style="@style/button">
 		</Button>
 	</RelativeLayout>
 </RelativeLayout>

@@ -16,5 +16,14 @@
     		  android:textColor="@color/sender_text"
     		  android:textSize="16sp">
     </TextView>
-    <Button android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_alignParentTop="true" android:layout_alignParentRight="true" android:text="Delete" android:id="@+id/whitelist_delete"></Button>
+    <Button
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:layout_alignParentTop="true"
+			android:layout_alignParentRight="true"
+			android:text="@string/delete"
+			android:id="@+id/whitelist_delete"
+			style="@style/button"
+			>
+			</Button>
 </RelativeLayout>

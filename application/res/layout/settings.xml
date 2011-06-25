@@ -54,5 +54,5 @@
 			android:layout_width="match_parent"
 			android:layout_marginTop="165dp"
 			android:layout_alignParentTop="true"
-			style="@style/settings_input"/>
+			style="@style/button"/>
 </RelativeLayout>
