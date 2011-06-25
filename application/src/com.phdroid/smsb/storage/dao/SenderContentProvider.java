@@ -69,10 +69,10 @@ public class SenderContentProvider extends ContentProvider {
     @Override
     public String getType(Uri uri) {
         switch (uriMatcher.match(uri)) {
-            //---get all sms---
+            //---getSms all sms---
             case CODE_SENDER_LIST:
                 return TYPE_SENDER_LIST;
-            //---get a particular sms---
+            //---getSms a particular sms---
             case CODE_SENDER:
                 return TYPE_SENDER;
             default:

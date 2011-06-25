@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
+import com.phdroid.smsb.SmsPojo;
+import com.phdroid.smsb.filter.ISpamFilter;
 
 /**
  * SmsContentProvider is designed for CRUD actions with SMS.
@@ -21,6 +23,20 @@ public class SmsContentProvider extends ContentProvider {
 
     public static final String PROVIDER_NAME = "com.phdroid.smsb.storage.dao.SmsContentProvider";
     public static final Uri CONTENT_URI = Uri.parse("content://" + PROVIDER_NAME + "/sms");
+
+	public static Uri getItemUri(long id) {
+		Uri.Builder b = SmsContentProvider.CONTENT_URI.buildUpon();
+		b.appendPath("/#" + id);
+		return b.build();
+	}
+
+	public static Uri getItemUri(SmsPojo sms) {
+		if (sms instanceof SmsMessageEntry) {
+			SmsMessageEntry entry = (SmsMessageEntry) sms;
+			return getItemUri(entry.getId());
+		}
+		return null;
+	}
 
     private SQLiteDatabase smsDb;
     private static DatabaseOpenHelper dbHelper;
@@ -70,10 +86,10 @@ public class SmsContentProvider extends ContentProvider {
     @Override
     public String getType(Uri uri) {
         switch (uriMatcher.match(uri)) {
-            //---get all sms---
+            //---getSms all sms---
             case CODE_SMS_LIST:
                 return TYPE_SMS_LIST;
-            //---get a particular sms---
+            //---getSms a particular sms---
             case CODE_SMS:
                 return TYPE_SMS;
             default:
