@@ -7,13 +7,13 @@ import com.phdroid.smsb.storage.dao.Session;
 import java.util.Hashtable;
 import java.util.List;
 
-public class ListMessageProvider implements IMessageProvider {
+public class SmsMessageProvider implements IMessageProvider {
 	private Hashtable<SmsPojo, SmsAction> actions;
 	private int unreadCount;
 	private List<SmsPojo> data;
 	private Session session;
 
-	public ListMessageProvider(ContentResolver contentResolver) {
+	public SmsMessageProvider(ContentResolver contentResolver) {
 		this.actions = new Hashtable<SmsPojo, SmsAction>();
 		this.session = new Session(contentResolver);
 	}
