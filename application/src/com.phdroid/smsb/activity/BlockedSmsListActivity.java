@@ -1,7 +1,10 @@
 package com.phdroid.smsb.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.AttributeSet;
 import android.view.*;
 import android.widget.*;
 import android.content.Intent;
@@ -18,81 +21,81 @@ import java.util.List;
 
 public class BlockedSmsListActivity extends Activity {
 
-    private SmsPojoArrayAdapter smsPojoArrayAdapter;
+	private SmsPojoArrayAdapter smsPojoArrayAdapter;
 
-    /**
+	/**
 	 * Called when the activity is first created.
 	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
-    }
+		setContentView(R.layout.main);
+	}
 
-    protected IMessageProvider GetMessageProvider() {
-         return MessageProviderHelper.getMessageProvider();
-    }
+	protected IMessageProvider GetMessageProvider() {
+		 return MessageProviderHelper.getMessageProvider();
+	}
 
-    @Override
+	@Override
 	protected void onStart() {
 		super.onStart();
 
-        processUndoButton();
+		processUndoButton();
 
-        List<SmsPojo> messages = GetMessageProvider().getMessages();
-        ListView lv = (ListView)findViewById(R.id.messagesListView);
-        smsPojoArrayAdapter = new SmsPojoArrayAdapter(this, R.layout.main_list_item, messages);
-        lv.setAdapter(smsPojoArrayAdapter);
+		List<SmsPojo> messages = GetMessageProvider().getMessages();
+		ListView lv = (ListView)findViewById(R.id.messagesListView);
+		smsPojoArrayAdapter = new SmsPojoArrayAdapter(this, R.layout.main_list_item, messages);
+		lv.setAdapter(smsPojoArrayAdapter);
 
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(BlockedSmsListActivity.this, ViewMessageActivity.class);
-                Bundle b = new Bundle();
-                b.putInt("id", position);// TODO: change with message ID
-                intent.putExtras(b);
+		lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				Intent intent = new Intent(BlockedSmsListActivity.this, ViewMessageActivity.class);
+				Bundle b = new Bundle();
+				b.putInt("id", position);// TODO: change with message ID
+				intent.putExtras(b);
 				GetMessageProvider().performActions();
 				startActivity(intent);
-            }
-        });
+			}
+		});
 
-        updateTitle();
+		updateTitle();
 	}
 
-    private void processUndoButton() {
-        Hashtable<SmsPojo, SmsAction> actions = GetMessageProvider().getActionMessages();
-        if(actions.size() > 0){
-            Button b = (Button)findViewById(R.id.undoButton);
-            String action = "edited";
-            if(!actions.contains(SmsAction.MarkedAsNotSpam)){
-                action = "deleted";
-            }
-            if(!actions.contains(SmsAction.Deleted)){
-                action = "marked as not spam";
-            }
-            b.setText(
-                String.format(
-                        "%s message%s %s. (Undo)",
-                        Integer.toString(actions.size()),
-                        actions.size() > 1 ? "s were" : " was",
-                        action
-                    ));
-            LinearLayout l = (LinearLayout)findViewById(R.id.buttonLayout);
-            l.setVisibility(View.VISIBLE);
-        }
-        else{
-            LinearLayout l = (LinearLayout)findViewById(R.id.buttonLayout);
-            l.setVisibility(View.GONE);
-        }
-    }
+	private void processUndoButton() {
+		Hashtable<SmsPojo, SmsAction> actions = GetMessageProvider().getActionMessages();
+		if(actions.size() > 0){
+			Button b = (Button)findViewById(R.id.undoButton);
+			String action = "edited";
+			if(!actions.contains(SmsAction.MarkedAsNotSpam)){
+				action = "deleted";
+			}
+			if(!actions.contains(SmsAction.Deleted)){
+				action = "marked as not spam";
+			}
+			b.setText(
+				String.format(
+						"%s message%s %s. (Undo)",
+						Integer.toString(actions.size()),
+						actions.size() > 1 ? "s were" : " was",
+						action
+					));
+			LinearLayout l = (LinearLayout)findViewById(R.id.buttonLayout);
+			l.setVisibility(View.VISIBLE);
+		}
+		else{
+			LinearLayout l = (LinearLayout)findViewById(R.id.buttonLayout);
+			l.setVisibility(View.GONE);
+		}
+	}
 
-    private void updateTitle() {
-        setTitle(R.string.app_name);
-        setTitle(String.format(
-                    "%s%s",
-                    getTitle().toString(),
-                    GetMessageProvider().getUnreadCount() > 0 ?
+	private void updateTitle() {
+		setTitle(R.string.app_name);
+		setTitle(String.format(
+					"%s%s",
+					getTitle().toString(),
+					GetMessageProvider().getUnreadCount() > 0 ?
 						String.format(" (%s)", Integer.toString(GetMessageProvider().getUnreadCount())) : ""));
-    }
+	}
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
@@ -113,11 +116,36 @@ public class BlockedSmsListActivity extends Activity {
 		return true;
 	}
 
-    @Override
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.list_menu, menu);
+		setMenuBackground();
 		return true;
+	}
+
+	protected void setMenuBackground(){
+		getLayoutInflater().setFactory( new LayoutInflater.Factory() {
+
+			@Override
+			public View onCreateView ( String name, Context context, AttributeSet attrs ) {
+				if ( name.equalsIgnoreCase( "com.android.internal.view.menu.IconMenuItemView" ) ) {
+					try {
+						LayoutInflater f = getLayoutInflater();
+						final View view = f.createView( name, null, attrs );
+						new Handler().post( new Runnable() {
+							public void run () {
+								view.setBackgroundResource( R.drawable.menu_item);
+							}
+						} );
+						return view;
+					}
+					catch ( InflateException e ) {}
+					catch ( ClassNotFoundException e ) {}
+				}
+				return null;
+			}
+		});
 	}
 
 	@Override
@@ -129,27 +157,27 @@ public class BlockedSmsListActivity extends Activity {
 				GetMessageProvider().performActions();
 				startActivity(intent);
 				return true;
-            case R.id.select_many_item:
-                Intent smIntent = new Intent(BlockedSmsListActivity.this, SelectManyActivity.class);
+			case R.id.select_many_item:
+				Intent smIntent = new Intent(BlockedSmsListActivity.this, SelectManyActivity.class);
 				GetMessageProvider().performActions();
 				startActivity(smIntent);
-                return true;
-            case R.id.delete_all_item:
+				return true;
+			case R.id.delete_all_item:
 				GetMessageProvider().performActions();
-                GetMessageProvider().deleteAll();
-                smsPojoArrayAdapter.notifyDataSetChanged();
-                processUndoButton();
-                return true;
+				GetMessageProvider().deleteAll();
+				smsPojoArrayAdapter.notifyDataSetChanged();
+				processUndoButton();
+				return true;
 			default:
 				return super.onOptionsItemSelected(item);
 		}
 	}
 
-    public void undo(View view) {
-        GetMessageProvider().undo();
-        LinearLayout l = (LinearLayout)findViewById(R.id.buttonLayout);
-        l.setVisibility(View.GONE);
-        smsPojoArrayAdapter.notifyDataSetChanged();
-        updateTitle();
-    }
+	public void undo(View view) {
+		GetMessageProvider().undo();
+		LinearLayout l = (LinearLayout)findViewById(R.id.buttonLayout);
+		l.setVisibility(View.GONE);
+		smsPojoArrayAdapter.notifyDataSetChanged();
+		updateTitle();
+	}
 }
