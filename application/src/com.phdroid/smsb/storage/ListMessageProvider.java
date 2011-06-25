@@ -4,7 +4,6 @@ import android.content.ContentResolver;
 import com.phdroid.smsb.SmsPojo;
 import com.phdroid.smsb.storage.dao.Session;
 
-import java.sql.Date;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -33,7 +32,7 @@ public class ListMessageProvider implements IMessageProvider {
 		int unread = 0;
 		List<SmsPojo> smsPojoList = getSession().getSmsList();
 		for (SmsPojo sms : smsPojoList) {
-			if(!sms.isRead()) {
+			if (!sms.isRead()) {
 				unread++;
 			}
 		}
@@ -58,7 +57,7 @@ public class ListMessageProvider implements IMessageProvider {
 		SmsPojo sms = get(id);
 		if (sms != null) {
 			mActions.put(sms, SmsAction.Deleted);
-			getSession().delete(getSession().getSms(id));
+			getSmsList().remove(sms);
 		}
 	}
 
@@ -70,7 +69,7 @@ public class ListMessageProvider implements IMessageProvider {
 				if (!sms.isRead())
 					unreadCount--;
 				mActions.put(sms, SmsAction.Deleted);
-				getSession().delete(getSession().getSms(id));
+				getSmsList().remove(sms);
 			}
 		}
 	}
@@ -79,7 +78,7 @@ public class ListMessageProvider implements IMessageProvider {
 		List<SmsPojo> smsPojoList = getSession().getSmsList();
 		for (SmsPojo sms : smsPojoList) {
 			mActions.put(sms, SmsAction.Deleted);
-			getSession().delete(sms);
+			getSmsList().remove(sms);
 		}
 	}
 
@@ -88,7 +87,7 @@ public class ListMessageProvider implements IMessageProvider {
 		SmsPojo sms = get(id);
 		if (sms != null) {
 			mActions.put(sms, SmsAction.MarkedAsNotSpam);
-			getSession().delete(sms);
+			getSmsList().remove(sms);
 		}
 	}
 
@@ -100,7 +99,7 @@ public class ListMessageProvider implements IMessageProvider {
 				if (!sms.isRead())
 					unreadCount--;
 				mActions.put(sms, SmsAction.MarkedAsNotSpam);
-				getSession().delete(sms);
+				getSmsList().remove(sms);
 			}
 		}
 	}
@@ -166,6 +165,7 @@ public class ListMessageProvider implements IMessageProvider {
 			}
 		}
 		data = smsPojoList;
+		//TODO: actions.clear looks suspicious. Check everywhere.
 		mActions.clear();
 	}
 
