@@ -8,6 +8,7 @@ while read -r line
 do
     statement[index]="sms send $line"
     index=$index+1
+    break
 done
 
 #${arr[*]}         # All of the items in the array
