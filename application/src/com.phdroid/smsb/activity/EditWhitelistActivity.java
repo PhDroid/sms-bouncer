@@ -8,14 +8,9 @@ import com.phdroid.smsb.SenderPojo;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Activity designed for Whitelist operations.
- */
 public class EditWhitelistActivity extends ListActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//setContentView(R.layout.editwhitelist);
-
 		setListAdapter(new SenderPojoArrayAdapter(this, R.layout.main_list_item, getSenders()));
 	}
 
