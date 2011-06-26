@@ -29,7 +29,7 @@ public class WhiteListSpamFilterTest extends ProviderTestBase {
 	public void setUp() throws Exception {
 		super.setUp();
 
-		DaoMaster m = new DaoMaster(getContentResolver());
+		Session m = new Session(getContentResolver());
         SmsMessageSenderEntry spamSender = m.insertOrSelectSender("1346");
         SmsMessageEntry spam = new SmsMessageEntry();
 		spam.setSenderId(spamSender.getId());

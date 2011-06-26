@@ -9,7 +9,7 @@ import android.telephony.SmsMessage;
 import com.phdroid.smsb.SmsPojo;
 import com.phdroid.smsb.activity.notify.TrayNotificationManager;
 import com.phdroid.smsb.storage.ApplicationSettings;
-import com.phdroid.smsb.storage.dao.DaoMaster;
+import com.phdroid.smsb.storage.dao.Session;
 import com.phdroid.smsb.storage.dao.SmsMessageEntry;
 
 /**
@@ -21,10 +21,10 @@ public class SmsReceiver extends BroadcastReceiver {
 			"android.provider.Telephony.SMS_RECEIVED";
 
 	private int mSpamMessagesCount = 0;
-    private DaoMaster daoMaster = null;
+    private Session session = null;
 
 	public void onReceive(Context context, Intent intent) {
-		daoMaster = new DaoMaster(context.getContentResolver());
+		session = new Session(context.getContentResolver());
         if (intent.getAction().equals(ACTION)) {
 			/* The SMS-Messages are 'hiding' within the extras of the Intent. */
 			Bundle bundle = intent.getExtras();
@@ -85,7 +85,7 @@ public class SmsReceiver extends BroadcastReceiver {
         SmsPojo[] messages = new SmsPojo[pdusObj.length];
 		for (int i = 0; i < pdusObj.length; i++) {
 			SmsMessage msg = SmsMessage.createFromPdu((byte[]) pdusObj[i]);
-            SmsMessageEntry entry = daoMaster.insertMessage(msg);
+            SmsMessageEntry entry = session.insertMessage(msg);
             messages[i] = entry;
 		}
 		return messages;

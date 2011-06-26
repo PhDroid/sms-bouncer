@@ -1,10 +1,5 @@
 package com.phdroid.smsb;
 
-import android.content.ContentResolver;
-import com.phdroid.smsb.exceptions.NotSupportedMethodException;
-import com.phdroid.smsb.storage.dao.DaoMaster;
-import com.phdroid.smsb.storage.dao.SmsMessageEntry;
-import com.phdroid.smsb.storage.dao.SmsMessageSenderEntry;
 
 /**
  * Plain old java object for Sms message.

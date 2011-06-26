@@ -4,6 +4,7 @@ import android.content.ContentProvider;
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
+import android.telephony.SmsMessage;
 import com.phdroid.smsb.SmsPojo;
 
 import java.util.ArrayList;
@@ -71,4 +72,53 @@ public class Session {
 		int res = contentResolver.update(SmsContentProvider.getItemUri(sms), smsEntry.toContentValues(), null, null);
 		return res == 1;
 	}
+
+	public SmsMessageSenderEntry insertOrSelectSender(String sender) {
+        //todo:check for transactions support in SQLite
+        String[] values = {sender};
+        Cursor c = null;
+        try {
+            c = contentResolver.query(SenderContentProvider.CONTENT_URI, null, SmsMessageSenderEntry.VALUE + " = :1", values, null);
+            if (c.getCount() != 0) {
+                c.moveToFirst();
+                return new SmsMessageSenderEntry(c);
+
+            } else {
+                SmsMessageSenderEntry s = new SmsMessageSenderEntry(sender);
+                contentResolver.insert(SenderContentProvider.CONTENT_URI, s.toContentValues());
+                c = contentResolver.query(SenderContentProvider.CONTENT_URI, null, SmsMessageSenderEntry.VALUE + " = :1", values, null);
+                c.moveToFirst();
+                return new SmsMessageSenderEntry(c);
+
+            }
+        } finally {
+            if (c != null) {
+                c.close();
+            }
+        }
+    }
+
+    public SmsMessageSenderEntry getSenderById(int id) {
+        //todo: replace by URI build
+        String[] values = {(new Integer(id)).toString()};
+        Cursor c = null;
+        try {
+            c = contentResolver.query(SenderContentProvider.CONTENT_URI, null, SmsMessageSenderEntry._ID + " = :1", values, null);
+            c.moveToFirst();
+            return new SmsMessageSenderEntry(c);
+        } finally {
+            if (c != null) {
+                c.close();
+            }
+        }
+    }
+
+    public SmsMessageEntry insertMessage(SmsMessage message) {
+        String senderText = message.getOriginatingAddress();
+        SmsMessageSenderEntry sender = this.insertOrSelectSender(senderText);
+
+        SmsMessageEntry res = new SmsMessageEntry(sender, message);
+        this.contentResolver.insert(SenderContentProvider.CONTENT_URI, res.toContentValues());
+        return res;
+    }
 }
