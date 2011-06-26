@@ -1,7 +1,6 @@
 package com.phdroid.smsb.activity;
 
 import android.app.Activity;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.SparseBooleanArray;
 import android.view.View;
@@ -11,7 +10,6 @@ import com.phdroid.smsb.SmsPojo;
 import com.phdroid.smsb.storage.IMessageProvider;
 import com.phdroid.smsb.storage.MessageProviderHelper;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -30,7 +28,7 @@ public class SelectManyActivity extends Activity {
 	protected void onStart() {
 		super.onStart();
 
-		List<SmsPojo> messages = GetMessageProvider().getMessages();
+		List<SmsPojo> messages = getMessageProvider().getMessages();
 		final ListView lv = (ListView)findViewById(R.id.messagesListView);
 		lv.setAdapter(new SmsPojoArrayAdapter(this, R.layout.select_many_list_item, messages));
 		lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -54,11 +52,11 @@ public class SelectManyActivity extends Activity {
 		setTitle(String.format(
 					"%s (%s)",
 					getTitle().toString(),
-					Integer.toString(GetMessageProvider().getUnreadCount())));
+					Integer.toString(getMessageProvider().getUnreadCount())));
 	}
 
-	protected IMessageProvider GetMessageProvider() {
-		 return MessageProviderHelper.getMessageProvider();
+	protected IMessageProvider getMessageProvider() {
+		 return MessageProviderHelper.getMessageProvider(this.getContentResolver());
 	}
 
 	public void deleteMessages(View view) {
@@ -68,7 +66,7 @@ public class SelectManyActivity extends Activity {
 		for(int i=0; i<positions.size(); i++){
 			ids[i] = positions.keyAt(i);
 		}
-		GetMessageProvider().delete(ids);
+		getMessageProvider().delete(ids);
 		finish();
 	}
 
@@ -79,7 +77,7 @@ public class SelectManyActivity extends Activity {
 		for(int i=0; i<positions.size(); i++){
 			ids[i] = positions.keyAt(i);
 		}
-		GetMessageProvider().notSpam(ids);
+		getMessageProvider().notSpam(ids);
 		finish();
 	}
 }
