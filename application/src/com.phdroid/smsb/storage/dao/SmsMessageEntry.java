@@ -40,6 +40,7 @@ public class SmsMessageEntry extends SmsPojo {
 
     SmsMessageEntry(SmsMessageSenderEntry sender, SmsMessage message) {
         this.senderId = sender.getId();
+	    this.sender = sender.getValue();
         this.message = message.getMessageBody();
 		this.received = message.getTimestampMillis();
         this.read = false;
