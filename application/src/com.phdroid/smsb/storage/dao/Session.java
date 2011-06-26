@@ -33,7 +33,7 @@ public class Session {
 				return items;
 			}
 			for (int i = 0; i < size; i++) {
-				cursor.move(i);
+				cursor.moveToPosition(i);
 				SmsMessageEntry item = new SmsMessageEntry(cursor);
 				items.add(item);
 			}
