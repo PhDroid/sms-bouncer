@@ -118,7 +118,7 @@ public class Session {
         SmsMessageSenderEntry sender = this.insertOrSelectSender(senderText);
 
         SmsMessageEntry res = new SmsMessageEntry(sender, message);
-        this.contentResolver.insert(SenderContentProvider.CONTENT_URI, res.toContentValues());
+        this.contentResolver.insert(SmsContentProvider.CONTENT_URI, res.toContentValues());
         return res;
     }
 }
