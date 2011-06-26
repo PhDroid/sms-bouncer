@@ -11,7 +11,7 @@ import android.util.Log;
 public class DatabaseOpenHelper extends SQLiteOpenHelper {
 	private static final String TAG = "SmsContentProvider";
 	private static final String DATABASE_NAME = "sms.db";
-	private static final int DATABASE_VERSION = 7;
+	private static final int DATABASE_VERSION = 8;
 
 
 	DatabaseOpenHelper(Context context) {
