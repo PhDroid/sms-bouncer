@@ -54,7 +54,6 @@ public class SmsReceiver extends BroadcastReceiver {
 
 						switch (spamMessageCount) {
 							case 1:
-								//265 Anton prosil zapomnit' chislo
 								title = String.format("Blocked message from %s", spamMessages[0].getSender());
 								message = spamMessages[0].getMessage();
 								break;
