@@ -4,17 +4,7 @@
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
 	android:background="@drawable/list_background">
-	<ListView android:id="@+id/messagesListView"
-			android:layout_width="fill_parent"
-			android:layout_height="wrap_content"
-			android:layout_weight="1"
-			android:layout_alignParentTop="true"
 
-			android:choiceMode="multipleChoice"
-			android:focusable="false"
-			android:divider="@drawable/divider"
-			android:dividerHeight="0px">
-	</ListView>
 	<RelativeLayout android:id="@+id/listFooter"
 				android:layout_width="fill_parent"
 				android:layout_height="70dp"
@@ -45,4 +35,17 @@
 				style="@style/button">
 		</Button>
 	</RelativeLayout>
+
+	<ListView android:id="@+id/messagesListView"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:layout_alignParentTop="true"
+			android:layout_above="@id/listFooter"
+
+			android:choiceMode="multipleChoice"
+			android:focusable="false"
+			android:divider="@drawable/divider"
+			android:dividerHeight="0px">
+	</ListView>
 </RelativeLayout>
