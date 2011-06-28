@@ -20,9 +20,9 @@ public class ApplicationController extends Application {
 		this.listeners.remove(listener);
 	}
 
-	public void raiseNewSmsEvent(SmsPojo sms) {
+	public void raiseNewSmsEvent(SmsPojo[] smsMessages) {
 		for (NewSmsEventListener listener : this.listeners) {
-			listener.onNewSms(sms);
+			listener.onNewSms(smsMessages);
 		}
 	}
 

@@ -8,14 +8,14 @@ import java.util.EventObject;
  * Event that is raised when new sms comes.
  */
 public class NewSmsEvent extends EventObject {
-	private SmsPojo sms;
+	private SmsPojo[] sms;
 
-	public SmsPojo getSms() {
+	public SmsPojo[] getSms() {
 		return sms;
 	}
 
-	public NewSmsEvent(Object sender, SmsPojo sms) {
+	public NewSmsEvent(Object sender, SmsPojo[] smsMessages) {
 		super(sender);
-		this.sms = sms;
+		this.sms = smsMessages;
 	}
 }
