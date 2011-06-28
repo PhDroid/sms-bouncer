@@ -56,7 +56,7 @@ public class SelectManyActivity extends Activity {
 	}
 
 	protected IMessageProvider getMessageProvider() {
-		 return MessageProviderHelper.getMessageProvider(this.getContentResolver());
+		 return MessageProviderHelper.getMessageProvider(this, this.getContentResolver());
 	}
 
 	public void deleteMessages(View view) {
