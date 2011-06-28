@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.telephony.SmsMessage;
 import com.phdroid.smsb.SmsPojo;
 import com.phdroid.smsb.activity.notify.TrayNotificationManager;
+import com.phdroid.smsb.application.ApplicationController;
 import com.phdroid.smsb.storage.ApplicationSettings;
 import com.phdroid.smsb.storage.dao.Session;
 import com.phdroid.smsb.storage.dao.SmsMessageEntry;
@@ -35,6 +36,10 @@ public class SmsReceiver extends BroadcastReceiver {
 				ContentResolver c = context.getContentResolver();
 				SmsPojo[] messages = ConvertMessages(pdusObj);
 				SmsPojo[] spamMessages = getMessageProcessor().ProcessMessages(messages, c);
+
+				ApplicationController app = (ApplicationController)context.getApplicationContext();
+				app.raiseNewSmsEvent(spamMessages);
+
 				int spamMessageCount = spamMessages.length;
 				mSpamMessagesCount += spamMessageCount;
 

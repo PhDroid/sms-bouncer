@@ -10,7 +10,7 @@ import java.util.EventObject;
 public class NewSmsEvent extends EventObject {
 	private SmsPojo[] sms;
 
-	public SmsPojo[] getSms() {
+	public SmsPojo[] getMessages() {
 		return sms;
 	}
 

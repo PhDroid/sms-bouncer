@@ -21,8 +21,9 @@ public class ApplicationController extends Application {
 	}
 
 	public void raiseNewSmsEvent(SmsPojo[] smsMessages) {
+		NewSmsEvent event = new NewSmsEvent(this, smsMessages);
 		for (NewSmsEventListener listener : this.listeners) {
-			listener.onNewSms(smsMessages);
+			listener.onNewSms(event);
 		}
 	}
 
