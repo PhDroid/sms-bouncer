@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.view.Menu;
 import com.phdroid.smsb.R;
 import com.phdroid.smsb.SmsPojo;
+import com.phdroid.smsb.activity.base.ActivityBase;
 import com.phdroid.smsb.application.ApplicationController;
 import com.phdroid.smsb.application.NewSmsEventListener;
 import com.phdroid.smsb.exceptions.ApplicationException;
@@ -21,7 +22,7 @@ import com.phdroid.smsb.storage.SmsAction;
 import java.util.Hashtable;
 import java.util.List;
 
-public class BlockedSmsListActivity extends Activity {
+public class BlockedSmsListActivity extends ActivityBase {
 
 	private SmsPojoArrayAdapter smsPojoArrayAdapter;
 
@@ -35,18 +36,16 @@ public class BlockedSmsListActivity extends Activity {
 	}
 
 	protected IMessageProvider getMessageProvider() {
-		 return MessageProviderHelper.getMessageProvider(this, this.getContentResolver());
+		 return MessageProviderHelper.getMessageProvider(this, this, this.getContentResolver());
 	}
 
 	@Override
-	protected void onStart() {
-		super.onStart();
-
-		processUndoButton();
-
+	public void dataBind() {
+		super.dataBind();
 		List<SmsPojo> messages = getMessageProvider().getMessages();
-		ListView lv = (ListView)findViewById(R.id.messagesListView);
 		smsPojoArrayAdapter = new SmsPojoArrayAdapter(this, R.layout.main_list_item, messages);
+
+		ListView lv = (ListView)findViewById(R.id.messagesListView);
 		lv.setAdapter(smsPojoArrayAdapter);
 
 		lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -59,6 +58,15 @@ public class BlockedSmsListActivity extends Activity {
 				startActivity(intent);
 			}
 		});
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+
+		processUndoButton();
+
+		dataBind();
 
 		updateTitle();
 	}

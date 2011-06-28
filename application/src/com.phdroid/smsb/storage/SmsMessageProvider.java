@@ -3,6 +3,7 @@ package com.phdroid.smsb.storage;
 import android.content.ContentResolver;
 import android.content.Context;
 import com.phdroid.smsb.SmsPojo;
+import com.phdroid.smsb.activity.base.ActivityBase;
 import com.phdroid.smsb.application.ApplicationController;
 import com.phdroid.smsb.application.NewSmsEvent;
 import com.phdroid.smsb.application.NewSmsEventListener;
@@ -17,15 +18,18 @@ public class SmsMessageProvider implements IMessageProvider {
 	private int unreadCount;
 	private List<SmsPojo> data;
 	private Session session;
+	private ActivityBase activity;
 
-	public SmsMessageProvider(Context context, ContentResolver contentResolver) {
+	public SmsMessageProvider(ActivityBase activity, Context context, ContentResolver contentResolver) {
 		this.actions = new Hashtable<SmsPojo, SmsAction>();
 		this.session = new Session(contentResolver);
+		this.activity = activity;
 		ApplicationController app = (ApplicationController)context.getApplicationContext();
 		app.attachNewSmsListener(new NewSmsEventListener() {
 			@Override
 			public void onNewSms(NewSmsEvent newSmsEvent) {
 				dataBind();
+				SmsMessageProvider.this.activity.dataBind();
 			}
 		});
 	}

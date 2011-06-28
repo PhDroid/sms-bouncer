@@ -7,13 +7,14 @@ import android.view.View;
 import android.widget.*;
 import com.phdroid.smsb.R;
 import com.phdroid.smsb.SmsPojo;
+import com.phdroid.smsb.activity.base.ActivityBase;
 import com.phdroid.smsb.storage.IMessageProvider;
 import com.phdroid.smsb.storage.MessageProviderHelper;
 
 import java.util.List;
 
 
-public class SelectManyActivity extends Activity {
+public class SelectManyActivity extends ActivityBase {
 	View listFooter;
 
 	@Override
@@ -56,7 +57,7 @@ public class SelectManyActivity extends Activity {
 	}
 
 	protected IMessageProvider getMessageProvider() {
-		 return MessageProviderHelper.getMessageProvider(this, this.getContentResolver());
+		 return MessageProviderHelper.getMessageProvider(this, this, this.getContentResolver());
 	}
 
 	public void deleteMessages(View view) {
