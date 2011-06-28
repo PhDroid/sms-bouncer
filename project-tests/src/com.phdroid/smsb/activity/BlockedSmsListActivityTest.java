@@ -114,7 +114,7 @@ public class BlockedSmsListActivityTest extends ActivityInstrumentationTestCase2
 	}
 
 	private void deleteFirstMessage() {
-		final IMessageProvider provider = MessageProviderHelper.getMessageProvider(this.getActivity().getContentResolver());
+		final IMessageProvider provider = MessageProviderHelper.getMessageProvider(this.getActivity(), this.getActivity(), this.getActivity().getContentResolver());
 		mActivity.runOnUiThread(new Runnable() {
 			public void run() {
 				provider.delete(0);
