@@ -1,6 +1,7 @@
 package com.phdroid.smsb.activity;
 
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.SparseBooleanArray;
@@ -23,7 +24,6 @@ public class SelectManyActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.select_many);
 		listFooter = findViewById(R.id.listFooter);
-
 	}
 
 	@Override
@@ -35,18 +35,7 @@ public class SelectManyActivity extends Activity {
 		lv.setAdapter(new SmsPojoArrayAdapter(this, R.layout.select_many_list_item, messages));
 		lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				int size = 0;
-				for(int i =0; i < lv.getChildCount() ; i++){
-					if (lv.isItemChecked(i)){
-						size++;
-					}
-				}
-
-				if(size > 0){
-					listFooter.setVisibility(View.VISIBLE);
-				} else {
-					listFooter.setVisibility(View.GONE);
-				}
+				updateButtonsVisibility(lv);
 			}
 		});
 
@@ -55,6 +44,37 @@ public class SelectManyActivity extends Activity {
 					"%s (%s)",
 					getTitle().toString(),
 					Integer.toString(GetMessageProvider().getUnreadCount())));
+	}
+
+	protected void onSaveInstanceState(Bundle bundle){
+		super.onSaveInstanceState(bundle);
+		bundle.putBoolean("buttons", listFooter.getVisibility() == View.VISIBLE);
+	}
+
+	protected void onRestoreInstanceState(Bundle bundle){
+		super.onRestoreInstanceState(bundle);
+
+		boolean b = bundle.getBoolean("buttons", false);
+		if(b){
+			listFooter.setVisibility(View.VISIBLE);
+		} else {
+			listFooter.setVisibility(View.GONE);
+		}
+	}
+
+	private void updateButtonsVisibility(ListView lv) {
+		int size = 0;
+		for(int i =0; i < lv.getChildCount() ; i++){
+			if (lv.isItemChecked(i)){
+				size++;
+			}
+		}
+
+		if(size > 0){
+			listFooter.setVisibility(View.VISIBLE);
+		} else {
+			listFooter.setVisibility(View.GONE);
+		}
 	}
 
 	protected IMessageProvider GetMessageProvider() {
