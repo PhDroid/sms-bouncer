@@ -9,18 +9,20 @@ import com.phdroid.smsb.application.NewSmsEvent;
 import com.phdroid.smsb.application.NewSmsEventListener;
 import com.phdroid.smsb.storage.dao.Session;
 
-import java.util.Collections;
 import java.util.Hashtable;
 import java.util.List;
 
-public class SmsMessageProvider implements IMessageProvider {
+/*
+ * Message Controller
+ */
+public class SmsMessageController implements IMessageProvider {
 	private Hashtable<SmsPojo, SmsAction> actions;
 	private int unreadCount;
 	private List<SmsPojo> data;
 	private Session session;
 	private ActivityBase activity;
 
-	public SmsMessageProvider(ActivityBase activity, Context context, ContentResolver contentResolver) {
+	public SmsMessageController(ActivityBase activity, Context context, ContentResolver contentResolver) {
 		this.actions = new Hashtable<SmsPojo, SmsAction>();
 		this.session = new Session(contentResolver);
 		this.activity = activity;
@@ -29,7 +31,7 @@ public class SmsMessageProvider implements IMessageProvider {
 			@Override
 			public void onNewSms(NewSmsEvent newSmsEvent) {
 				dataBind();
-				SmsMessageProvider.this.activity.dataBind();
+				SmsMessageController.this.activity.dataBind();
 			}
 		});
 	}

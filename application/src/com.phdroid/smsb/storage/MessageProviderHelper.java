@@ -8,7 +8,7 @@ public class MessageProviderHelper {
 	private static IMessageProvider mProvider;
 	public static IMessageProvider getMessageProvider(ActivityBase activity, Context context, ContentResolver contentResolver){
 		if(mProvider == null){
-			mProvider = new SmsMessageProvider(activity, context, contentResolver);
+			mProvider = new SmsMessageController(activity, context, contentResolver);
 		}
 
 		return mProvider;
