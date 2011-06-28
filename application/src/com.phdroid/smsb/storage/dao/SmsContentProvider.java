@@ -59,7 +59,9 @@ public class SmsContentProvider extends ContentProvider {
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
         SQLiteQueryBuilder sqlBuilder = new SQLiteQueryBuilder();
-        sqlBuilder.setTables(VIEW_NAME);
+//        sqlBuilder.setTables(TABLE_NAME + " inner join " + SenderContentProvider.TABLE_NAME +
+//		        " on " + SenderContentProvider.TABLE_NAME + "." + SmsMessageSenderEntry._ID + " = " + TABLE_NAME + "." + SmsMessageEntry.SENDER_ID);
+	    sqlBuilder.setTables(VIEW_NAME);
 
         if (uriMatcher.match(uri) == CODE_SMS)
             //---if getting a particular sms---

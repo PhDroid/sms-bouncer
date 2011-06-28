@@ -44,7 +44,7 @@ public class SmartSpamFilterTest extends ProviderTestBase {
 		getContentResolver().insert(Data.CONTENT_URI, values);
 
 		//prepare for white list filter
-        DaoMaster m = new DaoMaster(getContentResolver());
+        Session m = new Session(getContentResolver());
         SmsMessageSenderEntry spamSender = m.insertOrSelectSender("1346");
         SmsMessageEntry spam = new SmsMessageEntry();
 		spam.setSenderId(spamSender.getId());

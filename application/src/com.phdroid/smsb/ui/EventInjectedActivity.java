@@ -3,11 +3,12 @@ package com.phdroid.smsb.ui;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.MotionEvent;
+import com.phdroid.smsb.activity.base.ActivityBase;
 
 /**
  * Injects Activity methods with events.
  */
-public class EventInjectedActivity extends Activity {
+public class EventInjectedActivity extends ActivityBase {
 	private OnCreateCall onCreateEventCall = null;
 	private OnTouchCall onTouchEventCall = null;
 

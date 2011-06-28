@@ -1,10 +1,5 @@
 package com.phdroid.smsb;
 
-import android.content.ContentResolver;
-import com.phdroid.smsb.storage.dao.DaoMaster;
-import com.phdroid.smsb.storage.dao.SmsMessageEntry;
-import com.phdroid.smsb.storage.dao.SmsMessageSenderEntry;
-
 /**
  * Test replacement fo plain old java object for Sms message.
  */

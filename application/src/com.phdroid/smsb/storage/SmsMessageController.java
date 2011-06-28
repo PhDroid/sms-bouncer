@@ -1,21 +1,39 @@
 package com.phdroid.smsb.storage;
 
 import android.content.ContentResolver;
+import android.content.Context;
 import com.phdroid.smsb.SmsPojo;
+import com.phdroid.smsb.activity.base.ActivityBase;
+import com.phdroid.smsb.application.ApplicationController;
+import com.phdroid.smsb.application.NewSmsEvent;
+import com.phdroid.smsb.application.NewSmsEventListener;
 import com.phdroid.smsb.storage.dao.Session;
 
 import java.util.Hashtable;
 import java.util.List;
 
-public class SmsMessageProvider implements IMessageProvider {
+/*
+ * Message Controller
+ */
+public class SmsMessageController implements IMessageProvider {
 	private Hashtable<SmsPojo, SmsAction> actions;
 	private int unreadCount;
 	private List<SmsPojo> data;
 	private Session session;
+	private ActivityBase activity;
 
-	public SmsMessageProvider(ContentResolver contentResolver) {
+	public SmsMessageController(ActivityBase activity, Context context, ContentResolver contentResolver) {
 		this.actions = new Hashtable<SmsPojo, SmsAction>();
 		this.session = new Session(contentResolver);
+		this.activity = activity;
+		ApplicationController app = (ApplicationController)context.getApplicationContext();
+		app.attachNewSmsListener(new NewSmsEventListener() {
+			@Override
+			public void onNewSms(NewSmsEvent newSmsEvent) {
+				dataBind();
+				SmsMessageController.this.activity.dataBind();
+			}
+		});
 	}
 
 	private Session getSession() {

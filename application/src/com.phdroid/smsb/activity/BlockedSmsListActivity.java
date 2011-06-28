@@ -11,15 +11,18 @@ import android.content.Intent;
 import android.view.Menu;
 import com.phdroid.smsb.R;
 import com.phdroid.smsb.SmsPojo;
+import com.phdroid.smsb.activity.base.ActivityBase;
+import com.phdroid.smsb.application.ApplicationController;
+import com.phdroid.smsb.application.NewSmsEventListener;
+import com.phdroid.smsb.exceptions.ApplicationException;
 import com.phdroid.smsb.storage.IMessageProvider;
 import com.phdroid.smsb.storage.MessageProviderHelper;
 import com.phdroid.smsb.storage.SmsAction;
 
-import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 
-public class BlockedSmsListActivity extends Activity {
+public class BlockedSmsListActivity extends ActivityBase {
 
 	private SmsPojoArrayAdapter smsPojoArrayAdapter;
 
@@ -32,19 +35,17 @@ public class BlockedSmsListActivity extends Activity {
 		setContentView(R.layout.main);
 	}
 
-	protected IMessageProvider GetMessageProvider() {
-		 return MessageProviderHelper.getMessageProvider();
+	protected IMessageProvider getMessageProvider() {
+		 return MessageProviderHelper.getMessageProvider(this, this, this.getContentResolver());
 	}
 
 	@Override
-	protected void onStart() {
-		super.onStart();
-
-		processUndoButton();
-
-		List<SmsPojo> messages = GetMessageProvider().getMessages();
-		ListView lv = (ListView)findViewById(R.id.messagesListView);
+	public void dataBind() {
+		super.dataBind();
+		List<SmsPojo> messages = getMessageProvider().getMessages();
 		smsPojoArrayAdapter = new SmsPojoArrayAdapter(this, R.layout.main_list_item, messages);
+
+		ListView lv = (ListView)findViewById(R.id.messagesListView);
 		lv.setAdapter(smsPojoArrayAdapter);
 
 		lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -53,16 +54,25 @@ public class BlockedSmsListActivity extends Activity {
 				Bundle b = new Bundle();
 				b.putInt("id", position);// TODO: change with message ID
 				intent.putExtras(b);
-				GetMessageProvider().performActions();
+				getMessageProvider().performActions();
 				startActivity(intent);
 			}
 		});
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+
+		processUndoButton();
+
+		dataBind();
 
 		updateTitle();
 	}
 
 	private void processUndoButton() {
-		Hashtable<SmsPojo, SmsAction> actions = GetMessageProvider().getActionMessages();
+		Hashtable<SmsPojo, SmsAction> actions = getMessageProvider().getActionMessages();
 		if(actions.size() > 0){
 			Button b = (Button)findViewById(R.id.undoButton);
 			String action = "edited";
@@ -93,14 +103,14 @@ public class BlockedSmsListActivity extends Activity {
 		setTitle(String.format(
 					"%s%s",
 					getTitle().toString(),
-					GetMessageProvider().getUnreadCount() > 0 ?
-						String.format(" (%s)", Integer.toString(GetMessageProvider().getUnreadCount())) : ""));
+					getMessageProvider().getUnreadCount() > 0 ?
+						String.format(" (%s)", Integer.toString(getMessageProvider().getUnreadCount())) : ""));
 	}
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		super.onPrepareOptionsMenu(menu);
-		if(GetMessageProvider().getMessages().size() == 0){
+		if(getMessageProvider().getMessages().size() == 0){
 			MenuItem item = menu.findItem(R.id.delete_all_item);
 			item.setEnabled(false);
 			item = menu.findItem(R.id.select_many_item);
@@ -140,8 +150,8 @@ public class BlockedSmsListActivity extends Activity {
 						} );
 						return view;
 					}
-					catch ( InflateException e ) {}
-					catch ( ClassNotFoundException e ) {}
+					catch ( InflateException e ) { /*ignore*/ }
+					catch ( ClassNotFoundException e ) { /*ignore*/ }
 				}
 				return null;
 			}
@@ -154,17 +164,17 @@ public class BlockedSmsListActivity extends Activity {
 		switch (item.getItemId()) {
 			case R.id.settings_item:
 				Intent intent = new Intent(BlockedSmsListActivity.this, SettingsActivity.class);
-				GetMessageProvider().performActions();
+				getMessageProvider().performActions();
 				startActivity(intent);
 				return true;
 			case R.id.select_many_item:
 				Intent smIntent = new Intent(BlockedSmsListActivity.this, SelectManyActivity.class);
-				GetMessageProvider().performActions();
+				getMessageProvider().performActions();
 				startActivity(smIntent);
 				return true;
 			case R.id.delete_all_item:
-				GetMessageProvider().performActions();
-				GetMessageProvider().deleteAll();
+				getMessageProvider().performActions();
+				getMessageProvider().deleteAll();
 				smsPojoArrayAdapter.notifyDataSetChanged();
 				processUndoButton();
 				return true;
@@ -174,7 +184,7 @@ public class BlockedSmsListActivity extends Activity {
 	}
 
 	public void undo(View view) {
-		GetMessageProvider().undo();
+		getMessageProvider().undo();
 		LinearLayout l = (LinearLayout)findViewById(R.id.buttonLayout);
 		l.setVisibility(View.GONE);
 		smsPojoArrayAdapter.notifyDataSetChanged();
