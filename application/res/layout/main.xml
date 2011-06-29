@@ -28,4 +28,17 @@
 			android:divider="@drawable/divider"
 			android:dividerHeight="0px">
 	</ListView>
+	<TextView android:id="@+id/no_messages_info"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_centerHorizontal="true"
+			android:layout_centerVertical="true"
+			android:layout_marginLeft="10dp"
+			android:layout_marginRight="10dp"
+
+			style="@style/title_text.settings_title"
+			android:text="@string/no_messages_info"
+			android:gravity="center"
+			android:visibility="gone"
+			/>
 </RelativeLayout>

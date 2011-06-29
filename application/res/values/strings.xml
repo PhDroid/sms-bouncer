@@ -13,4 +13,5 @@
     <string name="display_notification">Display panel notification</string>
     <string name="clear_after">Clear messages after</string>
     <string name="edit_white_list">Edit senders white list</string>
+    <string name="no_messages_info">There are no filtered messages currently in the list.</string>
 </resources>

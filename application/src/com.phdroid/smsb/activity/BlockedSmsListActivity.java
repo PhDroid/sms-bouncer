@@ -69,6 +69,7 @@ public class BlockedSmsListActivity extends ActivityBase {
 		dataBind();
 
 		updateTitle();
+		updateNoMessagesTextView();
 	}
 
 	private void processUndoButton() {
@@ -105,6 +106,16 @@ public class BlockedSmsListActivity extends ActivityBase {
 					getTitle().toString(),
 					getMessageProvider().getUnreadCount() > 0 ?
 						String.format(" (%s)", Integer.toString(getMessageProvider().getUnreadCount())) : ""));
+	}
+
+	private void updateNoMessagesTextView(){
+		List<SmsPojo> messages = getMessageProvider().getMessages();
+		TextView noMessages = (TextView)findViewById(R.id.no_messages_info);
+		if(messages.size() == 0){
+			noMessages.setVisibility(View.VISIBLE);
+		} else {
+			noMessages.setVisibility(View.GONE);
+		}
 	}
 
 	@Override
