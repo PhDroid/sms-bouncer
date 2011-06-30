@@ -57,7 +57,7 @@ public class ViewMessageActivity extends EventInjectedActivity {
 	}
 
 	protected IMessageProvider getMessageProvider() {
-		return MessageProviderHelper.getMessageProvider(this, this, this.getContentResolver());
+		return MessageProviderHelper.getMessageProvider(getContentResolver());
 	}
 
 

@@ -20,20 +20,18 @@ public class SmsMessageController implements IMessageProvider {
 	private int unreadCount;
 	private List<SmsPojo> data;
 	private Session session;
-	private ActivityBase activity;
 
-	public SmsMessageController(ActivityBase activity, Context context, ContentResolver contentResolver) {
+	public SmsMessageController(Session session) {
 		this.actions = new Hashtable<SmsPojo, SmsAction>();
-		this.session = new Session(contentResolver);
-		this.activity = activity;
-		ApplicationController app = (ApplicationController)context.getApplicationContext();
+		this.session = session;
+		/*ApplicationController app = (ApplicationController)context.getApplicationContext();
 		app.attachNewSmsListener(new NewSmsEventListener() {
 			@Override
 			public void onNewSms(NewSmsEvent newSmsEvent) {
 				dataBind();
 				SmsMessageController.this.activity.dataBind();
 			}
-		});
+		});*/
 	}
 
 	private Session getSession() {

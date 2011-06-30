@@ -36,7 +36,7 @@ public class BlockedSmsListActivity extends ActivityBase {
 	}
 
 	protected IMessageProvider getMessageProvider() {
-		 return MessageProviderHelper.getMessageProvider(this, this, this.getContentResolver());
+		 return MessageProviderHelper.getMessageProvider(getContentResolver());
 	}
 
 	@Override

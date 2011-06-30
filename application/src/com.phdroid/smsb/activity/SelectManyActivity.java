@@ -79,7 +79,7 @@ public class SelectManyActivity extends ActivityBase {
 	}
 
 	protected IMessageProvider getMessageProvider() {
-		 return MessageProviderHelper.getMessageProvider(this, this, this.getContentResolver());
+		 return MessageProviderHelper.getMessageProvider(getContentResolver());
 	}
 
 	public void deleteMessages(View view) {
