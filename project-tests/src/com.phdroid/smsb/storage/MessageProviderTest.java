@@ -11,7 +11,7 @@ import java.util.List;
 public class MessageProviderTest extends TestCase{
 	IMessageProvider mProvider;
 	// TODO: change indexes for real message provider
-	private static final int MESSAGES_COUNT = 9;
+	private static final int MESSAGES_COUNT = 10;
 	private static final int UNREAD_MESSAGE_ID = 0;
 	private static final int READ_MESSAGE_ID = 3;
 	private static final int OVER_THE_TOP_ID = 100;
@@ -21,7 +21,7 @@ public class MessageProviderTest extends TestCase{
 	@Override
 	public void setUp(){
 		// TODO: replace this with real message provider
-		mProvider = new com.phdroid.smsb.storage.TestMessageProvider();
+		mProvider = new SmsMessageController(new TestSession(null));
 	}
 
 	public void test_getMessages_returns_full_messages_list(){

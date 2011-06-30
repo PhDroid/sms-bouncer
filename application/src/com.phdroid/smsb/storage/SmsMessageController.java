@@ -24,6 +24,7 @@ public class SmsMessageController implements IMessageProvider {
 	public SmsMessageController(Session session) {
 		this.actions = new Hashtable<SmsPojo, SmsAction>();
 		this.session = session;
+		dataBind();
 		/*ApplicationController app = (ApplicationController)context.getApplicationContext();
 		app.attachNewSmsListener(new NewSmsEventListener() {
 			@Override
