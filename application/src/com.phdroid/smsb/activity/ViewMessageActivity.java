@@ -2,14 +2,20 @@ package com.phdroid.smsb.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Gallery;
 import com.phdroid.smsb.R;
 import com.phdroid.smsb.SmsPojo;
+import com.phdroid.smsb.application.ApplicationController;
+import com.phdroid.smsb.application.NewSmsEvent;
+import com.phdroid.smsb.application.NewSmsEventListener;
 import com.phdroid.smsb.storage.IMessageProvider;
 import com.phdroid.smsb.storage.MessageProviderHelper;
 import com.phdroid.smsb.ui.EventInjectedActivity;
+
+import java.util.List;
 
 /**
  * Show detailed sms message with several control functions.
@@ -21,8 +27,7 @@ public class ViewMessageActivity extends EventInjectedActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.view_message);
 
-		mGallery = (Gallery)findViewById(R.id.message_gallery);
-		mGallery.setAdapter(new SmsPojoSpinnerAdapter(this, getMessageProvider().getMessages()));
+		dataBind();
 		mGallery.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -35,6 +40,16 @@ public class ViewMessageActivity extends EventInjectedActivity {
 			}
 		});
 
+		ApplicationController app = (ApplicationController)this.getApplicationContext();
+		app.attachNewSmsListener(new NewSmsEventListener() {
+			@Override
+			public void onNewSms(NewSmsEvent newSmsEvent) {
+				Log.v(this.getClass().getSimpleName(), "onNewSms");
+				MessageProviderHelper.invalidCache();
+				dataBind();
+			}
+		});
+
 		Bundle b = getIntent().getExtras();
 		int id = b.getInt("id", -1);
 		if (id >= 0) {
@@ -43,6 +58,17 @@ public class ViewMessageActivity extends EventInjectedActivity {
 
 			updateTitle();
 		}
+	}
+
+	@Override
+	public void dataBind() {
+		super.dataBind();
+		mGallery = (Gallery)findViewById(R.id.message_gallery);
+		int currentIndex = mGallery.getSelectedItemPosition();
+		mGallery.setAdapter(new SmsPojoSpinnerAdapter(this, getMessageProvider().getMessages()));
+		mGallery.setSelection(currentIndex);
+
+		Log.v(this.getClass().getSimpleName(), "DataBind");
 	}
 
 	private void updateTitle() {

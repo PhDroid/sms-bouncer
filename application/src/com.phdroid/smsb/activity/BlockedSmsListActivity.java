@@ -44,7 +44,6 @@ public class BlockedSmsListActivity extends ActivityBase {
 			public void onNewSms(NewSmsEvent newSmsEvent) {
 				Log.v(this.getClass().getSimpleName(), "onNewSms");
 				MessageProviderHelper.invalidCache();
-				MessageProviderHelper.invalidCache();
 				dataBind();
 			}
 		});
