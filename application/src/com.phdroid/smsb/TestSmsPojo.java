@@ -20,7 +20,12 @@ public class TestSmsPojo extends SmsPojo {
         this.sender = sender;
     }
 
-    @Override
+	@Override
+	public long getId() {
+		return 0;
+	}
+
+	@Override
     public String getMessage() {
         return message;
     }

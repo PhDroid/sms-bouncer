@@ -13,6 +13,8 @@ public abstract class SmsPojo {
 	public void setSender(String sender) {
 	}
 
+	public abstract long getId();
+
     public abstract boolean isRead();
 
     public abstract void setRead(boolean r);

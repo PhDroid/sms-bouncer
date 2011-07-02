@@ -189,6 +189,10 @@ public class TestMessageProvider2 implements IMessageProvider{
 		return get(id);
 	}
 
+	public void invalidateCache() {
+		//Don't expect implementation here.
+	}
+
 	public void read(long id) {
 		SmsPojo smsPojo = get(id);
 		if (smsPojo != null && !smsPojo.isRead()) {
