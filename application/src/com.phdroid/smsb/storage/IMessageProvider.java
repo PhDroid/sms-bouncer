@@ -7,31 +7,33 @@ import java.util.Hashtable;
 import java.util.List;
 
 public interface IMessageProvider {
-    List<SmsPojo> getMessages();
+	List<SmsPojo> getMessages();
 
-    Hashtable<SmsPojo, SmsAction> getActionMessages();
+	Hashtable<SmsPojo, SmsAction> getActionMessages();
 
-    SmsPojo getMessage(long id);
+	SmsPojo getMessage(long id);
+
+	void invalidateCache();
 
 	int size();
 
-    void read(long id);
+	void read(long id);
 
-    void delete(long id);
+	void delete(long id);
 
-    void delete(long[] ids);
+	void delete(long[] ids);
 
-    void deleteAll();
+	void deleteAll();
 
-    void notSpam(long id);
+	void notSpam(long id);
 
-    void notSpam(long[] ids);
+	void notSpam(long[] ids);
 
-    int getUnreadCount();
+	int getUnreadCount();
 
-    void undo();
+	void undo();
 
-    void performActions();
+	void performActions();
 
 	SmsPojo getPreviousMessage(SmsPojo message);
 

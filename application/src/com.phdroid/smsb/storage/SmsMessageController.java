@@ -24,15 +24,6 @@ public class SmsMessageController implements IMessageProvider {
 	public SmsMessageController(Session session) {
 		this.actions = new Hashtable<SmsPojo, SmsAction>();
 		this.session = session;
-		dataBind();
-		/*ApplicationController app = (ApplicationController)context.getApplicationContext();
-		app.attachNewSmsListener(new NewSmsEventListener() {
-			@Override
-			public void onNewSms(NewSmsEvent newSmsEvent) {
-				dataBind();
-				SmsMessageController.this.activity.dataBind();
-			}
-		});*/
 	}
 
 	private Session getSession() {
@@ -159,6 +150,11 @@ public class SmsMessageController implements IMessageProvider {
 
 	public SmsPojo getMessage(long id) {
 		return get(id);
+	}
+
+	@Override
+	public void invalidateCache() {
+		dataBind();
 	}
 
 	public void read(long id) {

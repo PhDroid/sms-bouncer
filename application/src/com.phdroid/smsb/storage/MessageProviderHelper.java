@@ -18,4 +18,8 @@ public class MessageProviderHelper {
 	public static void setMessageProvider(IMessageProvider provider){
 		mProvider = provider;
 	}
+
+	public static void invalidCache(){
+		mProvider.invalidateCache();
+	}
 }

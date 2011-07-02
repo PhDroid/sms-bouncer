@@ -42,9 +42,6 @@ public class ViewMessageActivity extends EventInjectedActivity {
 			mGallery.setSelection(id, false);
 
 			updateTitle();
-		} else {
-			//todo: throw something and log actions
-			return;
 		}
 	}
 

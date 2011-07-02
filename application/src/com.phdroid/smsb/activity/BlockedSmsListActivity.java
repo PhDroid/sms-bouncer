@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.*;
 import android.widget.*;
 import android.content.Intent;
@@ -13,6 +14,7 @@ import com.phdroid.smsb.R;
 import com.phdroid.smsb.SmsPojo;
 import com.phdroid.smsb.activity.base.ActivityBase;
 import com.phdroid.smsb.application.ApplicationController;
+import com.phdroid.smsb.application.NewSmsEvent;
 import com.phdroid.smsb.application.NewSmsEventListener;
 import com.phdroid.smsb.exceptions.ApplicationException;
 import com.phdroid.smsb.storage.IMessageProvider;
@@ -25,6 +27,7 @@ import java.util.List;
 public class BlockedSmsListActivity extends ActivityBase {
 
 	private SmsPojoArrayAdapter smsPojoArrayAdapter;
+	private ListView lv;
 
 	/**
 	 * Called when the activity is first created.
@@ -33,20 +36,18 @@ public class BlockedSmsListActivity extends ActivityBase {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-	}
+		lv = (ListView) findViewById(R.id.messagesListView);
 
-	protected IMessageProvider getMessageProvider() {
-		 return MessageProviderHelper.getMessageProvider(getContentResolver());
-	}
-
-	@Override
-	public void dataBind() {
-		super.dataBind();
-		List<SmsPojo> messages = getMessageProvider().getMessages();
-		smsPojoArrayAdapter = new SmsPojoArrayAdapter(this, R.layout.main_list_item, messages);
-
-		ListView lv = (ListView)findViewById(R.id.messagesListView);
-		lv.setAdapter(smsPojoArrayAdapter);
+		ApplicationController app = (ApplicationController)this.getApplicationContext();
+		app.attachNewSmsListener(new NewSmsEventListener() {
+			@Override
+			public void onNewSms(NewSmsEvent newSmsEvent) {
+				Log.v(this.getClass().getSimpleName(), "onNewSms");
+				MessageProviderHelper.invalidCache();
+				MessageProviderHelper.invalidCache();
+				dataBind();
+			}
+		});
 
 		lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -60,16 +61,29 @@ public class BlockedSmsListActivity extends ActivityBase {
 		});
 	}
 
+	protected IMessageProvider getMessageProvider() {
+		 return MessageProviderHelper.getMessageProvider(getContentResolver());
+	}
+
+	@Override
+	public void dataBind() {
+		super.dataBind();
+		List<SmsPojo> messages = getMessageProvider().getMessages();
+		smsPojoArrayAdapter = new SmsPojoArrayAdapter(this, R.layout.main_list_item, messages);
+		lv.setAdapter(smsPojoArrayAdapter);
+		smsPojoArrayAdapter.notifyDataSetChanged();
+		Log.v(this.getClass().getSimpleName(), "DataBind");
+	}
+
 	@Override
 	protected void onStart() {
 		super.onStart();
 
-		processUndoButton();
-
 		dataBind();
-
+		processUndoButton();
 		updateTitle();
 		updateNoMessagesTextView();
+		Log.v(this.getClass().getSimpleName(), "Start");
 	}
 
 	private void processUndoButton() {

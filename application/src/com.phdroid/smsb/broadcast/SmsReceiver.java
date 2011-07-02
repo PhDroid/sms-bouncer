@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
+import android.util.Log;
 import com.phdroid.smsb.SmsPojo;
 import com.phdroid.smsb.activity.notify.TrayNotificationManager;
 import com.phdroid.smsb.application.ApplicationController;
@@ -27,6 +28,7 @@ public class SmsReceiver extends BroadcastReceiver {
 	public void onReceive(Context context, Intent intent) {
 		session = new Session(context.getContentResolver());
         if (intent.getAction().equals(ACTION)) {
+			Log.v(this.getClass().getSimpleName(), "onReceive");
 			/* The SMS-Messages are 'hiding' within the extras of the Intent. */
 			Bundle bundle = intent.getExtras();
 			if (bundle != null) {
@@ -36,9 +38,6 @@ public class SmsReceiver extends BroadcastReceiver {
 				ContentResolver c = context.getContentResolver();
 				SmsPojo[] messages = ConvertMessages(pdusObj);
 				SmsPojo[] spamMessages = getMessageProcessor().ProcessMessages(messages, c);
-
-				ApplicationController app = (ApplicationController)context.getApplicationContext();
-				app.raiseNewSmsEvent(spamMessages);
 
 				int spamMessageCount = spamMessages.length;
 				mSpamMessagesCount += spamMessageCount;
@@ -51,6 +50,11 @@ public class SmsReceiver extends BroadcastReceiver {
 					} else {
 						//todo: log this bullshit, send to our website and pray
 					}
+
+					Log.v(this.getClass().getSimpleName(), "Raise event");
+
+					ApplicationController app = (ApplicationController)context.getApplicationContext();
+					app.raiseNewSmsEvent(spamMessages);
 					ApplicationSettings settings = new ApplicationSettings(context);
 
 					if (settings.showDisplayNotification()) {
