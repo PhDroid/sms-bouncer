@@ -10,6 +10,9 @@ import android.widget.*;
 import com.phdroid.smsb.R;
 import com.phdroid.smsb.SmsPojo;
 import com.phdroid.smsb.activity.base.ActivityBase;
+import com.phdroid.smsb.application.ApplicationController;
+import com.phdroid.smsb.application.NewSmsEvent;
+import com.phdroid.smsb.application.NewSmsEventListener;
 import com.phdroid.smsb.storage.IMessageProvider;
 import com.phdroid.smsb.storage.MessageProviderHelper;
 
@@ -19,6 +22,7 @@ import java.util.List;
 
 public class SelectManyActivity extends ActivityBase {
 	View listFooter;
+	private ListView listView;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -28,15 +32,30 @@ public class SelectManyActivity extends ActivityBase {
 	}
 
 	@Override
+	public void dataBind() {
+		super.dataBind();
+		List<SmsPojo> messages = getMessageProvider().getMessages();
+		listView.setAdapter(new SmsPojoArrayAdapter(this, R.layout.select_many_list_item, messages));
+	}
+
+	@Override
 	protected void onStart() {
 		super.onStart();
+		listView = (ListView)findViewById(R.id.messagesListView);
 
-		List<SmsPojo> messages = getMessageProvider().getMessages();
-		final ListView lv = (ListView)findViewById(R.id.messagesListView);
-		lv.setAdapter(new SmsPojoArrayAdapter(this, R.layout.select_many_list_item, messages));
-		lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+		dataBind();
+
+		ApplicationController app = (ApplicationController)this.getApplicationContext();
+		app.attachNewSmsListener(new NewSmsEventListener() {
+			@Override
+			public void onNewSms(NewSmsEvent newSmsEvent) {
+				SelectManyActivity.this.dataBind();
+			}
+		});
+
+		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				updateButtonsVisibility(lv);
+				updateButtonsVisibility(listView);
 			}
 		});
 
