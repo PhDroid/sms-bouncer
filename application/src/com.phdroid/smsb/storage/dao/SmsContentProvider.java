@@ -69,7 +69,7 @@ public class SmsContentProvider extends ContentProvider {
                     SmsMessageEntry._ID + " = " + uri.getPathSegments().get(1));
 
         if (sortOrder == null || sortOrder.equals(""))
-            sortOrder = SmsMessageEntry.RECEIVED;
+            sortOrder = SmsMessageEntry.RECEIVED + " DESC";
 
         Cursor c = sqlBuilder.query(
                 smsDb,
