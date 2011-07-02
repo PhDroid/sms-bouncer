@@ -11,7 +11,7 @@ import android.util.Log;
 public class DatabaseOpenHelper extends SQLiteOpenHelper {
 	private static final String TAG = "SmsContentProvider";
 	private static final String DATABASE_NAME = "sms.db";
-	private static final int DATABASE_VERSION = 8;
+	private static final int DATABASE_VERSION = 9;
 
 
 	DatabaseOpenHelper(Context context) {
@@ -33,6 +33,7 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
 				SmsMessageEntry.MESSAGE + " LONGTEXT," +
 				SmsMessageEntry.RECEIVED + " INTEGER," +
 				SmsMessageEntry.READ + " INTEGER," +
+				SmsMessageEntry.ACTION + " INTEGER," +
 				SmsMessageEntry.USER_FLAG_NOT_SPAM + " INTEGER" +
 				");";
 		db.execSQL(sql);
@@ -45,6 +46,7 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
 				"sms." + SmsMessageEntry.MESSAGE + "," +
 				"sms." + SmsMessageEntry.RECEIVED + "," +
 				"sms." + SmsMessageEntry.READ + "," +
+				"sms." + SmsMessageEntry.ACTION + "," +
 				"sms." + SmsMessageEntry.USER_FLAG_NOT_SPAM +
 				" from " +
 				SmsContentProvider.TABLE_NAME + " as sms " +

@@ -16,13 +16,11 @@ import java.util.List;
  * Message Controller
  */
 public class SmsMessageController implements IMessageProvider {
-	private Hashtable<SmsPojo, SmsAction> actions;
 	private int unreadCount;
 	private List<SmsPojo> data;
 	private Session session;
 
 	public SmsMessageController(Session session) {
-		this.actions = new Hashtable<SmsPojo, SmsAction>();
 		this.session = session;
 	}
 
@@ -58,14 +56,14 @@ public class SmsMessageController implements IMessageProvider {
 	}
 
 	public Hashtable<SmsPojo, SmsAction> getActionMessages() {
-		return actions;
+		return session.getActions();
 	}
 
 	public void delete(long id) {
 		performActions();
 		SmsPojo sms = get(id);
 		if (sms != null) {
-			actions.put(sms, SmsAction.Deleted);
+			session.setAction(sms, SmsAction.Deleted);
 			getSmsList().remove(sms);
 		}
 	}
@@ -77,7 +75,7 @@ public class SmsMessageController implements IMessageProvider {
 			if (sms != null) {
 				if (!sms.isRead())
 					unreadCount--;
-				actions.put(sms, SmsAction.Deleted);
+				session.setAction(sms, SmsAction.Deleted);
 				getSmsList().remove(sms);
 			}
 		}
@@ -86,7 +84,7 @@ public class SmsMessageController implements IMessageProvider {
 	public void deleteAll() {
 		List<SmsPojo> smsPojoList = getSession().getSmsList();
 		for (SmsPojo sms : smsPojoList) {
-			actions.put(sms, SmsAction.Deleted);
+			session.setAction(sms, SmsAction.Deleted);
 			getSmsList().remove(sms);
 		}
 	}
@@ -95,7 +93,7 @@ public class SmsMessageController implements IMessageProvider {
 		performActions();
 		SmsPojo sms = get(id);
 		if (sms != null) {
-			actions.put(sms, SmsAction.MarkedAsNotSpam);
+			session.setAction(sms, SmsAction.MarkedAsNotSpam);
 			getSmsList().remove(sms);
 		}
 	}
@@ -107,7 +105,7 @@ public class SmsMessageController implements IMessageProvider {
 			if (sms != null) {
 				if (!sms.isRead())
 					unreadCount--;
-				actions.put(sms, SmsAction.MarkedAsNotSpam);
+				session.setAction(sms, SmsAction.MarkedAsNotSpam);
 				getSmsList().remove(sms);
 			}
 		}
@@ -161,7 +159,7 @@ public class SmsMessageController implements IMessageProvider {
 		SmsPojo smsPojo = get(id);
 		if (smsPojo != null && !smsPojo.isRead()) {
 			smsPojo.setRead(true);
-			actions.put(smsPojo, SmsAction.Read);
+			session.setAction(smsPojo, SmsAction.Read);
 			unreadCount--;
 		}
 	}
@@ -171,18 +169,12 @@ public class SmsMessageController implements IMessageProvider {
 	}
 
 	public void undo() {
-		List<SmsPojo> smsPojoList = getSmsList();
-		for (SmsPojo sms : actions.keySet()) {
-			smsPojoList.add(0, sms);
-			if (!sms.isRead()) {
-				unreadCount++;
-			}
-		}
-		data = smsPojoList;
-		actions.clear();
+		session.undoActions();
+		dataBind();
 	}
 
 	public void performActions() {
+		Hashtable<SmsPojo, SmsAction> actions = getActionMessages();
 		for (SmsPojo sms : actions.keySet()) {
 			SmsAction action = actions.get(sms);
 			switch (action) {
@@ -190,6 +182,7 @@ public class SmsMessageController implements IMessageProvider {
 					getSession().delete(sms);
 					break;
 				case MarkedAsNotSpam:
+					//todo: add to system. Real system.
 					getSession().delete(sms);
 					break;
 				case Read:
@@ -198,7 +191,7 @@ public class SmsMessageController implements IMessageProvider {
 				default:
 			}
 		}
-		actions.clear();
+		dataBind();
 	}
 
 	private SmsPojo get(long id) {

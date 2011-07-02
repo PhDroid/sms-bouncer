@@ -15,6 +15,7 @@ public class SmsMessageEntry extends SmsPojo {
     public static final String MESSAGE = "message";
     public static final String RECEIVED = "received";
     public static final String READ = "read";
+    public static final String ACTION = "action";
     public static final String USER_FLAG_NOT_SPAM = "not_spam_user"; //did user say this sms is NOT spam
 
     private long id;

@@ -2,12 +2,15 @@ package com.phdroid.smsb.storage.dao;
 
 import android.content.ContentProvider;
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
 import android.telephony.SmsMessage;
 import com.phdroid.smsb.SmsPojo;
+import com.phdroid.smsb.storage.SmsAction;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 
 /**
@@ -26,7 +29,12 @@ public class Session {
 
 	public List<SmsPojo> getSmsList() {
 		List<SmsPojo> items = new ArrayList<SmsPojo>();
-		Cursor cursor = contentResolver.query(SmsContentProvider.CONTENT_URI, null, null, null, null);
+		Cursor cursor = contentResolver.query(
+				SmsContentProvider.CONTENT_URI,
+				null,
+				SmsMessageEntry.ACTION + " is null",
+				null,
+				null);
 		try {
 			int size = cursor.getCount();
 			if (size == 0) {
@@ -36,6 +44,56 @@ public class Session {
 				cursor.moveToPosition(i);
 				SmsMessageEntry item = new SmsMessageEntry(cursor);
 				items.add(item);
+			}
+		} finally {
+			if (cursor != null && !cursor.isClosed()) {
+				cursor.close();
+			}
+		}
+		return items;
+	}
+
+	public void setAction(SmsPojo sms, SmsAction action) {
+		SmsMessageEntry entry = (SmsMessageEntry)sms;
+		ContentValues values =  entry.toContentValues();
+		values.put(SmsMessageEntry.ACTION, action.index());
+
+		contentResolver.update(SmsContentProvider.getItemUri(sms),
+				values,
+				null,
+				null);
+	}
+
+	public void undoActions() {
+		ContentValues values = new ContentValues();
+		values.put(SmsMessageEntry.ACTION, (String)null);
+
+		contentResolver.update(SmsContentProvider.CONTENT_URI,
+				values,
+				null,
+				null);
+	}
+
+	public Hashtable<SmsPojo, SmsAction> getActions() {
+		Hashtable<SmsPojo, SmsAction> items = new Hashtable<SmsPojo, SmsAction>();
+		Cursor cursor = contentResolver.query(
+				SmsContentProvider.CONTENT_URI,
+				null,
+				SmsMessageEntry.ACTION + " is not null",
+				null,
+				null);
+		try {
+			int size = cursor.getCount();
+			if (size == 0) {
+				return items;
+			}
+			for (int i = 0; i < size; i++) {
+				cursor.moveToPosition(i);
+				SmsMessageEntry item = new SmsMessageEntry(cursor);
+				int actionValue = cursor.getInt(cursor.getColumnIndex(SmsMessageEntry.ACTION));
+				// TODO: replace with id-based approach.
+				SmsAction action = actionValue == 0 ? SmsAction.MarkedAsNotSpam : SmsAction.Deleted;
+				items.put(item, action);
 			}
 		} finally {
 			if (cursor != null && !cursor.isClosed()) {
