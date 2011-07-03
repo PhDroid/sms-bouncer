@@ -103,22 +103,14 @@ public class SelectManyActivity extends ActivityBase {
 
 	public void deleteMessages(View view) {
 		ListView lv = (ListView)findViewById(R.id.messagesListView);
-		SparseBooleanArray positions = lv.getCheckedItemPositions();
-		long[] ids = new long[positions.size()];
-		for(int i=0; i<positions.size(); i++){
-			ids[i] = positions.keyAt(i);
-		}
+		long[] ids = lv.getCheckedItemIds();
 		getMessageProvider().delete(ids);
 		finish();
 	}
 
 	public void markMessagesAsNotSpam(View view) {
 		ListView lv = (ListView)findViewById(R.id.messagesListView);
-		SparseBooleanArray positions = lv.getCheckedItemPositions();
-		long[] ids = new long[positions.size()];
-		for(int i=0; i<positions.size(); i++){
-			ids[i] = positions.keyAt(i);
-		}
+		long[] ids = lv.getCheckedItemIds();
 		getMessageProvider().notSpam(ids);
 		finish();
 	}

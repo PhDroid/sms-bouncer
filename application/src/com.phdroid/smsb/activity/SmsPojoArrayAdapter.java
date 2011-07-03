@@ -63,6 +63,11 @@ public class SmsPojoArrayAdapter extends ArrayAdapter<SmsPojo> {
 	}
 
 	@Override
+	public long getItemId(int i) {
+		return getItem(i).getId();
+	}
+
+	@Override
 	public View getView(int position, View convertView, ViewGroup parent){
 		SmsViewHolder holder;
 		if(convertView == null){

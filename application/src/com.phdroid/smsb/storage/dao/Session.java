@@ -120,6 +120,17 @@ public class Session {
 		}
 	}
 
+	public Uri putSmsToSystemLog(SmsPojo sms){
+		ContentValues values = new ContentValues();
+		values.put(SmsHelper.ADDRESS, sms.getSender());
+		values.put(SmsHelper.DATE, sms.getReceived());
+		values.put(SmsHelper.READ, sms.isRead() ? 1 : 0);
+		values.put(SmsHelper.STATUS, -1);
+		values.put(SmsHelper.TYPE, 2);
+		values.put(SmsHelper.BODY, sms.getMessage());
+		return contentResolver.insert(Uri.parse("content://sms"), values);
+	}
+
 	public boolean delete(SmsPojo sms) {
 		int res = contentResolver.delete(SmsContentProvider.getItemUri(sms), null, null);
 		return res == 1;

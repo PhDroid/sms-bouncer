@@ -52,7 +52,9 @@ public class BlockedSmsListActivity extends ActivityBase {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				Intent intent = new Intent(BlockedSmsListActivity.this, ViewMessageActivity.class);
 				Bundle b = new Bundle();
-				b.putInt("id", position);// TODO: change with message ID
+				//final int itemId = position;
+				b.putInt("position", position);
+				b.putLong("id", id);
 				intent.putExtras(b);
 				getMessageProvider().performActions();
 				startActivity(intent);
@@ -71,6 +73,7 @@ public class BlockedSmsListActivity extends ActivityBase {
 		smsPojoArrayAdapter = new SmsPojoArrayAdapter(this, R.layout.main_list_item, messages);
 		lv.setAdapter(smsPojoArrayAdapter);
 		smsPojoArrayAdapter.notifyDataSetChanged();
+		updateNoMessagesTextView();
 		Log.v(this.getClass().getSimpleName(), "DataBind");
 	}
 

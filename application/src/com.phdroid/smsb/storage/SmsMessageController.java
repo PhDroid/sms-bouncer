@@ -182,7 +182,7 @@ public class SmsMessageController implements IMessageProvider {
 					getSession().delete(sms);
 					break;
 				case MarkedAsNotSpam:
-					//todo: add to system. Real system.
+					getSession().putSmsToSystemLog(sms);
 					getSession().delete(sms);
 					break;
 				case Read:

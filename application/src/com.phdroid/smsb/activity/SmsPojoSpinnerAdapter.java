@@ -1,6 +1,7 @@
 package com.phdroid.smsb.activity;
 
 import android.app.Activity;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +37,7 @@ public class SmsPojoSpinnerAdapter extends BaseAdapter {
 
 	@Override
 	public long getItemId(int i) {
-		return i;
+		return mMessages.get(i).getId();
 	}
 
 	@Override
