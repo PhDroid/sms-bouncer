@@ -26,16 +26,12 @@ public class SmsContentProvider extends ContentProvider {
 
 	public static Uri getItemUri(long id) {
 		Uri.Builder b = SmsContentProvider.CONTENT_URI.buildUpon();
-		b.appendPath("/#" + id);
+		b.appendPath(Long.toString(id));
 		return b.build();
 	}
 
 	public static Uri getItemUri(SmsPojo sms) {
-		if (sms instanceof SmsMessageEntry) {
-			SmsMessageEntry entry = (SmsMessageEntry) sms;
-			return getItemUri(entry.getId());
-		}
-		return null;
+		return getItemUri(sms.getId());
 	}
 
 	private SQLiteDatabase smsDb;
