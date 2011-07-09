@@ -142,7 +142,11 @@ public class Session {
 
 	public boolean update(SmsPojo sms) {
 		SmsMessageEntry smsEntry = (SmsMessageEntry) sms;
-		int res = contentResolver.update(SmsContentProvider.getItemUri(sms), smsEntry.toContentValues(), null, null);
+		int res = contentResolver.update(
+				SmsContentProvider.CONTENT_URI,
+				smsEntry.toContentValues(),
+				SmsMessageEntry._ID + " = :1",
+				new String[]{String.valueOf(sms.getId())});
 		return res == 1;
 	}
 
