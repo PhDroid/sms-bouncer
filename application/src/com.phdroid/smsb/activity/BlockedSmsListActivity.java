@@ -74,6 +74,7 @@ public class BlockedSmsListActivity extends ActivityBase {
 		lv.setAdapter(smsPojoArrayAdapter);
 		smsPojoArrayAdapter.notifyDataSetChanged();
 		updateNoMessagesTextView();
+		updateTitle();
 		Log.v(this.getClass().getSimpleName(), "DataBind");
 	}
 
