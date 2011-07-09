@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.telephony.SmsMessage;
 import com.phdroid.smsb.SmsPojo;
+import com.phdroid.smsb.filter.SmartSpamFilter;
 import com.phdroid.smsb.storage.SmsAction;
 
 import java.util.ArrayList;
@@ -58,10 +59,10 @@ public class Session {
 		ContentValues values =  entry.toContentValues();
 		values.put(SmsMessageEntry.ACTION, action.index());
 
-		contentResolver.update(SmsContentProvider.getItemUri(sms),
+		contentResolver.update(SmsContentProvider.CONTENT_URI,
 				values,
-				null,
-				null);
+				SmsMessageEntry._ID + " = :1",
+				new String[]{String.valueOf(sms.getId())});
 	}
 
 	public void undoActions() {
@@ -132,7 +133,10 @@ public class Session {
 	}
 
 	public boolean delete(SmsPojo sms) {
-		int res = contentResolver.delete(SmsContentProvider.getItemUri(sms), null, null);
+		int res = contentResolver.delete(
+				SmsContentProvider.CONTENT_URI,
+				SmsMessageEntry._ID + " = :1",
+				new String[]{String.valueOf(sms.getId())});
 		return res == 1;
 	}
 
