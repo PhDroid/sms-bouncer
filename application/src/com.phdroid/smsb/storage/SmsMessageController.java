@@ -169,7 +169,7 @@ public class SmsMessageController implements IMessageProvider {
 	public void read(SmsPojo sms) {
 		if (sms != null && !sms.isRead()) {
 			sms.setRead(true);
-			session.setAction(sms, SmsAction.Read);
+			getSession().update(sms);
 			unreadCount--;
 		}
 	}
@@ -194,9 +194,6 @@ public class SmsMessageController implements IMessageProvider {
 				case MarkedAsNotSpam:
 					getSession().putSmsToSystemLog(sms);
 					getSession().delete(sms);
-					break;
-				case Read:
-					getSession().update(sms);
 					break;
 				default:
 			}
