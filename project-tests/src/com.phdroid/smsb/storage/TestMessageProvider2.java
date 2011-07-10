@@ -161,6 +161,10 @@ public class TestMessageProvider2 implements IMessageProvider{
 		return mList.indexOf(message);
 	}
 
+	public SmsPojo getMessageByOrdinal(int index) {
+		return mList.get(index);
+	}
+
 	public boolean isFirstMessage(SmsPojo message) {
 		return mList.indexOf(message) == 0;
 	}
@@ -195,8 +199,12 @@ public class TestMessageProvider2 implements IMessageProvider{
 
 	public void read(long id) {
 		SmsPojo smsPojo = get(id);
-		if (smsPojo != null && !smsPojo.isRead()) {
-			smsPojo.setRead(true);
+		read(smsPojo);
+	}
+
+	public void read(SmsPojo sms) {
+		if (sms != null && !sms.isRead()) {
+			sms.setRead(true);
 			mUnreadCount--;
 		}
 	}

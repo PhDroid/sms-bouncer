@@ -19,6 +19,8 @@ public interface IMessageProvider {
 
 	void read(long id);
 
+	void read(SmsPojo sms);
+
 	void delete(long id);
 
 	void delete(long[] ids);
@@ -40,6 +42,8 @@ public interface IMessageProvider {
 	SmsPojo getNextMessage(SmsPojo message);
 
 	int getIndex(SmsPojo message);
+
+	SmsPojo getMessageByOrdinal(int index);
 
 	boolean isFirstMessage(SmsPojo message);
 

@@ -31,7 +31,8 @@ public class ViewMessageActivity extends EventInjectedActivity {
 		mGallery.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-				getMessageProvider().read(i);
+				SmsPojo sms = getMessageProvider().getMessageByOrdinal(i);
+				getMessageProvider().read(sms);
 				updateTitle();
 			}
 

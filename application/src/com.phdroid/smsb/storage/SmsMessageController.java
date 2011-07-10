@@ -117,6 +117,11 @@ public class SmsMessageController implements IMessageProvider {
 	}
 
 	@Override
+	public SmsPojo getMessageByOrdinal(int index) {
+		return this.getMessages().get(index);
+	}
+
+	@Override
 	public boolean isFirstMessage(SmsPojo message) {
 		return getIndex(message) == 0;
 	}
@@ -157,9 +162,14 @@ public class SmsMessageController implements IMessageProvider {
 
 	public void read(long id) {
 		SmsPojo smsPojo = get(id);
-		if (smsPojo != null && !smsPojo.isRead()) {
-			smsPojo.setRead(true);
-			session.setAction(smsPojo, SmsAction.Read);
+		read(smsPojo);
+	}
+
+	@Override
+	public void read(SmsPojo sms) {
+		if (sms != null && !sms.isRead()) {
+			sms.setRead(true);
+			session.setAction(sms, SmsAction.Read);
 			unreadCount--;
 		}
 	}
