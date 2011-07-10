@@ -55,7 +55,7 @@ public class ViewMessageActivity extends EventInjectedActivity {
 		long id = b.getLong("id", -1);
 		int position = b.getInt("position", -1);
 		if (id >= 0) {
-			getMessageProvider().read(id);
+			//getMessageProvider().read(id);
 			mGallery.setSelection(position, false);
 
 			updateTitle();
