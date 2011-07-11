@@ -37,15 +37,7 @@ public interface IMessageProvider {
 
 	void performActions();
 
-	SmsPojo getPreviousMessage(SmsPojo message);
-
-	SmsPojo getNextMessage(SmsPojo message);
-
 	int getIndex(SmsPojo message);
 
 	SmsPojo getMessageByOrdinal(int index);
-
-	boolean isFirstMessage(SmsPojo message);
-
-	boolean isLastMessage(SmsPojo message);
 }

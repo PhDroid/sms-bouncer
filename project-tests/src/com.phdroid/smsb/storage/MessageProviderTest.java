@@ -212,32 +212,6 @@ public class MessageProviderTest extends TestCase{
 		assertEquals(0, mProvider.getActionMessages().size());
 	}
 
-	public void  test_getPreviousMessage_gets_previous_message(){
-		SmsPojo original = mProvider.getMessage(READ_MESSAGE_ID);
-		SmsPojo prev = mProvider.getMessage(READ_MESSAGE_ID - 1);
-		SmsPojo sms = mProvider.getPreviousMessage(original);
-		assertEquals(prev, sms);
-	}
-
-	public void  test_getPreviousMessage_returns_null_for_first_message(){
-		SmsPojo original = mProvider.getMessage(0);
-		SmsPojo sms = mProvider.getPreviousMessage(original);
-		assertEquals(null, sms);
-	}
-
-	public void  test_getNextMessage_gets_next_message(){
-		SmsPojo original = mProvider.getMessage(READ_MESSAGE_ID);
-		SmsPojo next = mProvider.getMessage(READ_MESSAGE_ID + 1);
-		SmsPojo sms = mProvider.getNextMessage(original);
-		assertEquals(next, sms);
-	}
-
-	public void  test_getNextMessage_returns_null_for_last_message(){
-		SmsPojo original = mProvider.getMessage(mProvider.size() - 1);
-		SmsPojo sms = mProvider.getNextMessage(original);
-		assertEquals(null, sms);
-	}
-
 	public void test_getIndex_gets_message_index(){
 		SmsPojo sms = mProvider.getMessage(READ_MESSAGE_ID);
 		assertEquals(READ_MESSAGE_ID, mProvider.getIndex(sms));
@@ -246,25 +220,5 @@ public class MessageProviderTest extends TestCase{
 	public void test_getIndex_return_minus_one_if_message_wasnt_found(){
 		TestSmsPojo sms = new TestSmsPojo();
 		assertEquals(-1, mProvider.getIndex(sms));
-	}
-
-	public void test_isFirstMessage_returns_true_for_first_message(){
-		SmsPojo sms = mProvider.getMessage(0);
-		assertEquals(true, mProvider.isFirstMessage(sms));
-	}
-
-	public void test_isFirstMessage_returns_false_for_not_first_message(){
-		SmsPojo sms = mProvider.getMessage(1);
-		assertEquals(false, mProvider.isFirstMessage(sms));
-	}
-
-	public void test_isLsstMessage_returns_true_for_last_message(){
-		SmsPojo sms = mProvider.getMessage(mProvider.size() - 1);
-		assertEquals(true, mProvider.isLastMessage(sms));
-	}
-
-	public void test_isLastMessage_returns_false_for_not_last_message(){
-		SmsPojo sms = mProvider.getMessage(1);
-		assertEquals(false, mProvider.isFirstMessage(sms));
 	}
 }

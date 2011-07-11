@@ -121,36 +121,6 @@ public class SmsMessageController implements IMessageProvider {
 		return this.getMessages().get(index);
 	}
 
-	@Override
-	public boolean isFirstMessage(SmsPojo message) {
-		return getIndex(message) == 0;
-	}
-
-	@Override
-	public boolean isLastMessage(SmsPojo message) {
-		return getIndex(message) == size() - 1;
-	}
-
-	@Override
-	public SmsPojo getPreviousMessage(SmsPojo message) {
-		List<SmsPojo> smsPojoList = getSmsList();
-		int index = smsPojoList.indexOf(message);
-		if (index <= 0) {
-			return null;
-		}
-		return smsPojoList.get(--index);
-	}
-
-	@Override
-	public SmsPojo getNextMessage(SmsPojo message) {
-		List<SmsPojo> smsPojoList = getSmsList();
-		int index = smsPojoList.indexOf(message);
-		if (index >= smsPojoList.size() - 1) {
-			return null;
-		}
-		return smsPojoList.get(++index);
-	}
-
 	public SmsPojo getMessage(long id) {
 		return get(id);
 	}
