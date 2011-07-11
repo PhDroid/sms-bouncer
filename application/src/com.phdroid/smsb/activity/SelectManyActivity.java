@@ -103,15 +103,17 @@ public class SelectManyActivity extends ActivityBase {
 
 	public void deleteMessages(View view) {
 		ListView lv = (ListView)findViewById(R.id.messagesListView);
-		long[] ids = lv.getCheckedItemIds();
+		long[] ids = lv.getCheckItemIds();
 		getMessageProvider().delete(ids);
+		MessageProviderHelper.invalidCache();
 		finish();
 	}
 
 	public void markMessagesAsNotSpam(View view) {
 		ListView lv = (ListView)findViewById(R.id.messagesListView);
-		long[] ids = lv.getCheckedItemIds();
+		long[] ids = lv.getCheckItemIds();
 		getMessageProvider().notSpam(ids);
+		MessageProviderHelper.invalidCache();
 		finish();
 	}
 }
