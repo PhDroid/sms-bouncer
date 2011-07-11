@@ -213,9 +213,10 @@ public class BlockedSmsListActivity extends ActivityBase {
 
 	public void undo(View view) {
 		getMessageProvider().undo();
+		MessageProviderHelper.invalidCache();
 		LinearLayout l = (LinearLayout)findViewById(R.id.buttonLayout);
 		l.setVisibility(View.GONE);
-		smsPojoArrayAdapter.notifyDataSetChanged();
+		dataBind();
 		updateTitle();
 	}
 }
