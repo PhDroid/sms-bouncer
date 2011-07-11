@@ -89,13 +89,14 @@ public class ViewMessageActivity extends EventInjectedActivity {
 	public void deleteClick(View view) {
 		long id = mGallery.getSelectedItemId();
 		getMessageProvider().delete(id);
+		MessageProviderHelper.invalidCache();
 		finish();
 	}
 
 	public void notSpamClick(View view) {
 		long id = mGallery.getSelectedItemId();
 		getMessageProvider().notSpam(id);
-		//todo: move message to Android SMS storage
+		MessageProviderHelper.invalidCache();
 		finish();
 	}
 
@@ -104,7 +105,7 @@ public class ViewMessageActivity extends EventInjectedActivity {
 		SmsPojo sms = getMessageProvider().getMessage(id);
 
 		getMessageProvider().notSpam(id);
-		//todo: move message to Android SMS storage
+		MessageProviderHelper.invalidCache();
 		finish();
 
 		Intent intent = new Intent(Intent.ACTION_VIEW);
