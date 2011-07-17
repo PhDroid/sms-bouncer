@@ -16,7 +16,6 @@ public class SmsMessageEntry extends SmsPojo {
 	public static final String RECEIVED = "received";
 	public static final String READ = "read";
 	public static final String ACTION = "action";
-	public static final String USER_FLAG_NOT_SPAM = "not_spam_user"; //did user say this sms is NOT spam
 
 	private long id;
 	private int senderId;
@@ -36,7 +35,6 @@ public class SmsMessageEntry extends SmsPojo {
 		this.message = c.getString(c.getColumnIndex(SmsMessageEntry.MESSAGE));
 		this.received = c.getLong(c.getColumnIndex(SmsMessageEntry.RECEIVED));
 		this.read = c.getInt(c.getColumnIndex(SmsMessageEntry.READ)) == 1;
-		this.markedNotSpamByUser = c.getInt(c.getColumnIndex(SmsMessageEntry.USER_FLAG_NOT_SPAM)) == 1;
 	}
 
 	public SmsMessageEntry(SmsMessageSenderEntry sender, SmsMessage message) {
@@ -60,7 +58,6 @@ public class SmsMessageEntry extends SmsPojo {
 		values.put(MESSAGE, this.getMessage());
 		values.put(RECEIVED, this.getReceived());
 		values.put(READ, this.isRead());
-		values.put(USER_FLAG_NOT_SPAM, this.isMarkedNotSpamByUser());
 		return values;
 	}
 

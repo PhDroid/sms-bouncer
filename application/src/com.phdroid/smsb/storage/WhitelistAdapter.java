@@ -2,7 +2,7 @@ package com.phdroid.smsb.storage;
 
 import android.content.Context;
 import android.database.Cursor;
-import com.phdroid.smsb.storage.dao.SmsContentProvider;
+import com.phdroid.smsb.storage.dao.SenderContentProvider;
 import com.phdroid.smsb.storage.dao.SmsMessageEntry;
 
 import java.util.ArrayList;
@@ -22,12 +22,11 @@ public class WhitelistAdapter {
 		return context;
 	}
 
-	private Cursor getWhitelistData(){
-		String[] data = {"True"};
-		return getContext().getContentResolver().query(SmsContentProvider.CONTENT_URI,
+	private Cursor getWhitelistData() {
+		return getContext().getContentResolver().query(SenderContentProvider.CONTENT_URI,
 				null,
-				SmsMessageEntry.USER_FLAG_NOT_SPAM + " = :1",
-				data,
+				null,
+				null,
 				null);
 	}
 

@@ -33,8 +33,7 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
 				SmsMessageEntry.MESSAGE + " LONGTEXT," +
 				SmsMessageEntry.RECEIVED + " NUMERIC," +
 				SmsMessageEntry.READ + " INTEGER," +
-				SmsMessageEntry.ACTION + " INTEGER," +
-				SmsMessageEntry.USER_FLAG_NOT_SPAM + " INTEGER" +
+				SmsMessageEntry.ACTION + " INTEGER" +
 				");";
 		db.execSQL(sql);
 
@@ -46,8 +45,7 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
 				"sms." + SmsMessageEntry.MESSAGE + "," +
 				"sms." + SmsMessageEntry.RECEIVED + "," +
 				"sms." + SmsMessageEntry.READ + "," +
-				"sms." + SmsMessageEntry.ACTION + "," +
-				"sms." + SmsMessageEntry.USER_FLAG_NOT_SPAM +
+				"sms." + SmsMessageEntry.ACTION +
 				" from " +
 				SmsContentProvider.TABLE_NAME + " as sms " +
 				" inner join " +

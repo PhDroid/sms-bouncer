@@ -5,8 +5,8 @@ import android.database.Cursor;
 import com.phdroid.smsb.SmsPojo;
 import com.phdroid.smsb.exceptions.ApplicationException;
 import com.phdroid.smsb.exceptions.ArgumentException;
-import com.phdroid.smsb.storage.dao.SmsContentProvider;
-import com.phdroid.smsb.storage.dao.SmsMessageEntry;
+import com.phdroid.smsb.storage.dao.SenderContentProvider;
+import com.phdroid.smsb.storage.dao.SmsMessageSenderEntry;
 
 /**
  * Spam Filter taking into consideration only white list of senders.
@@ -28,9 +28,9 @@ public class WhiteListSpamFilter implements ISpamFilter {
 	@Override
 	public boolean isSpam(SmsPojo message) {
 		String[] selectionArgs = {message.getSender(), "1"};
-		Cursor cur = getContentResolver().query(SmsContentProvider.CONTENT_URI,
+		Cursor cur = getContentResolver().query(SenderContentProvider.CONTENT_URI,
 				null,
-				SmsMessageEntry.SENDER + " = :1 AND " + SmsMessageEntry.USER_FLAG_NOT_SPAM + " = :2",
+				SmsMessageSenderEntry.VALUE + " = :1",
 				selectionArgs,
 				null);
 
