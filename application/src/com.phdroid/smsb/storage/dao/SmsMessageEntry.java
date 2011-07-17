@@ -5,6 +5,9 @@ import android.database.Cursor;
 import android.telephony.SmsMessage;
 import com.phdroid.smsb.SmsPojo;
 
+import java.util.Calendar;
+import java.util.Date;
+
 /**
  * DAO for SmsMessage
  */
@@ -43,7 +46,16 @@ public class SmsMessageEntry extends SmsPojo {
         this.senderId = sender.getId();
 	    this.sender = sender.getValue();
         this.message = message.getMessageBody();
-		this.received = message.getTimestampMillis();
+
+	    long time = message.getTimestampMillis();
+
+	    Date d = new Date(time);
+	    if (d.getYear() < 2012) {
+			Calendar c = Calendar.getInstance();
+	        time = c.getTimeInMillis();
+	    }
+
+	    this.received = time;
         this.read = false;
 	}
 
