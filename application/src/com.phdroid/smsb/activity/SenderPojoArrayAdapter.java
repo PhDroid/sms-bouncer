@@ -4,13 +4,15 @@ import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.TextView;
 import com.phdroid.smsb.R;
-import com.phdroid.smsb.SenderPojo;
+import com.phdroid.smsb.storage.dao.SmsMessageSenderEntry;
 
 import java.util.List;
 
-public class SenderPojoArrayAdapter extends ArrayAdapter<SenderPojo> {
+public class SenderPojoArrayAdapter extends ArrayAdapter<SmsMessageSenderEntry> {
 	Activity ctx;
 
 	public SenderPojoArrayAdapter(Activity context, int textViewResourceId) {
@@ -23,22 +25,22 @@ public class SenderPojoArrayAdapter extends ArrayAdapter<SenderPojo> {
 		ctx = context;
 	}
 
-	public SenderPojoArrayAdapter(Activity context, int textViewResourceId, SenderPojo[] objects) {
+	public SenderPojoArrayAdapter(Activity context, int textViewResourceId, SmsMessageSenderEntry[] objects) {
 		super(context, textViewResourceId, objects);
 		ctx = context;
 	}
 
-	public SenderPojoArrayAdapter(Activity context, int resource, int textViewResourceId, SenderPojo[] objects) {
+	public SenderPojoArrayAdapter(Activity context, int resource, int textViewResourceId, SmsMessageSenderEntry[] objects) {
 		super(context, resource, textViewResourceId, objects);
 		ctx = context;
 	}
 
-	public SenderPojoArrayAdapter(Activity context, int textViewResourceId, List<SenderPojo> objects) {
+	public SenderPojoArrayAdapter(Activity context, int textViewResourceId, List<SmsMessageSenderEntry> objects) {
 		super(context, textViewResourceId, objects);
 		ctx = context;
 	}
 
-	public SenderPojoArrayAdapter(Activity context, int resource, int textViewResourceId, List<SenderPojo> objects) {
+	public SenderPojoArrayAdapter(Activity context, int resource, int textViewResourceId, List<SmsMessageSenderEntry> objects) {
 		super(context, resource, textViewResourceId, objects);
 		ctx = context;
 	}
@@ -49,8 +51,8 @@ public class SenderPojoArrayAdapter extends ArrayAdapter<SenderPojo> {
 		View row = inflater.inflate(R.layout.editwhitelist_list_item, null);
 		TextView sender = (TextView) row.findViewById(R.id.whitelist_sender);
 
-		SenderPojo senderPojo = this.getItem(position);
-		sender.setText(senderPojo.getSender());
+		SmsMessageSenderEntry senderPojo = this.getItem(position);
+		sender.setText(senderPojo.getValue());
 
 		Button btnDelete = (Button) row.findViewById(R.id.whitelist_delete);
 		btnDelete.setOnClickListener(deleteListener);
@@ -67,7 +69,7 @@ public class SenderPojoArrayAdapter extends ArrayAdapter<SenderPojo> {
 //			TextView senderText = (TextView) parentRow.getChildAt(0);
 //			Button btnChild = (Button) parentRow.getChildAt(1);
 			Button btnChild = (Button) v;
-			SenderPojo sender = (SenderPojo) btnChild.getTag();
+			SmsMessageSenderEntry sender = (SmsMessageSenderEntry) btnChild.getTag();
 			//todo: call delete sender
 			//parentRow.refreshDrawableState();
 		}

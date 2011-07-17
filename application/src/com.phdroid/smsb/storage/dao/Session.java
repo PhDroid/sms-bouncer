@@ -30,6 +30,39 @@ public class Session {
 		this.settings = settings;
 	}
 
+	public List<SmsMessageSenderEntry> getSenderList(boolean whiteListOnly) {
+		List<SmsMessageSenderEntry> senders = new ArrayList<SmsMessageSenderEntry>();
+
+		Cursor cursor = contentResolver.query(
+				SenderContentProvider.CONTENT_URI,
+				null,
+				whiteListOnly ? SmsMessageSenderEntry.IN_WHITE_LIST + " = 1" : null,
+				null,
+				null
+		);
+
+		try {
+			int size = cursor.getCount();
+			if (size == 0) {
+				return senders;
+			}
+			for (int i = 0; i < size; i++) {
+				cursor.moveToPosition(i);
+				SmsMessageSenderEntry item = new SmsMessageSenderEntry(cursor);
+				senders.add(item);
+			}
+		} finally {
+			if (cursor != null && !cursor.isClosed()) {
+				cursor.close();
+			}
+		}
+		return senders;
+	}
+
+	public List<SmsMessageSenderEntry> getSenderWhiteList() {
+		return getSenderList(true);
+	}
+
 	public List<SmsPojo> getSmsList() {
 		List<SmsPojo> items = new ArrayList<SmsPojo>();
 		Calendar cal = Calendar.getInstance();
