@@ -209,6 +209,8 @@ public class BlockedSmsListActivity extends ActivityBase {
 				getMessageProvider().performActions();
 				getMessageProvider().deleteAll();
 				smsPojoArrayAdapter.notifyDataSetChanged();
+				MessageProviderHelper.invalidCache();
+				dataBind();
 				processUndoButton();
 				return true;
 			default:
