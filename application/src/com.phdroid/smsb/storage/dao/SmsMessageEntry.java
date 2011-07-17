@@ -37,12 +37,12 @@ public class SmsMessageEntry extends SmsPojo {
         this.senderId = c.getInt(c.getColumnIndex(SmsMessageEntry.SENDER_ID));
 	    this.sender = c.getString(c.getColumnIndex(SmsMessageEntry.SENDER));
         this.message = c.getString(c.getColumnIndex(SmsMessageEntry.MESSAGE));
-        this.received = c.getInt(c.getColumnIndex(SmsMessageEntry.RECEIVED));
+        this.received = c.getLong(c.getColumnIndex(SmsMessageEntry.RECEIVED));
         this.read = c.getInt(c.getColumnIndex(SmsMessageEntry.READ)) == 1;
         this.markedNotSpamByUser = c.getInt(c.getColumnIndex(SmsMessageEntry.USER_FLAG_NOT_SPAM)) == 1;
 	}
 
-    SmsMessageEntry(SmsMessageSenderEntry sender, SmsMessage message) {
+    public SmsMessageEntry(SmsMessageSenderEntry sender, SmsMessage message) {
         this.senderId = sender.getId();
 	    this.sender = sender.getValue();
         this.message = message.getMessageBody();
@@ -50,13 +50,20 @@ public class SmsMessageEntry extends SmsPojo {
 	    long time = message.getTimestampMillis();
 
 	    Date d = new Date(time);
-	    if (d.getYear() < 2012) {
+	    if (d.getYear() < 2011) {
 			Calendar c = Calendar.getInstance();
 	        time = c.getTimeInMillis();
 	    }
 
 	    this.received = time;
         this.read = false;
+	}
+
+	public SmsMessageEntry(SmsMessageSenderEntry sender, String message, long received) {
+		this.senderId = sender.getId();
+		this.sender = sender.getValue();
+		this.message = message;
+		this.received = received;
 	}
 
 	public ContentValues toContentValues() {

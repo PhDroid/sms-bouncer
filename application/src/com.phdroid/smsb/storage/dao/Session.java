@@ -148,11 +148,22 @@ public class Session {
 	}
 
 	public boolean delete(SmsPojo sms) {
-		int res = contentResolver.delete(
+		return deleteMessages(new SmsPojo[]{sms}) == 1;
+	}
+
+	public int deleteMessages(SmsPojo[] smsList) {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < smsList.length; i++) {
+			sb.append(smsList[i].getId());
+			if (i != smsList.length - 1){
+				sb.append(",");
+			}
+		}
+
+		return contentResolver.delete(
 				SmsContentProvider.CONTENT_URI,
-				SmsMessageEntry._ID + " = :1",
-				new String[]{String.valueOf(sms.getId())});
-		return res == 1;
+				SmsMessageEntry._ID + " IN ( :1 )",
+				new String[]{sb.toString()});
 	}
 
 	public boolean update(SmsPojo sms) {
@@ -210,7 +221,11 @@ public class Session {
 		SmsMessageSenderEntry sender = this.insertOrSelectSender(senderText);
 
 		SmsMessageEntry res = new SmsMessageEntry(sender, message);
-		this.contentResolver.insert(SmsContentProvider.CONTENT_URI, res.toContentValues());
+		insertMessage(res);
 		return res;
+	}
+
+	public void insertMessage(SmsMessageEntry message) {
+		this.contentResolver.insert(SmsContentProvider.CONTENT_URI, message.toContentValues());
 	}
 }

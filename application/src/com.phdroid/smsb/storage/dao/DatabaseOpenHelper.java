@@ -11,7 +11,7 @@ import android.util.Log;
 public class DatabaseOpenHelper extends SQLiteOpenHelper {
 	private static final String TAG = "SmsContentProvider";
 	private static final String DATABASE_NAME = "sms.db";
-	private static final int DATABASE_VERSION = 9;
+	private static final int DATABASE_VERSION = 10;
 
 
 	DatabaseOpenHelper(Context context) {
@@ -31,7 +31,7 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
 				SmsMessageEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
 				SmsMessageEntry.SENDER_ID + " INTEGER REFERENCES " + SenderContentProvider.TABLE_NAME + " ON DELETE CASCADE," +
 				SmsMessageEntry.MESSAGE + " LONGTEXT," +
-				SmsMessageEntry.RECEIVED + " INTEGER," +
+				SmsMessageEntry.RECEIVED + " NUMERIC," +
 				SmsMessageEntry.READ + " INTEGER," +
 				SmsMessageEntry.ACTION + " INTEGER," +
 				SmsMessageEntry.USER_FLAG_NOT_SPAM + " INTEGER" +
