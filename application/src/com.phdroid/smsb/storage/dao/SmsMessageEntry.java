@@ -5,48 +5,45 @@ import android.database.Cursor;
 import android.telephony.SmsMessage;
 import com.phdroid.smsb.SmsPojo;
 
-import java.util.Calendar;
-import java.util.Date;
-
 /**
  * DAO for SmsMessage
  */
 public class SmsMessageEntry extends SmsPojo {
-    public static final String _ID = "_id";
-    public static final String SENDER_ID = "sender_id";
-    public static final String SENDER = "sender";
-    public static final String MESSAGE = "message";
-    public static final String RECEIVED = "received";
-    public static final String READ = "read";
-    public static final String ACTION = "action";
-    public static final String USER_FLAG_NOT_SPAM = "not_spam_user"; //did user say this sms is NOT spam
+	public static final String _ID = "_id";
+	public static final String SENDER_ID = "sender_id";
+	public static final String SENDER = "sender";
+	public static final String MESSAGE = "message";
+	public static final String RECEIVED = "received";
+	public static final String READ = "read";
+	public static final String ACTION = "action";
+	public static final String USER_FLAG_NOT_SPAM = "not_spam_user"; //did user say this sms is NOT spam
 
-    private long id;
-    private int senderId;
+	private long id;
+	private int senderId;
 	private String message;
 	private long received;
-    private boolean read;
+	private boolean read;
 	private boolean markedNotSpamByUser;
 	private String sender;
 
 	public SmsMessageEntry() {
 	}
 
-    public SmsMessageEntry(Cursor c) {
-        this.id = c.getInt(c.getColumnIndex(SmsMessageEntry._ID));
-        this.senderId = c.getInt(c.getColumnIndex(SmsMessageEntry.SENDER_ID));
-	    this.sender = c.getString(c.getColumnIndex(SmsMessageEntry.SENDER));
-        this.message = c.getString(c.getColumnIndex(SmsMessageEntry.MESSAGE));
-        this.received = c.getLong(c.getColumnIndex(SmsMessageEntry.RECEIVED));
-        this.read = c.getInt(c.getColumnIndex(SmsMessageEntry.READ)) == 1;
-        this.markedNotSpamByUser = c.getInt(c.getColumnIndex(SmsMessageEntry.USER_FLAG_NOT_SPAM)) == 1;
+	public SmsMessageEntry(Cursor c) {
+		this.id = c.getInt(c.getColumnIndex(SmsMessageEntry._ID));
+		this.senderId = c.getInt(c.getColumnIndex(SmsMessageEntry.SENDER_ID));
+		this.sender = c.getString(c.getColumnIndex(SmsMessageEntry.SENDER));
+		this.message = c.getString(c.getColumnIndex(SmsMessageEntry.MESSAGE));
+		this.received = c.getLong(c.getColumnIndex(SmsMessageEntry.RECEIVED));
+		this.read = c.getInt(c.getColumnIndex(SmsMessageEntry.READ)) == 1;
+		this.markedNotSpamByUser = c.getInt(c.getColumnIndex(SmsMessageEntry.USER_FLAG_NOT_SPAM)) == 1;
 	}
 
-    public SmsMessageEntry(SmsMessageSenderEntry sender, SmsMessage message) {
-        this.senderId = sender.getId();
-	    this.sender = sender.getValue();
-        this.message = message.getMessageBody();
-	    this.received = message.getTimestampMillis();
+	public SmsMessageEntry(SmsMessageSenderEntry sender, SmsMessage message) {
+		this.senderId = sender.getId();
+		this.sender = sender.getValue();
+		this.message = message.getMessageBody();
+		this.received = message.getTimestampMillis();
 		this.read = false;
 	}
 
@@ -62,16 +59,16 @@ public class SmsMessageEntry extends SmsPojo {
 		values.put(SENDER_ID, this.getSenderId());
 		values.put(MESSAGE, this.getMessage());
 		values.put(RECEIVED, this.getReceived());
-        values.put(READ, this.isRead());
+		values.put(READ, this.isRead());
 		values.put(USER_FLAG_NOT_SPAM, this.isMarkedNotSpamByUser());
 		return values;
 	}
 
-    public long getId() {
-        return id;
-    }
+	public long getId() {
+		return id;
+	}
 
-    public int getSenderId() {
+	public int getSenderId() {
 		return senderId;
 	}
 
@@ -83,13 +80,13 @@ public class SmsMessageEntry extends SmsPojo {
 		return sender;
 	}
 
-	public boolean isRead(){
-        return read;
-    }
+	public boolean isRead() {
+		return read;
+	}
 
-    public void setRead(boolean r){
-        read = r;
-    }
+	public void setRead(boolean r) {
+		read = r;
+	}
 
 	public String getMessage() {
 		return message;
@@ -115,8 +112,8 @@ public class SmsMessageEntry extends SmsPojo {
 		this.markedNotSpamByUser = markedNotSpamByUser;
 	}
 
-    @Override
-    public String toString(){
-        return getMessage();
-    }
+	@Override
+	public String toString() {
+		return getMessage();
+	}
 }
