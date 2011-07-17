@@ -46,17 +46,8 @@ public class SmsMessageEntry extends SmsPojo {
         this.senderId = sender.getId();
 	    this.sender = sender.getValue();
         this.message = message.getMessageBody();
-
-	    long time = message.getTimestampMillis();
-
-	    Date d = new Date(time);
-	    if (d.getYear() < 2011) {
-			Calendar c = Calendar.getInstance();
-	        time = c.getTimeInMillis();
-	    }
-
-	    this.received = time;
-        this.read = false;
+	    this.received = message.getTimestampMillis();
+		this.read = false;
 	}
 
 	public SmsMessageEntry(SmsMessageSenderEntry sender, String message, long received) {
