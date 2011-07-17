@@ -1,4 +1,4 @@
-package com.phdroid.smsb.ui;
+package com.phdroid.blackjack.ui;
 
 import android.view.GestureDetector;
 import android.view.MotionEvent;

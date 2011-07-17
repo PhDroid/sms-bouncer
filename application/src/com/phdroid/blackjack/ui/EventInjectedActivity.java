@@ -1,6 +1,5 @@
-package com.phdroid.smsb.ui;
+package com.phdroid.blackjack.ui;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import com.phdroid.smsb.activity.base.ActivityBase;

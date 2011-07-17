@@ -8,20 +8,19 @@ import android.widget.AdapterView;
 import android.widget.Gallery;
 import com.phdroid.smsb.R;
 import com.phdroid.smsb.SmsPojo;
+import com.phdroid.smsb.activity.base.ActivityBase;
 import com.phdroid.smsb.application.ApplicationController;
 import com.phdroid.smsb.application.NewSmsEvent;
 import com.phdroid.smsb.application.NewSmsEventListener;
 import com.phdroid.smsb.storage.ApplicationSettings;
 import com.phdroid.smsb.storage.IMessageProvider;
 import com.phdroid.smsb.storage.MessageProviderHelper;
-import com.phdroid.smsb.ui.EventInjectedActivity;
-
-import java.util.List;
+import com.phdroid.blackjack.ui.EventInjectedActivity;
 
 /**
  * Show detailed sms message with several control functions.
  */
-public class ViewMessageActivity extends EventInjectedActivity {
+public class ViewMessageActivity extends ActivityBase {
 	private Gallery mGallery;
 
 	public void onCreate(Bundle savedInstanceState) {
