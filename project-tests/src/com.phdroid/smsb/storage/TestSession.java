@@ -18,8 +18,8 @@ public class TestSession extends Session {
 	Hashtable<SmsPojo, SmsAction> mActions;
 	int mUnreadCount = 0;
 
-	public TestSession(ContentResolver contentResolver) {
-		super(contentResolver);
+	public TestSession(ApplicationSettings settings, ContentResolver contentResolver) {
+		super(settings, contentResolver);
 
 		mActions = new Hashtable<SmsPojo, SmsAction>();
 		mList = new ArrayList<SmsPojo>();

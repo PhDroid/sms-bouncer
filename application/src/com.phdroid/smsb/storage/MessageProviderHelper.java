@@ -1,25 +1,25 @@
 package com.phdroid.smsb.storage;
 
 import android.content.ContentResolver;
-import android.content.Context;
-import com.phdroid.smsb.activity.base.ActivityBase;
 import com.phdroid.smsb.storage.dao.Session;
 
 public class MessageProviderHelper {
 	private static IMessageProvider mProvider;
-	public static IMessageProvider getMessageProvider(ContentResolver contentResolver){
-		if(mProvider == null){
-			mProvider = new SmsMessageController(new Session(contentResolver));
+
+	public static IMessageProvider getMessageProvider(ApplicationSettings settings, ContentResolver contentResolver) {
+		if (mProvider == null) {
+			Session session = new Session(settings, contentResolver);
+			mProvider = new SmsMessageController(session);
 		}
 
 		return mProvider;
 	}
 
-	public static void setMessageProvider(IMessageProvider provider){
+	public static void setMessageProvider(IMessageProvider provider) {
 		mProvider = provider;
 	}
 
-	public static void invalidCache(){
+	public static void invalidCache() {
 		mProvider.invalidateCache();
 	}
 }

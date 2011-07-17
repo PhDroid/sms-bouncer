@@ -6,6 +6,7 @@ import com.phdroid.smsb.SmsPojo;
 import com.phdroid.smsb.TestSmsPojo;
 import com.phdroid.smsb.base.ProviderTestBase;
 import com.phdroid.smsb.exceptions.ApplicationException;
+import com.phdroid.smsb.storage.ApplicationSettings;
 import com.phdroid.smsb.storage.dao.*;
 import junit.framework.Assert;
 
@@ -29,7 +30,7 @@ public class WhiteListSpamFilterTest extends ProviderTestBase {
 	public void setUp() throws Exception {
 		super.setUp();
 
-		Session m = new Session(getContentResolver());
+		Session m = new Session(new ApplicationSettings(this.getContext()), getContentResolver());
         SmsMessageSenderEntry spamSender = m.insertOrSelectSender("1346");
         SmsMessageEntry spam = new SmsMessageEntry();
 		spam.setSenderId(spamSender.getId());

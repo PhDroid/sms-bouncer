@@ -1,5 +1,6 @@
 package com.phdroid.smsb.storage;
 
+import android.test.AndroidTestCase;
 import com.phdroid.smsb.SmsPojo;
 import com.phdroid.smsb.TestSmsPojo;
 import junit.framework.TestCase;
@@ -8,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 
-public class MessageProviderTest extends TestCase{
+public class MessageProviderTest extends AndroidTestCase{
 	IMessageProvider mProvider;
 	// TODO: change indexes for real message provider
 	private static final int MESSAGES_COUNT = 10;
@@ -21,7 +22,7 @@ public class MessageProviderTest extends TestCase{
 	@Override
 	public void setUp(){
 		// TODO: replace this with real message provider
-		mProvider = new SmsMessageController(new TestSession(null));
+		mProvider = new SmsMessageController(new TestSession(new ApplicationSettings(this.getContext()), this.getContext().getContentResolver()));
 	}
 
 	public void test_getMessages_returns_full_messages_list(){

@@ -26,7 +26,7 @@ public class SmsReceiver extends BroadcastReceiver {
     private Session session = null;
 
 	public void onReceive(Context context, Intent intent) {
-		session = new Session(context.getContentResolver());
+		session = new Session(new ApplicationSettings(context), context.getContentResolver());
         if (intent.getAction().equals(ACTION)) {
 			Log.v(this.getClass().getSimpleName(), "onReceive");
 			/* The SMS-Messages are 'hiding' within the extras of the Intent. */

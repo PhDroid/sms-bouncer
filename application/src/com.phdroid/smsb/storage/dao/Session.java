@@ -1,16 +1,16 @@
 package com.phdroid.smsb.storage.dao;
 
-import android.content.ContentProvider;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
 import android.telephony.SmsMessage;
 import com.phdroid.smsb.SmsPojo;
-import com.phdroid.smsb.filter.SmartSpamFilter;
+import com.phdroid.smsb.storage.ApplicationSettings;
 import com.phdroid.smsb.storage.SmsAction;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -19,22 +19,27 @@ import java.util.List;
  */
 public class Session {
 	private ContentResolver contentResolver;
+	private ApplicationSettings settings;
 
 	public ContentResolver getContentResolver() {
 		return contentResolver;
 	}
 
-	public Session(ContentResolver contentResolver) {
+	public Session(ApplicationSettings settings, ContentResolver contentResolver) {
 		this.contentResolver = contentResolver;
+		this.settings = settings;
 	}
 
 	public List<SmsPojo> getSmsList() {
 		List<SmsPojo> items = new ArrayList<SmsPojo>();
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.HOUR, this.settings.getDeleteAfter().index() * -24);
+
 		Cursor cursor = contentResolver.query(
 				SmsContentProvider.CONTENT_URI,
 				null,
-				SmsMessageEntry.ACTION + " is null",
-				null,
+				SmsMessageEntry.ACTION + " is null and " + SmsMessageEntry.RECEIVED + " > :1",
+				new String[]{String.valueOf(cal.getTimeInMillis())},
 				null);
 		try {
 			int size = cursor.getCount();
@@ -55,8 +60,8 @@ public class Session {
 	}
 
 	public void setAction(SmsPojo sms, SmsAction action) {
-		SmsMessageEntry entry = (SmsMessageEntry)sms;
-		ContentValues values =  entry.toContentValues();
+		SmsMessageEntry entry = (SmsMessageEntry) sms;
+		ContentValues values = entry.toContentValues();
 		values.put(SmsMessageEntry.ACTION, action.index());
 
 		contentResolver.update(SmsContentProvider.CONTENT_URI,
@@ -67,7 +72,7 @@ public class Session {
 
 	public void undoActions() {
 		ContentValues values = new ContentValues();
-		values.put(SmsMessageEntry.ACTION, (String)null);
+		values.put(SmsMessageEntry.ACTION, (String) null);
 
 		contentResolver.update(SmsContentProvider.CONTENT_URI,
 				values,
@@ -121,7 +126,7 @@ public class Session {
 		}
 	}
 
-	public Uri putSmsToSystemLog(SmsPojo sms){
+	public Uri putSmsToSystemLog(SmsPojo sms) {
 		ContentValues values = new ContentValues();
 		values.put(SmsHelper.ADDRESS, sms.getSender());
 		values.put(SmsHelper.DATE, sms.getReceived());
@@ -151,51 +156,51 @@ public class Session {
 	}
 
 	public SmsMessageSenderEntry insertOrSelectSender(String sender) {
-        //todo:check for transactions support in SQLite
-        String[] values = {sender};
-        Cursor c = null;
-        try {
-            c = contentResolver.query(SenderContentProvider.CONTENT_URI, null, SmsMessageSenderEntry.VALUE + " = :1", values, null);
-            if (c.getCount() != 0) {
-                c.moveToFirst();
-                return new SmsMessageSenderEntry(c);
+		//todo:check for transactions support in SQLite
+		String[] values = {sender};
+		Cursor c = null;
+		try {
+			c = contentResolver.query(SenderContentProvider.CONTENT_URI, null, SmsMessageSenderEntry.VALUE + " = :1", values, null);
+			if (c.getCount() != 0) {
+				c.moveToFirst();
+				return new SmsMessageSenderEntry(c);
 
-            } else {
-                SmsMessageSenderEntry s = new SmsMessageSenderEntry(sender);
-                contentResolver.insert(SenderContentProvider.CONTENT_URI, s.toContentValues());
-                c = contentResolver.query(SenderContentProvider.CONTENT_URI, null, SmsMessageSenderEntry.VALUE + " = :1", values, null);
-                c.moveToFirst();
-                return new SmsMessageSenderEntry(c);
+			} else {
+				SmsMessageSenderEntry s = new SmsMessageSenderEntry(sender);
+				contentResolver.insert(SenderContentProvider.CONTENT_URI, s.toContentValues());
+				c = contentResolver.query(SenderContentProvider.CONTENT_URI, null, SmsMessageSenderEntry.VALUE + " = :1", values, null);
+				c.moveToFirst();
+				return new SmsMessageSenderEntry(c);
 
-            }
-        } finally {
-            if (c != null) {
-                c.close();
-            }
-        }
-    }
+			}
+		} finally {
+			if (c != null) {
+				c.close();
+			}
+		}
+	}
 
-    public SmsMessageSenderEntry getSenderById(int id) {
-        //todo: replace by URI build
-        String[] values = {(new Integer(id)).toString()};
-        Cursor c = null;
-        try {
-            c = contentResolver.query(SenderContentProvider.CONTENT_URI, null, SmsMessageSenderEntry._ID + " = :1", values, null);
-            c.moveToFirst();
-            return new SmsMessageSenderEntry(c);
-        } finally {
-            if (c != null) {
-                c.close();
-            }
-        }
-    }
+	public SmsMessageSenderEntry getSenderById(int id) {
+		//todo: replace by URI build
+		String[] values = {(new Integer(id)).toString()};
+		Cursor c = null;
+		try {
+			c = contentResolver.query(SenderContentProvider.CONTENT_URI, null, SmsMessageSenderEntry._ID + " = :1", values, null);
+			c.moveToFirst();
+			return new SmsMessageSenderEntry(c);
+		} finally {
+			if (c != null) {
+				c.close();
+			}
+		}
+	}
 
-    public SmsMessageEntry insertMessage(SmsMessage message) {
-        String senderText = message.getOriginatingAddress();
-        SmsMessageSenderEntry sender = this.insertOrSelectSender(senderText);
+	public SmsMessageEntry insertMessage(SmsMessage message) {
+		String senderText = message.getOriginatingAddress();
+		SmsMessageSenderEntry sender = this.insertOrSelectSender(senderText);
 
-        SmsMessageEntry res = new SmsMessageEntry(sender, message);
-        this.contentResolver.insert(SmsContentProvider.CONTENT_URI, res.toContentValues());
-        return res;
-    }
+		SmsMessageEntry res = new SmsMessageEntry(sender, message);
+		this.contentResolver.insert(SmsContentProvider.CONTENT_URI, res.toContentValues());
+		return res;
+	}
 }

@@ -5,6 +5,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import com.phdroid.smsb.storage.ApplicationSettings;
 import com.phdroid.test.blackjack.Solo;
 import com.phdroid.smsb.R;
 import com.phdroid.smsb.storage.IMessageProvider;
@@ -114,7 +115,7 @@ public class BlockedSmsListActivityTest extends ActivityInstrumentationTestCase2
 	}
 
 	private void deleteFirstMessage() {
-		final IMessageProvider provider = MessageProviderHelper.getMessageProvider(getActivity().getContentResolver());
+		final IMessageProvider provider = MessageProviderHelper.getMessageProvider(new ApplicationSettings(this.getActivity()), getActivity().getContentResolver());
 		mActivity.runOnUiThread(new Runnable() {
 			public void run() {
 				provider.delete(0);

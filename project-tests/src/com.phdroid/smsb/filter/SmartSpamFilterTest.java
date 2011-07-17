@@ -10,6 +10,7 @@ import com.phdroid.smsb.TestSmsPojo;
 import com.phdroid.smsb.base.ProviderTestBase;
 import com.phdroid.smsb.exceptions.ApplicationException;
 import com.phdroid.smsb.filter.doubles.PhoneContentProviderFake;
+import com.phdroid.smsb.storage.ApplicationSettings;
 import com.phdroid.smsb.storage.dao.*;
 import junit.framework.Assert;
 
@@ -44,7 +45,7 @@ public class SmartSpamFilterTest extends ProviderTestBase {
 		getContentResolver().insert(Data.CONTENT_URI, values);
 
 		//prepare for white list filter
-        Session m = new Session(getContentResolver());
+        Session m = new Session(new ApplicationSettings(this.getContext()), getContentResolver());
         SmsMessageSenderEntry spamSender = m.insertOrSelectSender("1346");
         SmsMessageEntry spam = new SmsMessageEntry();
 		spam.setSenderId(spamSender.getId());

@@ -11,6 +11,7 @@ import com.phdroid.smsb.SmsPojo;
 import com.phdroid.smsb.application.ApplicationController;
 import com.phdroid.smsb.application.NewSmsEvent;
 import com.phdroid.smsb.application.NewSmsEventListener;
+import com.phdroid.smsb.storage.ApplicationSettings;
 import com.phdroid.smsb.storage.IMessageProvider;
 import com.phdroid.smsb.storage.MessageProviderHelper;
 import com.phdroid.smsb.ui.EventInjectedActivity;
@@ -82,7 +83,7 @@ public class ViewMessageActivity extends EventInjectedActivity {
 	}
 
 	protected IMessageProvider getMessageProvider() {
-		return MessageProviderHelper.getMessageProvider(getContentResolver());
+		return MessageProviderHelper.getMessageProvider(new ApplicationSettings(this), getContentResolver());
 	}
 
 

@@ -13,6 +13,7 @@ import com.phdroid.smsb.activity.base.ActivityBase;
 import com.phdroid.smsb.application.ApplicationController;
 import com.phdroid.smsb.application.NewSmsEvent;
 import com.phdroid.smsb.application.NewSmsEventListener;
+import com.phdroid.smsb.storage.ApplicationSettings;
 import com.phdroid.smsb.storage.IMessageProvider;
 import com.phdroid.smsb.storage.MessageProviderHelper;
 
@@ -98,7 +99,7 @@ public class SelectManyActivity extends ActivityBase {
 	}
 
 	protected IMessageProvider getMessageProvider() {
-		 return MessageProviderHelper.getMessageProvider(getContentResolver());
+		 return MessageProviderHelper.getMessageProvider(new ApplicationSettings(this), getContentResolver());
 	}
 
 	public void deleteMessages(View view) {
