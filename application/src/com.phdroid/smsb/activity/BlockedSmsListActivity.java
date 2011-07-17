@@ -21,6 +21,7 @@ import com.phdroid.smsb.storage.ApplicationSettings;
 import com.phdroid.smsb.storage.IMessageProvider;
 import com.phdroid.smsb.storage.MessageProviderHelper;
 import com.phdroid.smsb.storage.SmsAction;
+import com.phdroid.smsb.storage.dao.Session;
 
 import java.util.Hashtable;
 import java.util.List;
@@ -82,6 +83,9 @@ public class BlockedSmsListActivity extends ActivityBase {
 	@Override
 	protected void onStart() {
 		super.onStart();
+
+		Session s = new Session(new ApplicationSettings(this), this.getContentResolver());
+		s.deleteOldSmsList();
 
 		dataBind();
 		processUndoButton();

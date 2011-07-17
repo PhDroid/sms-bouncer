@@ -59,6 +59,16 @@ public class Session {
 		return items;
 	}
 
+	public int deleteOldSmsList() {
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.HOUR, this.settings.getDeleteAfter().index() * -24);
+
+		return this.contentResolver.delete(
+				SmsContentProvider.CONTENT_URI,
+				SmsMessageEntry.RECEIVED + " < :1",
+				new String[]{String.valueOf(cal.getTimeInMillis())});
+	}
+
 	public void setAction(SmsPojo sms, SmsAction action) {
 		SmsMessageEntry entry = (SmsMessageEntry) sms;
 		ContentValues values = entry.toContentValues();
