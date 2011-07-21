@@ -21,6 +21,7 @@
 			android:layout_centerVertical="true"
 			android:layout_marginRight="5dp"
 			android:text="@string/delete"
+			android:onClick="deleteSender"
 			style="@style/button">
 	</Button>
 </RelativeLayout>

@@ -3,10 +3,12 @@ package com.phdroid.smsb.storage.dao;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.telephony.SmsMessage;
 import com.phdroid.smsb.SmsPojo;
 import com.phdroid.smsb.storage.ApplicationSettings;
+import com.phdroid.smsb.storage.SenderProvider;
 import com.phdroid.smsb.storage.SmsAction;
 
 import java.util.ArrayList;
@@ -113,6 +115,16 @@ public class Session {
 				new String[]{String.valueOf(sms.getId())});
 	}
 
+	public void setWhiteList(long id, boolean isInWhiteList) {
+		ContentValues values = new ContentValues();
+		values.put(SmsMessageSenderEntry.IN_WHITE_LIST, isInWhiteList);
+
+		contentResolver.update(SenderContentProvider.CONTENT_URI,
+				values,
+				SmsMessageSenderEntry._ID + " = :1",
+				new String[]{String.valueOf(id)});
+	}
+
 	public void undoActions() {
 		ContentValues values = new ContentValues();
 		values.put(SmsMessageEntry.ACTION, (String) null);
@@ -199,6 +211,33 @@ public class Session {
 				new String[]{sb.toString()});
 	}
 
+	public int purgeSenders(SQLiteDatabase db){
+		Cursor c = db.rawQuery(
+				String.format(
+						"SELECT %s FROM %s WHERE %s NOT IN (SELECT DISTINCT %s FROM %s)",
+						SmsMessageSenderEntry._ID ,
+						SenderContentProvider.TABLE_NAME,
+						SmsMessageEntry.SENDER_ID,
+						SmsContentProvider.TABLE_NAME),
+				null);
+
+		if(c.moveToFirst()){
+			final String[] ids = new String[c.getCount()];
+			int index = 0;
+			do{
+				ids[index] = Long.toString(c.getLong(0));
+				index++;
+			}
+			while (c.moveToNext());
+			return contentResolver.delete(
+					SmsContentProvider.CONTENT_URI,
+					SmsMessageSenderEntry._ID + " IN (:1)",
+					ids);
+		}
+
+		return 0;
+	}
+
 	public boolean update(SmsPojo sms) {
 		SmsMessageEntry smsEntry = (SmsMessageEntry) sms;
 		int res = contentResolver.update(
@@ -234,9 +273,9 @@ public class Session {
 		}
 	}
 
-	public SmsMessageSenderEntry getSenderById(int id) {
+	public SmsMessageSenderEntry getSenderById(long id) {
 		//todo: replace by URI build
-		String[] values = {(new Integer(id)).toString()};
+		String[] values = {(new Long(id)).toString()};
 		Cursor c = null;
 		try {
 			c = contentResolver.query(SenderContentProvider.CONTENT_URI, null, SmsMessageSenderEntry._ID + " = :1", values, null);

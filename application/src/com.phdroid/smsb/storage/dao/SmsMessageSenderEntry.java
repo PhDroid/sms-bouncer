@@ -11,7 +11,7 @@ public class SmsMessageSenderEntry {
     public static final String VALUE = "value";
     public static final String IN_WHITE_LIST = "white_list";
 
-    private int id;
+    private long id;
     private String value;
     private boolean inWhiteList;
 
@@ -32,7 +32,7 @@ public class SmsMessageSenderEntry {
 		return values;
 	}
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 

@@ -14,4 +14,5 @@
     <string name="clear_after">Clear messages after</string>
     <string name="edit_white_list">Edit senders white list</string>
     <string name="no_messages_info">There are no filtered messages currently in the list.</string>
+    <string name="no_senders_info">There are no senders currently in your white list.</string>
 </resources>

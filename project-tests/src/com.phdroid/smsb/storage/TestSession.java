@@ -140,7 +140,6 @@ public class TestSession extends Session {
 		return super.insertOrSelectSender(sender);	//To change body of overridden methods use File | Settings | File Templates.
 	}
 
-	@Override
 	public SmsMessageSenderEntry getSenderById(int id) {
 		return super.getSenderById(id);	//To change body of overridden methods use File | Settings | File Templates.
 	}
