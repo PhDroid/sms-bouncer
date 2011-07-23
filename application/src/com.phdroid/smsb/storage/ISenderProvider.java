@@ -28,10 +28,10 @@ public interface ISenderProvider {
 
 	/**
 	 * Puts sender to senders white list
-	 * @param sender Message sender
+	 * @param senderId Message sender ID
 	 * @return True if everything went OK, false if there was an error.
 	 */
-	void putToWhiteList(SmsMessageSenderEntry sender);
+	void putToWhiteList(long senderId);
 
 	/**
 	 * Deletes sender from senders white list

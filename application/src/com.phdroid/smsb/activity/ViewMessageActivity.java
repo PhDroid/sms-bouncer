@@ -14,6 +14,7 @@ import com.phdroid.smsb.application.NewSmsEvent;
 import com.phdroid.smsb.application.NewSmsEventListener;
 import com.phdroid.smsb.storage.ApplicationSettings;
 import com.phdroid.smsb.storage.IMessageProvider;
+import com.phdroid.smsb.storage.ISenderProvider;
 import com.phdroid.smsb.storage.MessageProviderHelper;
 import com.phdroid.blackjack.ui.EventInjectedActivity;
 
@@ -85,6 +86,10 @@ public class ViewMessageActivity extends ActivityBase {
 		return MessageProviderHelper.getMessageProvider(new ApplicationSettings(this), getContentResolver());
 	}
 
+	protected ISenderProvider getSenderProvider() {
+		return MessageProviderHelper.getSenderProvider(new ApplicationSettings(this), getContentResolver());
+	}
+
 
 	public void deleteClick(View view) {
 		long id = mGallery.getSelectedItemId();
@@ -95,7 +100,9 @@ public class ViewMessageActivity extends ActivityBase {
 
 	public void notSpamClick(View view) {
 		long id = mGallery.getSelectedItemId();
+		SmsPojo sms = getMessageProvider().getMessage(id);
 		getMessageProvider().notSpam(id);
+		getSenderProvider().putToWhiteList(sms.getSenderId());
 		MessageProviderHelper.invalidCache();
 		finish();
 	}
@@ -105,6 +112,7 @@ public class ViewMessageActivity extends ActivityBase {
 		SmsPojo sms = getMessageProvider().getMessage(id);
 
 		getMessageProvider().notSpam(id);
+		getSenderProvider().putToWhiteList(sms.getSenderId());
 		MessageProviderHelper.invalidCache();
 		finish();
 

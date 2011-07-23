@@ -49,11 +49,11 @@ public class SenderProvider implements ISenderProvider{
 	/**
 	 * Puts sender to senders white list
 	 *
-	 * @param sender Message sender
+	 * @param senderId Message sender ID
 	 */
 	@Override
-	public void putToWhiteList(SmsMessageSenderEntry sender) {
-		mSession.setWhiteList(sender.getId(), true);
+	public void putToWhiteList(long senderId) {
+		mSession.setWhiteList(senderId, true);
 	}
 
 	/**

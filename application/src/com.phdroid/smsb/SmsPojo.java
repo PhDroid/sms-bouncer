@@ -1,6 +1,8 @@
 package com.phdroid.smsb;
 
 
+import com.phdroid.smsb.storage.dao.SmsMessageSenderEntry;
+
 /**
  * Plain old java object for Sms message.
  */
@@ -9,6 +11,8 @@ public abstract class SmsPojo {
     }
 
 	public abstract String getSender();
+
+	public abstract long getSenderId();
 
 	public void setSender(String sender) {
 	}
