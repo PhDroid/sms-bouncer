@@ -20,7 +20,7 @@ public class NotificationContainer {
 		items = new ArrayList<TrayNotification>();
 	}
 
-	public TrayNotification addNotification(String tickerText, String title, String message){
+	public TrayNotification addNotification(String tickerText, String title, String message) {
 		return addNotification(tickerText, title, message, System.currentTimeMillis());
 	}
 

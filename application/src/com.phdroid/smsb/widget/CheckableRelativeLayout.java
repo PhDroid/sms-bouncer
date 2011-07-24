@@ -10,44 +10,44 @@ import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 
-public class CheckableRelativeLayout extends RelativeLayout implements Checkable{
-    private boolean mChecked;
-    private ArrayList<Checkable> mCheckableViews;
+public class CheckableRelativeLayout extends RelativeLayout implements Checkable {
+	private boolean mChecked;
+	private ArrayList<Checkable> mCheckableViews;
 
-    public CheckableRelativeLayout(Context context) {
-        super(context);
-        mCheckableViews = new ArrayList<Checkable>();
-    }
+	public CheckableRelativeLayout(Context context) {
+		super(context);
+		mCheckableViews = new ArrayList<Checkable>();
+	}
 
-    public CheckableRelativeLayout(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        mCheckableViews = new ArrayList<Checkable>();
-    }
+	public CheckableRelativeLayout(Context context, AttributeSet attrs) {
+		super(context, attrs);
+		mCheckableViews = new ArrayList<Checkable>();
+	}
 
-    public CheckableRelativeLayout(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
-        mCheckableViews = new ArrayList<Checkable>();
-    }
+	public CheckableRelativeLayout(Context context, AttributeSet attrs, int defStyle) {
+		super(context, attrs, defStyle);
+		mCheckableViews = new ArrayList<Checkable>();
+	}
 
-    public void setChecked(boolean b) {
-        mChecked = b;
-        for (Checkable c : mCheckableViews) {
+	public void setChecked(boolean b) {
+		mChecked = b;
+		for (Checkable c : mCheckableViews) {
 			c.setChecked(b);
 		}
-    }
+	}
 
-    public boolean isChecked() {
-        return mChecked;
-    }
+	public boolean isChecked() {
+		return mChecked;
+	}
 
-    public void toggle() {
-        mChecked = !mChecked;
-        for (Checkable c : mCheckableViews) {
+	public void toggle() {
+		mChecked = !mChecked;
+		for (Checkable c : mCheckableViews) {
 			c.toggle();
 		}
-    }
+	}
 
-    @Override
+	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 
@@ -57,19 +57,19 @@ public class CheckableRelativeLayout extends RelativeLayout implements Checkable
 		}
 	}
 
-    @Override
-    protected int[] onCreateDrawableState(int extraSpace){
-        final int[] drawableState = super.onCreateDrawableState(extraSpace + 1);
-        if (isChecked()) {
-           mergeDrawableStates(drawableState, CheckedStateSet);
-        }
-        return drawableState;
+	@Override
+	protected int[] onCreateDrawableState(int extraSpace) {
+		final int[] drawableState = super.onCreateDrawableState(extraSpace + 1);
+		if (isChecked()) {
+			mergeDrawableStates(drawableState, CheckedStateSet);
+		}
+		return drawableState;
 
-    }
+	}
 
-    private static final int[] CheckedStateSet = {
-        R.attr.state_checked
-    };
+	private static final int[] CheckedStateSet = {
+			R.attr.state_checked
+	};
 
 	private void findCheckableChildren(View v) {
 		if (v instanceof Checkable) {

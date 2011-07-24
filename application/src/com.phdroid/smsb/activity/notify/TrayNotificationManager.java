@@ -30,7 +30,7 @@ public class TrayNotificationManager {
 
 	public void Notify(String tickerText, String title, String message) {
 		TrayNotification notification = NotificationContainer.getInstance().addNotification(
-			    tickerText,
+				tickerText,
 				title,
 				message);
 		Notify(notification);

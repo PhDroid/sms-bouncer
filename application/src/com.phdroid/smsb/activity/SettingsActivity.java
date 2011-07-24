@@ -32,7 +32,7 @@ public class SettingsActivity extends Activity {
 	private AdapterView.OnItemSelectedListener clearAfterListener = new AdapterView.OnItemSelectedListener() {
 		@Override
 		public void onItemSelected(AdapterView adapterView, View view, int i, long l) {
-			DeleteAfter item = (DeleteAfter)adapterView.getAdapter().getItem(i);
+			DeleteAfter item = (DeleteAfter) adapterView.getAdapter().getItem(i);
 			getApplicationSettings().setDeleteAfter(item);
 			Toast.makeText(getApplicationContext(), item.toString(), Toast.LENGTH_SHORT).show();
 		}
@@ -47,7 +47,7 @@ public class SettingsActivity extends Activity {
 		@Override
 		public void onClick(View v) {
 			Intent intent = new Intent(SettingsActivity.this, EditWhitelistActivity.class);
-				startActivity(intent);
+			startActivity(intent);
 		}
 	};
 

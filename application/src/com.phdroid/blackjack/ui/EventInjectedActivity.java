@@ -13,11 +13,13 @@ public class EventInjectedActivity extends ActivityBase {
 
 	public abstract class OnCreateCall {
 		public abstract void OnBeforeCreate(Bundle savedInstanceState);
+
 		public abstract void OnAfterCreate(Bundle savedInstanceState);
 	}
 
 	public abstract static class OnTouchCall {
 		public abstract void OnBeforeTouch(MotionEvent event);
+
 		public abstract boolean OnAfterTouch(MotionEvent event, boolean result);
 	}
 

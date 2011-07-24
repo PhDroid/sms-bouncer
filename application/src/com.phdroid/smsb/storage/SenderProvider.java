@@ -6,11 +6,11 @@ import com.phdroid.smsb.storage.dao.SmsMessageSenderEntry;
 
 import java.util.List;
 
-public class SenderProvider implements ISenderProvider{
+public class SenderProvider implements ISenderProvider {
 
 	private final Session mSession;
 
-	public SenderProvider(Session session){
+	public SenderProvider(Session session) {
 		mSession = session;
 	}
 
@@ -60,7 +60,7 @@ public class SenderProvider implements ISenderProvider{
 	 * Deletes sender from senders white list
 	 *
 	 * @param sender Message sender
-	 * @param db target database
+	 * @param db     target database
 	 * @return True if everything went OK, false if there was an error.
 	 */
 	@Override

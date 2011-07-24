@@ -16,7 +16,6 @@ import com.phdroid.smsb.storage.ApplicationSettings;
 import com.phdroid.smsb.storage.IMessageProvider;
 import com.phdroid.smsb.storage.ISenderProvider;
 import com.phdroid.smsb.storage.MessageProviderHelper;
-import com.phdroid.blackjack.ui.EventInjectedActivity;
 
 /**
  * Show detailed sms message with several control functions.
@@ -42,7 +41,7 @@ public class ViewMessageActivity extends ActivityBase {
 			}
 		});
 
-		ApplicationController app = (ApplicationController)this.getApplicationContext();
+		ApplicationController app = (ApplicationController) this.getApplicationContext();
 		app.attachNewSmsListener(new NewSmsEventListener() {
 			@Override
 			public void onNewSms(NewSmsEvent newSmsEvent) {
@@ -66,7 +65,7 @@ public class ViewMessageActivity extends ActivityBase {
 	@Override
 	public void dataBind() {
 		super.dataBind();
-		mGallery = (Gallery)findViewById(R.id.message_gallery);
+		mGallery = (Gallery) findViewById(R.id.message_gallery);
 		int currentIndex = mGallery.getSelectedItemPosition();
 		mGallery.setAdapter(new SmsPojoSpinnerAdapter(this, getMessageProvider().getMessages()));
 		mGallery.setSelection(currentIndex);

@@ -1,7 +1,6 @@
 package com.phdroid.smsb.activity;
 
 import android.app.Activity;
-import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,6 @@ import com.phdroid.smsb.SmsPojo;
 import com.phdroid.smsb.utility.DateUtilities;
 import com.phdroid.smsb.widget.ReadableImageView;
 
-import java.util.Date;
 import java.util.List;
 
 public class SmsPojoArrayAdapter extends ArrayAdapter<SmsPojo> {
@@ -68,9 +66,9 @@ public class SmsPojoArrayAdapter extends ArrayAdapter<SmsPojo> {
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent){
+	public View getView(int position, View convertView, ViewGroup parent) {
 		SmsViewHolder holder;
-		if(convertView == null){
+		if (convertView == null) {
 			convertView = mInflater.inflate(mViewId, null);
 			holder = new SmsViewHolder();
 			holder.sender = (TextView) convertView.findViewById(R.id.senderTextView);
@@ -85,7 +83,7 @@ public class SmsPojoArrayAdapter extends ArrayAdapter<SmsPojo> {
 
 		SmsPojo sms = this.getItem(position);
 		holder.sender.setText(sms.getSender());
-		if(holder.arrow != null){
+		if (holder.arrow != null) {
 			holder.arrow.setRead(sms.isRead());
 		}
 		holder.received.setText(DateUtilities.getRelativeDateString(sms, ctx));

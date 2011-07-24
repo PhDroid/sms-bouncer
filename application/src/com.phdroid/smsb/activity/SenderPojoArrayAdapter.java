@@ -8,7 +8,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 import com.phdroid.smsb.R;
-import com.phdroid.smsb.storage.dao.Session;
 import com.phdroid.smsb.storage.dao.SmsMessageSenderEntry;
 
 import java.util.ArrayList;
@@ -40,16 +39,16 @@ public class SenderPojoArrayAdapter extends ArrayAdapter<SmsMessageSenderEntry> 
 		return (row);
 	}
 
-	public void attachOnDeleteListener(OnDeleteSenderListener listener){
+	public void attachOnDeleteListener(OnDeleteSenderListener listener) {
 		deleteListeners.add(listener);
 	}
 
-	public void removeOnDeleteListener(OnDeleteSenderListener listener){
+	public void removeOnDeleteListener(OnDeleteSenderListener listener) {
 		deleteListeners.remove(listener);
 	}
 
-	private void raiseOnDeleteEvent(SmsMessageSenderEntry sender){
-		for (OnDeleteSenderListener listener: this.deleteListeners) {
+	private void raiseOnDeleteEvent(SmsMessageSenderEntry sender) {
+		for (OnDeleteSenderListener listener : this.deleteListeners) {
 			listener.onDeleteSender(sender);
 		}
 	}

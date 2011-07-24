@@ -5,7 +5,7 @@ import android.util.AttributeSet;
 import android.widget.ImageView;
 import com.phdroid.smsb.R;
 
-public class ReadableImageView extends ImageView{
+public class ReadableImageView extends ImageView {
 	private static final int[] STATE_READ = {R.attr.state_read};
 	private boolean mIsRead = false;
 
@@ -21,7 +21,9 @@ public class ReadableImageView extends ImageView{
 		super(context, attrs, defStyle);
 	}
 
-	public void setRead(boolean isRead) {mIsRead = isRead;}
+	public void setRead(boolean isRead) {
+		mIsRead = isRead;
+	}
 
 	@Override
 	public int[] onCreateDrawableState(int extraSpace) {

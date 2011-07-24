@@ -1,7 +1,6 @@
 package com.phdroid.smsb.activity;
 
 import android.app.Activity;
-import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +18,7 @@ public class SmsPojoSpinnerAdapter extends BaseAdapter {
 	private List<SmsPojo> mMessages;
 	private LayoutInflater mInflater;
 
-	public SmsPojoSpinnerAdapter(Activity activity, List<SmsPojo> messages){
+	public SmsPojoSpinnerAdapter(Activity activity, List<SmsPojo> messages) {
 		mActivity = activity;
 		mInflater = mActivity.getLayoutInflater();
 		mMessages = messages;
@@ -42,7 +41,7 @@ public class SmsPojoSpinnerAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int i, View convertView, ViewGroup viewGroup) {
-		if(convertView == null){
+		if (convertView == null) {
 			convertView = mInflater.inflate(R.layout.detailed_message_item, null);
 		}
 

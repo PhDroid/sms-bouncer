@@ -5,6 +5,7 @@ package com.phdroid.smsb.exceptions;
  */
 public class ArgumentException extends ApplicationException {
 	Object argument;
+
 	/**
 	 * General argument exception
 	 *

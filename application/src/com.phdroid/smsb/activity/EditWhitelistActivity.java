@@ -1,26 +1,17 @@
 package com.phdroid.smsb.activity;
 
-import android.content.Context;
-import android.opengl.Visibility;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.util.AttributeSet;
 import android.util.Log;
-import android.view.InflateException;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 import com.phdroid.smsb.R;
-import com.phdroid.smsb.SmsPojo;
 import com.phdroid.smsb.activity.base.ActivityBase;
-import com.phdroid.smsb.storage.*;
+import com.phdroid.smsb.storage.ApplicationSettings;
+import com.phdroid.smsb.storage.ISenderProvider;
+import com.phdroid.smsb.storage.MessageProviderHelper;
 import com.phdroid.smsb.storage.dao.SmsMessageSenderEntry;
 
-import java.util.Hashtable;
 import java.util.List;
 
 public class EditWhitelistActivity extends ActivityBase {
@@ -35,7 +26,7 @@ public class EditWhitelistActivity extends ActivityBase {
 		setContentView(R.layout.main);
 		lv = (ListView) findViewById(R.id.messagesListView);
 		//todo: use own list view without undo button
-		LinearLayout l = (LinearLayout)findViewById(R.id.buttonLayout);
+		LinearLayout l = (LinearLayout) findViewById(R.id.buttonLayout);
 		l.setVisibility(View.GONE);
 	}
 

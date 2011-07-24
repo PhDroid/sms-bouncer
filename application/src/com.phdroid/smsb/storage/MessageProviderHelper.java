@@ -20,10 +20,10 @@ public class MessageProviderHelper {
 	private static void InitProviders(ApplicationSettings settings, ContentResolver contentResolver) {
 		if (mMessageProvider == null || mSenderProvider == null) {
 			Session session = new Session(settings, contentResolver);
-			if(mMessageProvider == null){
+			if (mMessageProvider == null) {
 				mMessageProvider = new SmsMessageController(session);
 			}
-			if(mSenderProvider == null){
+			if (mSenderProvider == null) {
 				mSenderProvider = new SenderProvider(session);
 			}
 		}

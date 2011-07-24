@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
 import com.phdroid.smsb.SmsPojo;
-import com.phdroid.smsb.filter.ISpamFilter;
 
 /**
  * SmsContentProvider is designed for CRUD actions with SMS.

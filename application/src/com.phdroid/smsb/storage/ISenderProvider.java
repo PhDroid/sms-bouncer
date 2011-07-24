@@ -8,6 +8,7 @@ import java.util.List;
 public interface ISenderProvider {
 	/**
 	 * Gets message sender from storage
+	 *
 	 * @param id Sender ID
 	 * @return Message sender
 	 */
@@ -15,6 +16,7 @@ public interface ISenderProvider {
 
 	/**
 	 * Puts message sender to storage
+	 *
 	 * @param sender Message sender
 	 * @return Sender
 	 */
@@ -22,12 +24,14 @@ public interface ISenderProvider {
 
 	/**
 	 * Gets white list.
+	 *
 	 * @return Senders white list.
 	 */
 	List<SmsMessageSenderEntry> getWhiteList();
 
 	/**
 	 * Puts sender to senders white list
+	 *
 	 * @param senderId Message sender ID
 	 * @return True if everything went OK, false if there was an error.
 	 */
@@ -35,6 +39,7 @@ public interface ISenderProvider {
 
 	/**
 	 * Deletes sender from senders white list
+	 *
 	 * @param sender Message sender
 	 * @return True if everything went OK, false if there was an error.
 	 */

@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.telephony.SmsMessage;
 import com.phdroid.smsb.SmsPojo;
 import com.phdroid.smsb.storage.ApplicationSettings;
-import com.phdroid.smsb.storage.SenderProvider;
 import com.phdroid.smsb.storage.SmsAction;
 
 import java.util.ArrayList;
@@ -208,7 +207,7 @@ public class Session {
 		int res = this.contentResolver.delete(
 				SenderContentProvider.CONTENT_URI,
 				SmsMessageSenderEntry._ID + " = :1",
-				new String[] {String.valueOf(sender.getId())});
+				new String[]{String.valueOf(sender.getId())});
 		return res == 1;
 	}
 
@@ -216,7 +215,7 @@ public class Session {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < smsList.length; i++) {
 			sb.append(smsList[i].getId());
-			if (i != smsList.length - 1){
+			if (i != smsList.length - 1) {
 				sb.append(",");
 			}
 		}
@@ -227,20 +226,20 @@ public class Session {
 				new String[]{sb.toString()});
 	}
 
-	public int purgeSenders(SQLiteDatabase db){
+	public int purgeSenders(SQLiteDatabase db) {
 		Cursor c = db.rawQuery(
 				String.format(
 						"SELECT %s FROM %s WHERE %s NOT IN (SELECT DISTINCT %s FROM %s)",
-						SmsMessageSenderEntry._ID ,
+						SmsMessageSenderEntry._ID,
 						SenderContentProvider.TABLE_NAME,
 						SmsMessageEntry.SENDER_ID,
 						SmsContentProvider.TABLE_NAME),
 				null);
 
-		if(c.moveToFirst()){
+		if (c.moveToFirst()) {
 			final String[] ids = new String[c.getCount()];
 			int index = 0;
-			do{
+			do {
 				ids[index] = Long.toString(c.getLong(0));
 				index++;
 			}

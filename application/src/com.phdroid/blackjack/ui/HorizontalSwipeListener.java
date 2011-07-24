@@ -18,7 +18,7 @@ public class HorizontalSwipeListener extends GestureDetector.SimpleOnGestureList
 	private Swipe swipeLeft;
 	private Swipe swipeRight;
 
-	public static HorizontalSwipeListener register(EventInjectedActivity activity){
+	public static HorizontalSwipeListener register(EventInjectedActivity activity) {
 		return new HorizontalSwipeListener(activity);
 	}
 

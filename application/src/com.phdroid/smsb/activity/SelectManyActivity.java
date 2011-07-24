@@ -1,12 +1,9 @@
 package com.phdroid.smsb.activity;
 
-import android.app.Activity;
-import android.content.res.Configuration;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.util.SparseBooleanArray;
 import android.view.View;
-import android.widget.*;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import com.phdroid.smsb.R;
 import com.phdroid.smsb.SmsPojo;
 import com.phdroid.smsb.activity.base.ActivityBase;
@@ -17,7 +14,6 @@ import com.phdroid.smsb.storage.ApplicationSettings;
 import com.phdroid.smsb.storage.IMessageProvider;
 import com.phdroid.smsb.storage.MessageProviderHelper;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -42,11 +38,11 @@ public class SelectManyActivity extends ActivityBase {
 	@Override
 	protected void onStart() {
 		super.onStart();
-		listView = (ListView)findViewById(R.id.messagesListView);
+		listView = (ListView) findViewById(R.id.messagesListView);
 
 		dataBind();
 
-		ApplicationController app = (ApplicationController)this.getApplicationContext();
+		ApplicationController app = (ApplicationController) this.getApplicationContext();
 		app.attachNewSmsListener(new NewSmsEventListener() {
 			@Override
 			public void onNewSms(NewSmsEvent newSmsEvent) {
@@ -62,21 +58,21 @@ public class SelectManyActivity extends ActivityBase {
 
 		setTitle(R.string.app_name);
 		setTitle(String.format(
-					"%s (%s)",
-					getTitle().toString(),
-					Integer.toString(getMessageProvider().getUnreadCount())));
+				"%s (%s)",
+				getTitle().toString(),
+				Integer.toString(getMessageProvider().getUnreadCount())));
 	}
 
-	protected void onSaveInstanceState(Bundle bundle){
+	protected void onSaveInstanceState(Bundle bundle) {
 		super.onSaveInstanceState(bundle);
 		bundle.putBoolean("buttons", listFooter.getVisibility() == View.VISIBLE);
 	}
 
-	protected void onRestoreInstanceState(Bundle bundle){
+	protected void onRestoreInstanceState(Bundle bundle) {
 		super.onRestoreInstanceState(bundle);
 
 		boolean b = bundle.getBoolean("buttons", false);
-		if(b){
+		if (b) {
 			listFooter.setVisibility(View.VISIBLE);
 		} else {
 			listFooter.setVisibility(View.GONE);
@@ -85,13 +81,13 @@ public class SelectManyActivity extends ActivityBase {
 
 	private void updateButtonsVisibility(ListView lv) {
 		int size = 0;
-		for(int i =0; i < lv.getChildCount() ; i++){
-			if (lv.isItemChecked(i)){
+		for (int i = 0; i < lv.getChildCount(); i++) {
+			if (lv.isItemChecked(i)) {
 				size++;
 			}
 		}
 
-		if(size > 0){
+		if (size > 0) {
 			listFooter.setVisibility(View.VISIBLE);
 		} else {
 			listFooter.setVisibility(View.GONE);
@@ -99,11 +95,11 @@ public class SelectManyActivity extends ActivityBase {
 	}
 
 	protected IMessageProvider getMessageProvider() {
-		 return MessageProviderHelper.getMessageProvider(new ApplicationSettings(this), getContentResolver());
+		return MessageProviderHelper.getMessageProvider(new ApplicationSettings(this), getContentResolver());
 	}
 
 	public void deleteMessages(View view) {
-		ListView lv = (ListView)findViewById(R.id.messagesListView);
+		ListView lv = (ListView) findViewById(R.id.messagesListView);
 		long[] ids = lv.getCheckItemIds();
 		getMessageProvider().delete(ids);
 		MessageProviderHelper.invalidCache();
@@ -111,7 +107,7 @@ public class SelectManyActivity extends ActivityBase {
 	}
 
 	public void markMessagesAsNotSpam(View view) {
-		ListView lv = (ListView)findViewById(R.id.messagesListView);
+		ListView lv = (ListView) findViewById(R.id.messagesListView);
 		long[] ids = lv.getCheckItemIds();
 		getMessageProvider().notSpam(ids);
 		MessageProviderHelper.invalidCache();

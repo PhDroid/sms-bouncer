@@ -1,12 +1,6 @@
 package com.phdroid.smsb.storage;
 
-import android.content.ContentResolver;
-import android.content.Context;
 import com.phdroid.smsb.SmsPojo;
-import com.phdroid.smsb.activity.base.ActivityBase;
-import com.phdroid.smsb.application.ApplicationController;
-import com.phdroid.smsb.application.NewSmsEvent;
-import com.phdroid.smsb.application.NewSmsEventListener;
 import com.phdroid.smsb.storage.dao.Session;
 
 import java.util.Hashtable;

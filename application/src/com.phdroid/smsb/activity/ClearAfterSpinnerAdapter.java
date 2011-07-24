@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import com.phdroid.smsb.storage.DeleteAfter;
@@ -77,13 +76,13 @@ public class ClearAfterSpinnerAdapter extends ArrayAdapter implements SpinnerAda
 
 	@Override
 	public long getItemId(int i) {
-		return ((DeleteAfter)getItem(i)).index();
+		return ((DeleteAfter) getItem(i)).index();
 	}
 
 	@Override
 	public View getView(int i, View view, ViewGroup viewGroup) {
 		TextView text = new TextView(getContext());
-        text.setText(getItem(i).toString());
-        return text;
+		text.setText(getItem(i).toString());
+		return text;
 	}
 }

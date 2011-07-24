@@ -1,8 +1,8 @@
 package com.phdroid.smsb.storage;
 
 public enum SmsAction {
-	MarkedAsNotSpam (0),
-	Deleted (1);
+	MarkedAsNotSpam(0),
+	Deleted(1);
 
 	private final int index;
 

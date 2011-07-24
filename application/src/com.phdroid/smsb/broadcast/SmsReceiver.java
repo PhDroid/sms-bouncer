@@ -23,11 +23,11 @@ public class SmsReceiver extends BroadcastReceiver {
 			"android.provider.Telephony.SMS_RECEIVED";
 
 	private int mSpamMessagesCount = 0;
-    private Session session = null;
+	private Session session = null;
 
 	public void onReceive(Context context, Intent intent) {
 		session = new Session(new ApplicationSettings(context), context.getContentResolver());
-        if (intent.getAction().equals(ACTION)) {
+		if (intent.getAction().equals(ACTION)) {
 			Log.v(this.getClass().getSimpleName(), "onReceive");
 			/* The SMS-Messages are 'hiding' within the extras of the Intent. */
 			Bundle bundle = intent.getExtras();
@@ -43,8 +43,7 @@ public class SmsReceiver extends BroadcastReceiver {
 				mSpamMessagesCount += spamMessageCount;
 
 				if (spamMessageCount > 0) {
-					if (this.isOrderedBroadcast())
-					{
+					if (this.isOrderedBroadcast()) {
 						//aborting broadcast. Using it with a priority tag should prevent anyone to receive these spam messages.
 						this.abortBroadcast();
 					} else {
@@ -53,7 +52,7 @@ public class SmsReceiver extends BroadcastReceiver {
 
 					Log.v(this.getClass().getSimpleName(), "Raise event");
 
-					ApplicationController app = (ApplicationController)context.getApplicationContext();
+					ApplicationController app = (ApplicationController) context.getApplicationContext();
 					app.raiseNewSmsEvent(spamMessages);
 					ApplicationSettings settings = new ApplicationSettings(context);
 
@@ -90,11 +89,11 @@ public class SmsReceiver extends BroadcastReceiver {
 	}
 
 	protected SmsPojo[] ConvertMessages(Object[] pdusObj) {
-        SmsPojo[] messages = new SmsPojo[pdusObj.length];
+		SmsPojo[] messages = new SmsPojo[pdusObj.length];
 		for (int i = 0; i < pdusObj.length; i++) {
 			SmsMessage msg = SmsMessage.createFromPdu((byte[]) pdusObj[i]);
-            SmsMessageEntry entry = session.insertMessage(msg);
-            messages[i] = entry;
+			SmsMessageEntry entry = session.insertMessage(msg);
+			messages[i] = entry;
 		}
 		return messages;
 	}

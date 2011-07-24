@@ -1,7 +1,5 @@
 package com.phdroid.smsb.application;
 
-import com.phdroid.smsb.SmsPojo;
-
 import java.util.EventListener;
 
 /**

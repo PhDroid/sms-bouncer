@@ -1,14 +1,12 @@
 package com.phdroid.smsb;
 
 
-import com.phdroid.smsb.storage.dao.SmsMessageSenderEntry;
-
 /**
  * Plain old java object for Sms message.
  */
 public abstract class SmsPojo {
 	protected SmsPojo() {
-    }
+	}
 
 	public abstract String getSender();
 
@@ -19,9 +17,9 @@ public abstract class SmsPojo {
 
 	public abstract long getId();
 
-    public abstract boolean isRead();
+	public abstract boolean isRead();
 
-    public abstract void setRead(boolean r);
+	public abstract void setRead(boolean r);
 
 	public abstract String getMessage();
 
@@ -35,8 +33,8 @@ public abstract class SmsPojo {
 
 	public abstract void setMarkedNotSpamByUser(boolean markedNotSpamByUser);
 
-    @Override
-    public String toString(){
-        return getMessage();
-    }
+	@Override
+	public String toString() {
+		return getMessage();
+	}
 }
