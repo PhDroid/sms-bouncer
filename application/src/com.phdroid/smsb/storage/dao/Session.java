@@ -115,6 +115,14 @@ public class Session {
 				new String[]{String.valueOf(sms.getId())});
 	}
 
+	public void deleteFromWhiteList(SmsMessageSenderEntry sender) {
+		setWhiteList(sender, false);
+	}
+
+	public void setWhiteList(SmsMessageSenderEntry sender, boolean isInWhiteList) {
+		setWhiteList(sender.getId(), isInWhiteList);
+	}
+
 	public void setWhiteList(long id, boolean isInWhiteList) {
 		ContentValues values = new ContentValues();
 		values.put(SmsMessageSenderEntry.IN_WHITE_LIST, isInWhiteList);
@@ -194,6 +202,14 @@ public class Session {
 
 	public boolean delete(SmsPojo sms) {
 		return deleteMessages(new SmsPojo[]{sms}) == 1;
+	}
+
+	public boolean delete(SmsMessageSenderEntry sender) {
+		int res = this.contentResolver.delete(
+				SenderContentProvider.CONTENT_URI,
+				SmsMessageSenderEntry._ID + " = :1",
+				new String[] {String.valueOf(sender.getId())});
+		return res == 1;
 	}
 
 	public int deleteMessages(SmsPojo[] smsList) {

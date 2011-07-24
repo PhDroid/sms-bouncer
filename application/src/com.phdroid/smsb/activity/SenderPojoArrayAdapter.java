@@ -8,46 +8,25 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 import com.phdroid.smsb.R;
+import com.phdroid.smsb.storage.dao.Session;
 import com.phdroid.smsb.storage.dao.SmsMessageSenderEntry;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SenderPojoArrayAdapter extends ArrayAdapter<SmsMessageSenderEntry> {
-	Activity ctx;
-
-	public SenderPojoArrayAdapter(Activity context, int textViewResourceId) {
-		super(context, textViewResourceId);
-		ctx = context;
-	}
-
-	public SenderPojoArrayAdapter(Activity context, int resource, int textViewResourceId) {
-		super(context, resource, textViewResourceId);
-		ctx = context;
-	}
-
-	public SenderPojoArrayAdapter(Activity context, int textViewResourceId, SmsMessageSenderEntry[] objects) {
-		super(context, textViewResourceId, objects);
-		ctx = context;
-	}
-
-	public SenderPojoArrayAdapter(Activity context, int resource, int textViewResourceId, SmsMessageSenderEntry[] objects) {
-		super(context, resource, textViewResourceId, objects);
-		ctx = context;
-	}
+	private Activity context;
+	private List<OnDeleteSenderListener> deleteListeners;
 
 	public SenderPojoArrayAdapter(Activity context, int textViewResourceId, List<SmsMessageSenderEntry> objects) {
 		super(context, textViewResourceId, objects);
-		ctx = context;
-	}
-
-	public SenderPojoArrayAdapter(Activity context, int resource, int textViewResourceId, List<SmsMessageSenderEntry> objects) {
-		super(context, resource, textViewResourceId, objects);
-		ctx = context;
+		this.context = context;
+		this.deleteListeners = new ArrayList<OnDeleteSenderListener>();
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		LayoutInflater inflater = ctx.getLayoutInflater();
+		LayoutInflater inflater = context.getLayoutInflater();
 		View row = inflater.inflate(R.layout.editwhitelist_list_item, null);
 		TextView sender = (TextView) row.findViewById(R.id.whitelist_sender);
 
@@ -61,17 +40,26 @@ public class SenderPojoArrayAdapter extends ArrayAdapter<SmsMessageSenderEntry> 
 		return (row);
 	}
 
+	public void attachOnDeleteListener(OnDeleteSenderListener listener){
+		deleteListeners.add(listener);
+	}
+
+	public void removeOnDeleteListener(OnDeleteSenderListener listener){
+		deleteListeners.remove(listener);
+	}
+
+	private void raiseOnDeleteEvent(SmsMessageSenderEntry sender){
+		for (OnDeleteSenderListener listener: this.deleteListeners) {
+			listener.onDeleteSender(sender);
+		}
+	}
+
 	private View.OnClickListener deleteListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-//			RelativeLayout parentRow = (RelativeLayout) v.getParent();
-//
-//			TextView senderText = (TextView) parentRow.getChildAt(0);
-//			Button btnChild = (Button) parentRow.getChildAt(1);
 			Button btnChild = (Button) v;
 			SmsMessageSenderEntry sender = (SmsMessageSenderEntry) btnChild.getTag();
-			//todo: call delete sender
-			//parentRow.refreshDrawableState();
+			SenderPojoArrayAdapter.this.raiseOnDeleteEvent(sender);
 		}
 	};
 }

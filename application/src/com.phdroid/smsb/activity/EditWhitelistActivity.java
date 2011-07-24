@@ -43,6 +43,14 @@ public class EditWhitelistActivity extends ActivityBase {
 		lv.setAdapter(senderPojoArrayAdapter);
 		senderPojoArrayAdapter.notifyDataSetChanged();
 		Log.v(this.getClass().getSimpleName(), "DataBind");
+
+		senderPojoArrayAdapter.attachOnDeleteListener(new OnDeleteSenderListener() {
+			@Override
+			public void onDeleteSender(SmsMessageSenderEntry sender) {
+				EditWhitelistActivity.this.getSession().deleteFromWhiteList(sender);
+				EditWhitelistActivity.this.dataBind();
+			}
+		});
 	}
 
 	private ISenderProvider getSenderProvider() {
