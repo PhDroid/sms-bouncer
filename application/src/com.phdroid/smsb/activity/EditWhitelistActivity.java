@@ -1,6 +1,7 @@
 package com.phdroid.smsb.activity;
 
 import android.content.Context;
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -33,6 +34,9 @@ public class EditWhitelistActivity extends ActivityBase {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		lv = (ListView) findViewById(R.id.messagesListView);
+		//todo: use own list view without undo button
+		LinearLayout l = (LinearLayout)findViewById(R.id.buttonLayout);
+		l.setVisibility(View.GONE);
 	}
 
 	@Override
@@ -63,39 +67,5 @@ public class EditWhitelistActivity extends ActivityBase {
 
 		dataBind();
 		Log.v(this.getClass().getSimpleName(), "Start");
-	}
-
-	protected void setMenuBackground() {
-		getLayoutInflater().setFactory(new LayoutInflater.Factory() {
-
-			@Override
-			public View onCreateView(String name, Context context, AttributeSet attrs) {
-				if (name.equalsIgnoreCase("com.android.internal.view.menu.IconMenuItemView")) {
-					try {
-						LayoutInflater f = getLayoutInflater();
-						final View view = f.createView(name, null, attrs);
-						new Handler().post(new Runnable() {
-							public void run() {
-								view.setBackgroundResource(R.drawable.menu_item);
-							}
-						});
-						return view;
-					}
-					catch (InflateException e) { /*ignore*/ }
-					catch (ClassNotFoundException e) { /*ignore*/ }
-				}
-				return null;
-			}
-		});
-	}
-
-	public void deleteSender(View view){
-
-	}
-
-	public void undo(View view) {
-		LinearLayout l = (LinearLayout) findViewById(R.id.buttonLayout);
-		l.setVisibility(View.GONE);
-		dataBind();
 	}
 }
