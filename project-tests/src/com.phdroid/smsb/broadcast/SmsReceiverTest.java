@@ -6,6 +6,7 @@ import android.test.AndroidTestCase;
 import android.test.mock.MockContext;
 import com.phdroid.smsb.SmsPojo;
 import com.phdroid.smsb.TestSmsPojo;
+import com.phdroid.smsb.storage.dao.Session;
 import junit.framework.Assert;
 
 import java.util.ArrayList;
@@ -42,7 +43,7 @@ public List<Intent> getReceivedIntents()
         private int mMessagesCount;
         private boolean mProcessMethodWasCalled = false;
 
-        public SmsPojo[] ProcessMessages(SmsPojo[] messages, ContentResolver resolver) {
+        public SmsPojo[] ProcessMessages(SmsPojo[] messages, Session session) {
             mProcessMethodWasCalled = true;
             mMessagesCount = messages.length;
             ArrayList<SmsPojo> res = new ArrayList<SmsPojo>();

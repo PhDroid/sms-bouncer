@@ -5,6 +5,8 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.net.Uri;
 import android.test.AndroidTestCase;
+import com.phdroid.smsb.storage.ApplicationSettings;
+import com.phdroid.smsb.storage.dao.Session;
 
 import java.util.Hashtable;
 
@@ -13,6 +15,7 @@ import java.util.Hashtable;
  */
 public abstract class ProviderTestBase extends AndroidTestCase {
 	MockedContextTestBase logic = new MockedContextTestBase();
+	Session session = null;
 	/**
 	 * Prepares list of content providers and corresponding Uri's for context setup.
 	 *
@@ -28,6 +31,13 @@ public abstract class ProviderTestBase extends AndroidTestCase {
 
 	public ContentResolver getContentResolver() {
 		return logic.getContentResolver();
+	}
+
+	public Session getSession() {
+		if (session == null) {
+			session = new Session(new ApplicationSettings(getContext()), getContentResolver());
+		}
+		return session;
 	}
 
 	@Override

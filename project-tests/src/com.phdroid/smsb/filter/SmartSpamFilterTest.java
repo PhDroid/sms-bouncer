@@ -75,7 +75,7 @@ public class SmartSpamFilterTest extends ProviderTestBase {
 		message.setReceived((int) (System.currentTimeMillis() / 1000L));
 		message.setMessage("I am not a SPAM message");
 
-		ISpamFilter filter = new ContactSpamFilter(getContentResolver());
+		ISpamFilter filter = new ContactSpamFilter(getSession());
 		boolean isSpam = filter.isSpam(message);
 		Assert.assertEquals(false, isSpam);
 	}
@@ -86,7 +86,7 @@ public class SmartSpamFilterTest extends ProviderTestBase {
 		message.setReceived((int) (System.currentTimeMillis() / 1000L));
 		message.setMessage("I am SPAM message");
 
-		ISpamFilter filter = new ContactSpamFilter(getContentResolver());
+		ISpamFilter filter = new ContactSpamFilter(getSession());
 		boolean isSpam = filter.isSpam(message);
 		Assert.assertEquals(true, isSpam);
 	}
@@ -107,7 +107,7 @@ public class SmartSpamFilterTest extends ProviderTestBase {
 		notSpam.setMessage("Let's grab some whisky again");
 		notSpam.setReceived((int) (System.currentTimeMillis() / 1000L));
 
-		ISpamFilter filter = new WhiteListSpamFilter(getContentResolver());
+		ISpamFilter filter = new WhiteListSpamFilter(getSession());
 		Assert.assertEquals(true, filter.isSpam(spam1));
 		Assert.assertEquals(true, filter.isSpam(spam2));
 		Assert.assertEquals(false, filter.isSpam(notSpam));

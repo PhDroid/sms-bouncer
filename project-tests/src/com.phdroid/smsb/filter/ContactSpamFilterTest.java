@@ -5,7 +5,6 @@ import android.content.ContentValues;
 import android.net.Uri;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.provider.ContactsContract.Data;
-import com.phdroid.smsb.SmsPojo;
 import com.phdroid.smsb.TestSmsPojo;
 import com.phdroid.smsb.base.ProviderTestBase;
 import com.phdroid.smsb.filter.doubles.PhoneContentProviderFake;
@@ -45,7 +44,7 @@ public class ContactSpamFilterTest extends ProviderTestBase {
 		message.setReceived((int) (System.currentTimeMillis() / 1000L));
 		message.setMessage("I am not a SPAM message");
 
-		ISpamFilter filter = new ContactSpamFilter(getContentResolver());
+		ISpamFilter filter = new ContactSpamFilter(getSession());
 		boolean isSpam = filter.isSpam(message);
 		Assert.assertEquals(false, isSpam);
 	}
@@ -56,7 +55,7 @@ public class ContactSpamFilterTest extends ProviderTestBase {
 		message.setReceived((int) (System.currentTimeMillis() / 1000L));
 		message.setMessage("I am SPAM message");
 
-		ISpamFilter filter = new ContactSpamFilter(getContentResolver());
+		ISpamFilter filter = new ContactSpamFilter(getSession());
 		boolean isSpam = filter.isSpam(message);
 		Assert.assertEquals(true, isSpam);
 	}

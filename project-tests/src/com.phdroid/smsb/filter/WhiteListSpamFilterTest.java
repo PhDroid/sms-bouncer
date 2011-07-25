@@ -70,7 +70,7 @@ public class WhiteListSpamFilterTest extends ProviderTestBase {
 		notSpam.setMessage("Let's grab some whisky again");
 		notSpam.setReceived((int) (System.currentTimeMillis() / 1000L));
 
-		ISpamFilter filter = new WhiteListSpamFilter(getContentResolver());
+		ISpamFilter filter = new WhiteListSpamFilter(getSession());
 		Assert.assertEquals(true, filter.isSpam(spam1));
 		Assert.assertEquals(true, filter.isSpam(spam2));
 		Assert.assertEquals(false, filter.isSpam(notSpam));
