@@ -1,28 +1,31 @@
 package com.phdroid.smsb.filter;
 
-import android.content.ContentResolver;
 import com.phdroid.smsb.SmsPojo;
 import com.phdroid.smsb.exceptions.ApplicationException;
+import com.phdroid.smsb.storage.dao.Session;
+import com.phdroid.smsb.storage.dao.SmsMessageSenderEntry;
 
 /**
  * Chain of spam filters. Pretends to be smart.
  */
 public class SmartSpamFilter implements ISpamFilter {
-	ContentResolver resolver;
+	private Session session;
 
-	public SmartSpamFilter(ContentResolver resolver) {
-		this.resolver = resolver;
+	public SmartSpamFilter(Session session) {
+		this.session = session;
 	}
 
-	public ContentResolver getContentResolver() {
-		return this.resolver;
+	public Session getSession() {
+		return this.session;
 	}
 
 	@Override
 	public boolean isSpam(SmsPojo message) throws ApplicationException {
-		ISpamFilter contactSpamFilter = new ContactSpamFilter(getContentResolver());
-		ISpamFilter whiteListSpamFilter = new WhiteListSpamFilter(getContentResolver());
+		SmsMessageSenderEntry sender = getSession().getSenderById(message.getSenderId());
+		boolean knownSender = getSession().isKnownSender(sender);
 
-		return contactSpamFilter.isSpam(message) || whiteListSpamFilter.isSpam(message);
+		boolean isInWhiteList = sender.isInWhiteList();
+
+		return !knownSender && !isInWhiteList;
 	}
 }

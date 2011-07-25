@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.provider.ContactsContract;
 import android.telephony.SmsMessage;
 import com.phdroid.smsb.SmsPojo;
 import com.phdroid.smsb.storage.ApplicationSettings;
@@ -229,9 +230,10 @@ public class Session {
 	public int purgeSenders(SQLiteDatabase db) {
 		Cursor c = db.rawQuery(
 				String.format(
-						"SELECT %s FROM %s WHERE %s NOT IN (SELECT DISTINCT %s FROM %s)",
+						"SELECT %s FROM %s WHERE %s NOT IN (SELECT DISTINCT %s FROM %s);",
 						SmsMessageSenderEntry._ID,
 						SenderContentProvider.TABLE_NAME,
+						SmsMessageSenderEntry._ID,
 						SmsMessageEntry.SENDER_ID,
 						SmsContentProvider.TABLE_NAME),
 				null);
@@ -314,5 +316,21 @@ public class Session {
 
 	public void insertMessage(SmsMessageEntry message) {
 		this.contentResolver.insert(SmsContentProvider.CONTENT_URI, message.toContentValues());
+	}
+
+	public boolean isKnownSender(SmsMessageSenderEntry sender) {
+		Cursor c = null;
+		try {
+			c = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+					null,
+					ContactsContract.CommonDataKinds.Phone.NUMBER + " = :1",
+					new String[]{sender.getValue()},
+					null);
+			return c.getCount() > 0;
+		} finally {
+			if (c != null && !c.isClosed()) {
+				c.close();
+			}
+		}
 	}
 }

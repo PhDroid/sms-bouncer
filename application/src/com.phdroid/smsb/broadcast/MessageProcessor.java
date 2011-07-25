@@ -6,6 +6,8 @@ import com.phdroid.smsb.SmsPojo;
 import com.phdroid.smsb.exceptions.ApplicationException;
 import com.phdroid.smsb.filter.ISpamFilter;
 import com.phdroid.smsb.filter.SmartSpamFilter;
+import com.phdroid.smsb.storage.ApplicationSettings;
+import com.phdroid.smsb.storage.dao.Session;
 
 import java.util.ArrayList;
 
@@ -14,12 +16,12 @@ public class MessageProcessor implements IMessageProcessor {
 	 * Processes incoming messages
 	 *
 	 * @param messages Incoming messages
-	 * @param resolver Content resolver
+	 * @param session Session object
 	 * @return Array of messages filtered as spam
 	 */
 	@Override
-	public SmsPojo[] ProcessMessages(SmsPojo[] messages, ContentResolver resolver) {
-		ISpamFilter spamFiler = new SmartSpamFilter(resolver);
+	public SmsPojo[] ProcessMessages(SmsPojo[] messages, Session session) {
+		ISpamFilter spamFiler = new SmartSpamFilter(session);
 		ArrayList<ContentValues> values = new ArrayList<ContentValues>();
 
 		ArrayList<SmsPojo> res = new ArrayList<SmsPojo>();

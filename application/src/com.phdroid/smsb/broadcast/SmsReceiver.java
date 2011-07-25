@@ -26,7 +26,9 @@ public class SmsReceiver extends BroadcastReceiver {
 	private Session session = null;
 
 	public void onReceive(Context context, Intent intent) {
-		session = new Session(new ApplicationSettings(context), context.getContentResolver());
+		ApplicationSettings settings = new ApplicationSettings(context);
+		session = new Session(settings, context.getContentResolver());
+
 		if (intent.getAction().equals(ACTION)) {
 			Log.v(this.getClass().getSimpleName(), "onReceive");
 			/* The SMS-Messages are 'hiding' within the extras of the Intent. */
@@ -37,7 +39,7 @@ public class SmsReceiver extends BroadcastReceiver {
 
 				ContentResolver c = context.getContentResolver();
 				SmsPojo[] messages = ConvertMessages(pdusObj);
-				SmsPojo[] spamMessages = getMessageProcessor().ProcessMessages(messages, c);
+				SmsPojo[] spamMessages = getMessageProcessor().ProcessMessages(messages, session);
 
 				int spamMessageCount = spamMessages.length;
 				mSpamMessagesCount += spamMessageCount;
@@ -54,7 +56,6 @@ public class SmsReceiver extends BroadcastReceiver {
 
 					ApplicationController app = (ApplicationController) context.getApplicationContext();
 					app.raiseNewSmsEvent(spamMessages);
-					ApplicationSettings settings = new ApplicationSettings(context);
 
 					if (settings.showDisplayNotification()) {
 						String title;
