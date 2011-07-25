@@ -17,6 +17,6 @@ public class WhiteListSpamFilter implements ISpamFilter {
 	@Override
 	public boolean isSpam(SmsPojo message) {
 		SmsMessageSenderEntry sender = this.session.getSenderById(message.getSenderId());
-		return sender.isInWhiteList();
+		return !sender.isInWhiteList();
 	}
 }
