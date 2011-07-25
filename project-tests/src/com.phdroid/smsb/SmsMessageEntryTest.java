@@ -3,8 +3,10 @@ package com.phdroid.smsb;
 import android.content.ContentProvider;
 import android.net.Uri;
 import com.phdroid.smsb.base.ProviderTestBase;
-import com.phdroid.smsb.storage.ApplicationSettings;
-import com.phdroid.smsb.storage.dao.*;
+import com.phdroid.smsb.storage.dao.SenderContentProvider;
+import com.phdroid.smsb.storage.dao.SmsContentProvider;
+import com.phdroid.smsb.storage.dao.SmsMessageEntry;
+import com.phdroid.smsb.storage.dao.SmsMessageSenderEntry;
 
 import java.util.Calendar;
 import java.util.Hashtable;
@@ -17,7 +19,6 @@ public class SmsMessageEntryTest extends ProviderTestBase {
 	private String sender = "911";
 	private String message = "testing storing-loading messages";
 	private long time;
-	private Session session;
 
 	/**
 	 * Prepares list of content providers and corresponding Uri's for context setup.
@@ -30,13 +31,6 @@ public class SmsMessageEntryTest extends ProviderTestBase {
 		res.put(SmsContentProvider.CONTENT_URI, new SmsContentProvider());
 		res.put(SenderContentProvider.CONTENT_URI, new SenderContentProvider());
 		return res;
-	}
-
-	public Session getSession() {
-		if(session == null) {
-			session = new Session(new ApplicationSettings(this.getContext()), this.getContentResolver());
-		}
-		return session;
 	}
 
 	@Override
@@ -62,6 +56,8 @@ public class SmsMessageEntryTest extends ProviderTestBase {
 	}
 
 	public void testSms_message_save_load() throws Exception {
+		//todo: check this test. It uses real database for some reason
+
 		List<SmsPojo> smsList = getSession().getSmsList();
 		assertEquals(1, smsList.size());
 		SmsPojo smsLoaded = smsList.get(0);
