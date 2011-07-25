@@ -24,6 +24,6 @@ public class SmartSpamFilter implements ISpamFilter {
 		ISpamFilter contactSpamFilter = new ContactSpamFilter(getSession());
 		ISpamFilter whiteListSpamFilter = new WhiteListSpamFilter(getSession());
 
-		return whiteListSpamFilter.isSpam(message) ? contactSpamFilter.isSpam(message) : false;
+		return whiteListSpamFilter.isSpam(message) && contactSpamFilter.isSpam(message);
 	}
 }
