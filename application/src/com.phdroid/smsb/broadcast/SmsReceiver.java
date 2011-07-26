@@ -42,7 +42,7 @@ public class SmsReceiver extends BroadcastReceiver {
 
 				SmsMessageTransferObject[] messages = ConvertMessages(pdusObj);
 				SmsMessageTransferObject[] spamMessages = getMessageProcessor().ProcessMessages(messages, session);
-				SmsPojo[] smsPojos = saveMessages(messages);
+				SmsPojo[] smsPojos = saveMessages(spamMessages);
 
 				mSpamMessagesCount += spamMessages.length;
 
