@@ -3,6 +3,7 @@ package com.phdroid.smsb.filter;
 import com.phdroid.smsb.SmsPojo;
 import com.phdroid.smsb.storage.dao.Session;
 import com.phdroid.smsb.storage.dao.SmsMessageSenderEntry;
+import com.phdroid.smsb.utility.SmsMessageTransferObject;
 
 /**
  * Spam Filter taking into consideration only white list of senders.
@@ -15,8 +16,8 @@ public class WhiteListSpamFilter implements ISpamFilter {
 	}
 
 	@Override
-	public boolean isSpam(SmsPojo message) {
-		SmsMessageSenderEntry sender = this.session.getSenderById(message.getSenderId());
-		return !sender.isInWhiteList();
+	public boolean isSpam(SmsMessageTransferObject message) {
+		SmsMessageSenderEntry sender = this.session.getSenderByValue(message.getSender());
+		return sender == null || !sender.isInWhiteList();
 	}
 }

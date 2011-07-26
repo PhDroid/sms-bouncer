@@ -1,8 +1,10 @@
 package com.phdroid.smsb.filter;
 
+import android.telephony.SmsMessage;
 import com.phdroid.smsb.SmsPojo;
 import com.phdroid.smsb.storage.dao.Session;
 import com.phdroid.smsb.storage.dao.SmsMessageSenderEntry;
+import com.phdroid.smsb.utility.SmsMessageTransferObject;
 
 /**
  * Spam Filter implementation taking into consideration only contacts from address book.
@@ -15,8 +17,7 @@ public class ContactSpamFilter implements ISpamFilter {
 	}
 
 	@Override
-	public boolean isSpam(SmsPojo message) {
-		SmsMessageSenderEntry sender = this.session.getSenderById(message.getSenderId());
-		return !this.session.isKnownSender(sender);
+	public boolean isSpam(SmsMessageTransferObject message) {
+		return !this.session.isKnownSender(message.getSender());
 	}
 }

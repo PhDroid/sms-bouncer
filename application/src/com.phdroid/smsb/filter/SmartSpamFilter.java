@@ -4,6 +4,7 @@ import com.phdroid.smsb.SmsPojo;
 import com.phdroid.smsb.exceptions.ApplicationException;
 import com.phdroid.smsb.storage.dao.Session;
 import com.phdroid.smsb.storage.dao.SmsMessageSenderEntry;
+import com.phdroid.smsb.utility.SmsMessageTransferObject;
 
 /**
  * Chain of spam filters. Pretends to be smart.
@@ -20,7 +21,7 @@ public class SmartSpamFilter implements ISpamFilter {
 	}
 
 	@Override
-	public boolean isSpam(SmsPojo message) throws ApplicationException {
+	public boolean isSpam(SmsMessageTransferObject message) {
 		ISpamFilter contactSpamFilter = new ContactSpamFilter(getSession());
 		ISpamFilter whiteListSpamFilter = new WhiteListSpamFilter(getSession());
 

@@ -1,7 +1,6 @@
 package com.phdroid.smsb.broadcast;
 
 import android.content.BroadcastReceiver;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +12,10 @@ import com.phdroid.smsb.application.ApplicationController;
 import com.phdroid.smsb.storage.ApplicationSettings;
 import com.phdroid.smsb.storage.dao.Session;
 import com.phdroid.smsb.storage.dao.SmsMessageEntry;
+import com.phdroid.smsb.utility.SmsMessageTransferObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * SmsReceiver listens to broadcast event and triggers if SMS is received.
@@ -37,14 +40,13 @@ public class SmsReceiver extends BroadcastReceiver {
 				/* Get all messages contained in the Intent*/
 				Object[] pdusObj = (Object[]) bundle.get("pdus");
 
-				ContentResolver c = context.getContentResolver();
-				SmsPojo[] messages = ConvertMessages(pdusObj);
-				SmsPojo[] spamMessages = getMessageProcessor().ProcessMessages(messages, session);
+				SmsMessageTransferObject[] messages = ConvertMessages(pdusObj);
+				SmsMessageTransferObject[] spamMessages = getMessageProcessor().ProcessMessages(messages, session);
+				SmsPojo[] smsPojos = saveMessages(messages);
 
-				int spamMessageCount = spamMessages.length;
-				mSpamMessagesCount += spamMessageCount;
+				mSpamMessagesCount += spamMessages.length;
 
-				if (spamMessageCount > 0) {
+				if (spamMessages.length > 0) {
 					if (this.isOrderedBroadcast()) {
 						//aborting broadcast. Using it with a priority tag should prevent anyone to receive these spam messages.
 						this.abortBroadcast();
@@ -55,28 +57,28 @@ public class SmsReceiver extends BroadcastReceiver {
 					Log.v(this.getClass().getSimpleName(), "Raise event");
 
 					ApplicationController app = (ApplicationController) context.getApplicationContext();
-					app.raiseNewSmsEvent(spamMessages);
+					app.raiseNewSmsEvent(smsPojos);
 
 					if (settings.showDisplayNotification()) {
 						String title;
 						String message;
 
-						switch (spamMessageCount) {
+						switch (spamMessages.length) {
 							case 1:
-								title = String.format("Blocked message from %s", spamMessages[0].getSender());
-								message = spamMessages[0].getMessage();
+								title = String.format("Blocked message from %s", smsPojos[0].getSender());
+								message = smsPojos[0].getMessage();
 								break;
 							case 2:
 								title = "Blocked messages (2)";
 								message = String.format("Blocked messages from %s and %s",
-										spamMessages[0].getSender(),
-										spamMessages[1].getSender());
+										smsPojos[0].getSender(),
+										smsPojos[1].getSender());
 								break;
 							default:
-								title = String.format("Blocked messages (%d)", spamMessageCount);
+								title = String.format("Blocked messages (%d)", spamMessages.length);
 								message = String.format("Blocked messages from %s, %s and others",
-										spamMessages[0].getSender(),
-										spamMessages[1].getSender());
+										smsPojos[0].getSender(),
+										smsPojos[1].getSender());
 
 						}
 						TrayNotificationManager t = new TrayNotificationManager(context);
@@ -89,14 +91,23 @@ public class SmsReceiver extends BroadcastReceiver {
 		}
 	}
 
-	protected SmsPojo[] ConvertMessages(Object[] pdusObj) {
-		SmsPojo[] messages = new SmsPojo[pdusObj.length];
+	protected SmsMessageTransferObject[] ConvertMessages(Object[] pdusObj) {
+		SmsMessageTransferObject[] messages = new SmsMessageTransferObject[pdusObj.length];
 		for (int i = 0; i < pdusObj.length; i++) {
 			SmsMessage msg = SmsMessage.createFromPdu((byte[]) pdusObj[i]);
-			SmsMessageEntry entry = session.insertMessage(msg);
-			messages[i] = entry;
+			messages[i] = new SmsMessageTransferObject(msg);
 		}
 		return messages;
+	}
+
+	protected SmsPojo[] saveMessages(SmsMessageTransferObject[] messages) {
+		List<SmsPojo> res = new ArrayList<SmsPojo>();
+		for (SmsMessageTransferObject msg : messages) {
+			SmsMessageEntry entry = session.insertMessage(msg);
+			res.add(entry);
+		}
+		SmsPojo[] resArray = new SmsPojo[res.size()];
+		return res.toArray(resArray);
 	}
 
 	protected IMessageProcessor getMessageProcessor() {

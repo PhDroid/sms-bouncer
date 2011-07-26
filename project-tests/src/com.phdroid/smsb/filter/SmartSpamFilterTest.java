@@ -8,6 +8,7 @@ import android.provider.ContactsContract.Data;
 import com.phdroid.smsb.SmsPojo;
 import com.phdroid.smsb.TestSmsPojo;
 import com.phdroid.smsb.base.ProviderTestBase;
+import com.phdroid.smsb.base.SmsMessageTransferStub;
 import com.phdroid.smsb.exceptions.ApplicationException;
 import com.phdroid.smsb.filter.doubles.PhoneContentProviderFake;
 import com.phdroid.smsb.storage.ApplicationSettings;
@@ -76,7 +77,7 @@ public class SmartSpamFilterTest extends ProviderTestBase {
 		message.setMessage("I am not a SPAM message");
 
 		ISpamFilter filter = new ContactSpamFilter(getSession());
-		boolean isSpam = filter.isSpam(message);
+		boolean isSpam = filter.isSpam(new SmsMessageTransferStub(message));
 		Assert.assertEquals(false, isSpam);
 	}
 
@@ -87,7 +88,7 @@ public class SmartSpamFilterTest extends ProviderTestBase {
 		message.setMessage("I am SPAM message");
 
 		ISpamFilter filter = new ContactSpamFilter(getSession());
-		boolean isSpam = filter.isSpam(message);
+		boolean isSpam = filter.isSpam(new SmsMessageTransferStub(message));
 		Assert.assertEquals(true, isSpam);
 	}
 
@@ -108,8 +109,8 @@ public class SmartSpamFilterTest extends ProviderTestBase {
 		notSpam.setReceived((int) (System.currentTimeMillis() / 1000L));
 
 		ISpamFilter filter = new WhiteListSpamFilter(getSession());
-		Assert.assertEquals(true, filter.isSpam(spam1));
-		Assert.assertEquals(true, filter.isSpam(spam2));
-		Assert.assertEquals(false, filter.isSpam(notSpam));
+		Assert.assertEquals(true, filter.isSpam(new SmsMessageTransferStub(spam1)));
+		Assert.assertEquals(true, filter.isSpam(new SmsMessageTransferStub(spam2)));
+		Assert.assertEquals(false, filter.isSpam(new SmsMessageTransferStub(notSpam)));
 	}
 }

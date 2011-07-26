@@ -2,12 +2,14 @@ package com.phdroid.smsb.broadcast;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.telephony.SmsMessage;
 import com.phdroid.smsb.SmsPojo;
 import com.phdroid.smsb.exceptions.ApplicationException;
 import com.phdroid.smsb.filter.ISpamFilter;
 import com.phdroid.smsb.filter.SmartSpamFilter;
 import com.phdroid.smsb.storage.ApplicationSettings;
 import com.phdroid.smsb.storage.dao.Session;
+import com.phdroid.smsb.utility.SmsMessageTransferObject;
 
 import java.util.ArrayList;
 
@@ -20,23 +22,17 @@ public class MessageProcessor implements IMessageProcessor {
 	 * @return Array of messages filtered as spam
 	 */
 	@Override
-	public SmsPojo[] ProcessMessages(SmsPojo[] messages, Session session) {
+	public SmsMessageTransferObject[] ProcessMessages(SmsMessageTransferObject[] messages, Session session) {
 		ISpamFilter spamFiler = new SmartSpamFilter(session);
-		ArrayList<ContentValues> values = new ArrayList<ContentValues>();
 
-		ArrayList<SmsPojo> res = new ArrayList<SmsPojo>();
-		for (SmsPojo message : messages) {
-			boolean isSpam = false;
-			try {
-				isSpam = spamFiler.isSpam(message);
-			} catch (ApplicationException e) {
-				//todo: implement logging
-			}
+		ArrayList<SmsMessageTransferObject> res = new ArrayList<SmsMessageTransferObject>();
+		for (SmsMessageTransferObject message : messages) {
+			boolean isSpam = spamFiler.isSpam(message);
 			if (isSpam) {
 				res.add(message);
 			}
 		}
-		SmsPojo[] resArray = new SmsPojo[res.size()];
+		SmsMessageTransferObject[] resArray = new SmsMessageTransferObject[res.size()];
 		res.toArray(resArray);
 		return resArray;
 	}

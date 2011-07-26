@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.telephony.SmsMessage;
 import com.phdroid.smsb.SmsPojo;
+import com.phdroid.smsb.utility.SmsMessageTransferObject;
 
 /**
  * DAO for SmsMessage
@@ -43,6 +44,14 @@ public class SmsMessageEntry extends SmsPojo {
 		this.message = message.getMessageBody();
 		this.received = message.getTimestampMillis();
 		this.read = false;
+	}
+
+	public SmsMessageEntry(SmsMessageSenderEntry sender, SmsMessageTransferObject message) {
+		this.senderId = sender.getId();
+		this.sender = sender.getValue();
+		this.message = message.getMessage();
+		this.received = message.getReceived();
+		this.read = message.isRead();
 	}
 
 	public SmsMessageEntry(SmsMessageSenderEntry sender, String message, long received) {

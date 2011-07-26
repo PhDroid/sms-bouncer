@@ -10,6 +10,7 @@ import android.telephony.SmsMessage;
 import com.phdroid.smsb.SmsPojo;
 import com.phdroid.smsb.storage.ApplicationSettings;
 import com.phdroid.smsb.storage.SmsAction;
+import com.phdroid.smsb.utility.SmsMessageTransferObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -305,8 +306,29 @@ public class Session {
 		}
 	}
 
-	public SmsMessageEntry insertMessage(SmsMessage message) {
-		String senderText = message.getOriginatingAddress();
+	public SmsMessageSenderEntry getSenderByValue(String sender) {
+		Cursor c = null;
+		try {
+			c = contentResolver.query(
+					SenderContentProvider.CONTENT_URI,
+					null,
+					SmsMessageSenderEntry.VALUE + " = :1",
+					new String[]{sender},
+					null);
+			if (c.getCount() == 0) {
+				return null;
+			}
+			c.moveToFirst();
+			return new SmsMessageSenderEntry(c);
+		} finally {
+			if (c != null && !c.isClosed()) {
+				c.close();
+			}
+		}
+	}
+
+	public SmsMessageEntry insertMessage(SmsMessageTransferObject message) {
+		String senderText = message.getSender();
 		SmsMessageSenderEntry sender = this.insertOrSelectSender(senderText);
 
 		SmsMessageEntry res = new SmsMessageEntry(sender, message);
@@ -319,12 +341,16 @@ public class Session {
 	}
 
 	public boolean isKnownSender(SmsMessageSenderEntry sender) {
+		return isKnownSender(sender.getValue());
+	}
+
+	public boolean isKnownSender(String sender) {
 		Cursor c = null;
 		try {
 			c = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
 					null,
 					ContactsContract.CommonDataKinds.Phone.NUMBER + " = :1",
-					new String[]{sender.getValue()},
+					new String[]{sender},
 					null);
 			return c.getCount() > 0;
 		} finally {
