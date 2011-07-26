@@ -9,7 +9,7 @@ public class SmsMessageTransferObject {
 	private SmsMessage innerMessage;
 
 	public SmsMessageTransferObject(SmsMessage message) {
-		this.innerMessage = innerMessage;
+		this.innerMessage = message;
 	}
 
 	public String getSender() {
@@ -27,5 +27,4 @@ public class SmsMessageTransferObject {
 	public long getReceived() {
 		return innerMessage.getTimestampMillis();
 	}
-
 }
