@@ -20,6 +20,7 @@ import com.phdroid.smsb.storage.IMessageProvider;
 import com.phdroid.smsb.storage.MessageProviderHelper;
 import com.phdroid.smsb.storage.SmsAction;
 import com.phdroid.smsb.storage.dao.Session;
+import com.phdroid.smsb.utility.NotificationUtility;
 
 import java.util.Hashtable;
 import java.util.List;
@@ -84,9 +85,6 @@ public class BlockedSmsListActivity extends ActivityBase {
 
 		Session s = new Session(new ApplicationSettings(this), this.getContentResolver());
 		s.deleteOldSmsList();
-
-		TrayNotificationManager notificationManager = new TrayNotificationManager(this);
-		notificationManager.cancelAll();
 
 		dataBind();
 		processUndoButton();

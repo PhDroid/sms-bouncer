@@ -1,9 +1,11 @@
 package com.phdroid.smsb.utility;
 
 import android.content.Context;
+import android.util.Log;
 import com.phdroid.blackjack.ui.notify.TrayNotification;
 import com.phdroid.blackjack.ui.notify.TrayNotificationManager;
 import com.phdroid.smsb.SmsPojo;
+import com.phdroid.smsb.application.ApplicationController;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,11 +36,8 @@ public class NotificationUtility {
 
 	public void show(String tickerText, String title, String message, long when, Class activity) {
 		synchronized (lock) {
-			if (notificationManager == null) {
-				notificationManager = new TrayNotificationManager(getContext());
-			}
 			if (notification == null) {
-				notification = notificationManager.createNotification(tickerText, title, message, when);
+				notification = getNotificationManager().createNotification(tickerText, title, message, when);
 			} else {
 				notification.setMessage(message);
 				notification.setTickerText(tickerText);
@@ -77,10 +76,28 @@ public class NotificationUtility {
 					sms2.getSender());
 		}
 
-		show(tickerText, title, message, when, activity);
+		ApplicationController application = (ApplicationController) getContext().getApplicationContext();
+		if (application.getCurrentActivity() == null) {
+			Log.d("sms-bouncer", String.format("[get] currentActivity = null"));
+			show(tickerText, title, message, when, activity);
+		}
+	}
+
+	public void clearAll() {
+		synchronized (lock) {
+			this.attachedSmsMessages = new ArrayList<SmsPojo>();
+			getNotificationManager().cancelAll();
+		}
 	}
 
 	private Context getContext() {
 		return context;
+	}
+
+	public TrayNotificationManager getNotificationManager() {
+		if(notificationManager == null) {
+			notificationManager = new TrayNotificationManager(getContext());
+		}
+		return notificationManager;
 	}
 }

@@ -2,6 +2,7 @@ package com.phdroid.smsb.application;
 
 import android.app.Application;
 import com.phdroid.smsb.SmsPojo;
+import com.phdroid.smsb.activity.base.ActivityBase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +12,15 @@ import java.util.List;
  */
 public class ApplicationController extends Application {
 	private List<NewSmsEventListener> listeners;
+	private ActivityBase currentActivity;
+
+	public ActivityBase getCurrentActivity() {
+		return currentActivity;
+	}
+
+	public void setCurrentActivity(ActivityBase currentActivity) {
+		this.currentActivity = currentActivity;
+	}
 
 	public void attachNewSmsListener(NewSmsEventListener listener) {
 		this.listeners.add(listener);
