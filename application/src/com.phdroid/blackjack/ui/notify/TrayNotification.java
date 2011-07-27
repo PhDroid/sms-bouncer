@@ -1,4 +1,4 @@
-package com.phdroid.smsb.activity.notify;
+package com.phdroid.blackjack.ui.notify;
 
 /**
  * UI notification object.
@@ -36,5 +36,21 @@ public class TrayNotification {
 
 	public long getWhen() {
 		return when;
+	}
+
+	public void setTickerText(String tickerText) {
+		this.tickerText = tickerText;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public void setWhen(long when) {
+		this.when = when;
 	}
 }

@@ -1,4 +1,4 @@
-package com.phdroid.smsb.activity.notify;
+package com.phdroid.blackjack.ui.notify;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -28,25 +28,21 @@ public class TrayNotificationManager {
 		return icon;
 	}
 
-	public void Notify(String tickerText, String title, String message) {
-		TrayNotification notification = NotificationContainer.getInstance().addNotification(
-				tickerText,
-				title,
-				message);
-		Notify(notification);
+	public TrayNotification createNotification(String tickerText, String title, String message, long when) {
+		return NotificationContainer.getInstance().addNotification(tickerText, title, message, when);
 	}
 
-	public void Notify(TrayNotification notificationItem) {
+	public void notify(TrayNotification notificationItem, Class activity) {
 		// Get a reference to the NotificationManager:
-		NotificationManager mNotificationManager = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+		NotificationManager notificationManager = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
 		//Instantiate the Notification:
 		Notification notification = new Notification(getIcon(),
 				notificationItem.getTickerText(),
 				notificationItem.getWhen());
 
 		//Define the Notification's expanded message and Intent:
-		Intent notificationIntent = new Intent(getContext(), BlockedSmsListActivity.class);
-		PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
+		Intent notificationIntent = new Intent(getContext(), activity.getClass());
+		PendingIntent contentIntent = PendingIntent.getActivity(getContext(), 0, notificationIntent, 0);
 
 		notification.setLatestEventInfo(
 				getContext(),
@@ -55,7 +51,12 @@ public class TrayNotificationManager {
 				contentIntent);
 
 		//Pass the Notification to the NotificationManager:
-		mNotificationManager.notify(notificationItem.getId(), notification);
+		notificationManager.notify(notificationItem.getId(), notification);
 		//That's it. Your user has now been notified.
+	}
+
+	public void cancel(TrayNotification notificationItem) {
+		NotificationManager notificationManager = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+		notificationManager.cancel(notificationItem.getId());
 	}
 }

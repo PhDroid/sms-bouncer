@@ -1,4 +1,4 @@
-package com.phdroid.smsb.activity.notify;
+package com.phdroid.blackjack.ui.notify;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +13,8 @@ public class NotificationContainer {
 		return ourInstance;
 	}
 
-	List<TrayNotification> items;
-	final Object lock = new Object();
+	private List<TrayNotification> items;
+	private final Object lock = new Object();
 
 	private NotificationContainer() {
 		items = new ArrayList<TrayNotification>();
