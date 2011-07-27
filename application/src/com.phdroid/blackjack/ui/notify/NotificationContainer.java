@@ -1,12 +1,14 @@
 package com.phdroid.blackjack.ui.notify;
 
 import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.List;
 
 /**
  * Contains notifications, provides them with IDs.
  */
-public class NotificationContainer {
+public class NotificationContainer implements Iterable<TrayNotification>{
 	private static NotificationContainer ourInstance = new NotificationContainer();
 
 	public static NotificationContainer getInstance() {
@@ -31,5 +33,10 @@ public class NotificationContainer {
 			items.add(n);
 			return n;
 		}
+	}
+
+	@Override
+	public Iterator<TrayNotification> iterator() {
+		return items.iterator();
 	}
 }

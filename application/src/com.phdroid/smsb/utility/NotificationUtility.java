@@ -46,7 +46,7 @@ public class NotificationUtility {
 				notification.setWhen(when);
 			}
 
-			notificationManager.notify(notification, activity.getClass());
+			notificationManager.notify(notification, activity);
 		}
 	}
 

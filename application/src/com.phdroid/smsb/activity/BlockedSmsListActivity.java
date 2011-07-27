@@ -8,6 +8,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.*;
 import android.widget.*;
+import com.phdroid.blackjack.ui.notify.TrayNotificationManager;
 import com.phdroid.smsb.R;
 import com.phdroid.smsb.SmsPojo;
 import com.phdroid.smsb.activity.base.ActivityBase;
@@ -83,6 +84,9 @@ public class BlockedSmsListActivity extends ActivityBase {
 
 		Session s = new Session(new ApplicationSettings(this), this.getContentResolver());
 		s.deleteOldSmsList();
+
+		TrayNotificationManager notificationManager = new TrayNotificationManager(this);
+		notificationManager.cancelAll();
 
 		dataBind();
 		processUndoButton();

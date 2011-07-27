@@ -41,7 +41,7 @@ public class TrayNotificationManager {
 				notificationItem.getWhen());
 
 		//Define the Notification's expanded message and Intent:
-		Intent notificationIntent = new Intent(getContext(), activity.getClass());
+		Intent notificationIntent = new Intent(getContext(), activity);
 		PendingIntent contentIntent = PendingIntent.getActivity(getContext(), 0, notificationIntent, 0);
 
 		notification.setLatestEventInfo(
@@ -58,5 +58,12 @@ public class TrayNotificationManager {
 	public void cancel(TrayNotification notificationItem) {
 		NotificationManager notificationManager = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
 		notificationManager.cancel(notificationItem.getId());
+	}
+
+	public void cancelAll() {
+		NotificationManager notificationManager = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+		for (TrayNotification notification: NotificationContainer.getInstance()){
+			notificationManager.cancel(notification.getId());
+		}
 	}
 }
