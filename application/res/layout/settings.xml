@@ -28,6 +28,7 @@
 			android:layout_marginTop="40dp"
 			android:layout_alignParentTop="true"
 			android:layout_alignParentRight="true"
+			android:checked="false"
 			style="@style/settings_input"
 			/>
 

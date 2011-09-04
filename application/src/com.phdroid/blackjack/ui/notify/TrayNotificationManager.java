@@ -17,7 +17,7 @@ public class TrayNotificationManager {
 
 	public TrayNotificationManager(Context context) {
 		this.context = context;
-		this.icon = R.drawable.icon;
+		this.icon = R.drawable.ic_stat_notify_icon;
 	}
 
 	private Context getContext() {
