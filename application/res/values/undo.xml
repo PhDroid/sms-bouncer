@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<!-- ["zero" | "one" | "two" | "few" | "many" | "other"] -->
+	<plurals name="undo">
+		<item quantity="one" formatted="false">%1$s message was %2$s. (Undo)</item>
+		<item quantity="other" formatted="false">%1$s messages were %2$s. (Undo)</item>
+	</plurals>
+</resources>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<!-- ["zero" | "one" | "two" | "few" | "many" | "other"] -->
+	<plurals name="action_edited">
+		<item quantity="one">изменено</item>
+		<item quantity="two">изменено</item>
+		<item quantity="few">изменено</item>
+		<item quantity="many">изменены</item>
+		<item quantity="other">изменены</item>
+	</plurals>
+</resources>

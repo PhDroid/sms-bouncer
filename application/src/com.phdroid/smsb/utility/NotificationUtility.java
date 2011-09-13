@@ -1,9 +1,11 @@
 package com.phdroid.smsb.utility;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.util.Log;
 import com.phdroid.blackjack.ui.notify.TrayNotification;
 import com.phdroid.blackjack.ui.notify.TrayNotificationManager;
+import com.phdroid.smsb.R;
 import com.phdroid.smsb.SmsPojo;
 import com.phdroid.smsb.application.ApplicationController;
 
@@ -59,19 +61,25 @@ public class NotificationUtility {
 		String title;
 		String message;
 
-		if (attachedSmsMessages.size() == 0) {
+		final int size = attachedSmsMessages.size();
+		final Resources resources = getContext().getResources();
+		if (size == 0) {
 			return;
 		}
-		if (attachedSmsMessages.size() == 1) {
+		if (size == 1) {
 			SmsPojo sms = attachedSmsMessages.get(0);
-			title = String.format("Blocked message from %s", sms.getSender());
+			final String format = resources.getQuantityString(R.plurals.notify_title, size);
+			title = String.format(format, sms.getSender());
 			message = sms.getMessage();
 
 		} else {
 			SmsPojo sms1 = attachedSmsMessages.get(0);
 			SmsPojo sms2 = attachedSmsMessages.get(1);
-			title = String.format("Blocked messages (%d)", attachedSmsMessages.size());
-			message = String.format("Blocked messages from %s, %s and others",
+			final String format = resources.getQuantityString(R.plurals.notify_title, size);
+			title = String.format(format, size);
+			final String format1 = resources.getQuantityString(R.plurals.notify_message, size);
+			message = String.format(
+					format1,
 					sms1.getSender(),
 					sms2.getSender());
 		}

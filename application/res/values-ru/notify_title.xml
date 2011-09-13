@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<!-- ["zero" | "one" | "two" | "few" | "many" | "other"] -->
+	<plurals name="notify_title">
+		<item quantity="one">Заблокировано сообщение от %s</item>
+		<item quantity="two">Заблокировано (%d) сообщения</item>
+		<item quantity="few">Заблокировано (%d) сообщения</item>
+		<item quantity="other">Заблокировано (%d) сообщений</item>
+	</plurals>
+</resources>

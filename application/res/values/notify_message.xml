@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<!-- ["zero" | "one" | "two" | "few" | "many" | "other"] -->
+	<plurals name="notify_message" formatted="false">
+		<item quantity="two" formatted="false">Blocked messages from %1$s and %2$s.</item>
+		<item quantity="other" formatted="false">Blocked messages from %1$s, %2$s and others</item>
+	</plurals>
+</resources>

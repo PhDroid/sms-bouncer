@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<!-- ["zero" | "one" | "two" | "few" | "many" | "other"] -->
+	<plurals name="action_not_spam">
+		<item quantity="one">помечено как не спам</item>
+		<item quantity="two">помечено как не спам</item>
+		<item quantity="few">помечено как не спам</item>
+		<item quantity="many">помечены как не спам</item>
+		<item quantity="other">помечены как не спам</item>
+	</plurals>
+</resources>

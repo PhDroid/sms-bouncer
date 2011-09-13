@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<!-- ["zero" | "one" | "two" | "few" | "many" | "other"] -->
+	<plurals name="undo">
+		<item quantity="one" formatted="false">%1$s сообщение было %2$s. (Отменить)</item>
+		<item quantity="two" formatted="false">%1$s сообщения было %2$s. (Отменить)</item>
+		<item quantity="few" formatted="false">%1$s сообщений было %2$s. (Отменить)</item>
+		<item quantity="many" formatted="false">%1$s сообщений были %2$s. (Отменить)</item>
+		<item quantity="other" formatted="false">%1$s сообщений были %2$s. (Отменить)</item>
+	</plurals>
+</resources>

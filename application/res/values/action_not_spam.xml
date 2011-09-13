@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<!-- ["zero" | "one" | "two" | "few" | "many" | "other"] -->
+	<plurals name="action_not_spam">
+		<item quantity="one">marked as not spam</item>
+		<item quantity="other">marked as not spam</item>
+	</plurals>
+</resources>

@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello">Hello World, BlockedSmsListActivity!</string>
-    <string name="app_name">SMS Bouncer</string>
-    <string name="reply">Reply</string>
-    <string name="not_spam">Not spam</string>
-    <string name="delete">Delete</string>
-    <string name="prev">Previous</string>
-    <string name="next">Next</string>
-    <string name="settings">Settings</string>
-    <string name="select_many">Select many</string>
-    <string name="delete_all">Delete all</string>
-    <string name="display_notification">Display panel notification</string>
-    <string name="clear_after">Clear messages after</string>
-    <string name="edit_white_list">Edit senders white list</string>
-    <string name="no_messages_info">There are no filtered messages currently in the list.</string>
-    <string name="no_senders_info">There are no senders currently in your white list.</string>
+	<string name="app_name">SMS Bouncer</string>
+	<string name="reply">Reply</string>
+	<string name="not_spam">Not spam</string>
+	<string name="delete">Delete</string>
+	<string name="prev">Previous</string>
+	<string name="next">Next</string>
+	<string name="settings">Settings</string>
+	<string name="select_many">Select many</string>
+	<string name="delete_all">Delete all</string>
+	<string name="display_notification">Display panel notification</string>
+	<string name="clear_after">Clear messages after</string>
+	<string name="edit_white_list">Edit senders white list</string>
+	<string name="no_messages_info">There are no filtered messages currently in the list.</string>
+	<string name="no_senders_info">There are no senders currently in your white list.</string>
 </resources>

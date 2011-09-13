@@ -2,6 +2,7 @@ package com.phdroid.smsb.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.AttributeSet;
@@ -95,20 +96,21 @@ public class BlockedSmsListActivity extends ActivityBase {
 
 	private void processUndoButton() {
 		Hashtable<SmsPojo, SmsAction> actions = getMessageProvider().getActionMessages();
-		if (actions.size() > 0) {
+		final int size = actions.size();
+		if (size > 0) {
 			Button b = (Button) findViewById(R.id.undoButton);
-			String action = "edited";
+			Resources res = getResources();
+			String action = res.getQuantityString(R.plurals.action_edited, size);
 			if (!actions.contains(SmsAction.MarkedAsNotSpam)) {
-				action = "deleted";
+				action = res.getQuantityString(R.plurals.action_deleted, size);
 			}
 			if (!actions.contains(SmsAction.Deleted)) {
-				action = "marked as not spam";
+				action = res.getQuantityString(R.plurals.action_not_spam, size);
 			}
 			b.setText(
 					String.format(
-							"%s message%s %s. (Undo)",
-							Integer.toString(actions.size()),
-							actions.size() > 1 ? "s were" : " was",
+							res.getQuantityString(R.plurals.undo, size),
+							Integer.toString(size),
 							action
 					));
 			LinearLayout l = (LinearLayout) findViewById(R.id.buttonLayout);
